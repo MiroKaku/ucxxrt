@@ -5,12 +5,14 @@
 
 1. About UCXXRT
 
-C ++ runtime library that supports both user-mode and kernel-mode
+    C ++ runtime library that supports both user-mode and kernel-mode.
+
+    > Support for kernel C ++ exceptions.
 
 2. How to used?
 
-Add Existing Property Sheet, select ucxxrt.props
+    Add Existing Property Sheet, select ucxxrt.props
 
-![Add Property Sheet](https://github.com/MiroKaku/ucxxrt/raw/master/readme/add_props.png)
+    ![Add Property Sheet](https://github.com/MiroKaku/ucxxrt/raw/master/readme/add_props.png)
 
-If in driver mode, rename "DriverEntry" to "DriverMain"
+    > If in driver mode, rename "DriverEntry" to "DriverMain".
