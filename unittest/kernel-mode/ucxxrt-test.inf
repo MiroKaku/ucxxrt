@@ -1,0 +1,133 @@
+;-------------------------------------------------------------------------
+; Template.INF -- NT Legacy Driver
+;
+; Copyright (c) 2019, Microsoft.Com LLC.  All rights reserved.
+;------------------------------------------------------------------------
+
+; INF MSDN:
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/roadmap-for-device-and-driver-installation--windows-vista-and-later-
+;
+; Class And ClassGuid MSDN:
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/ifs/file-system-filter-driver-classes-and-class-guids
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/system-defined-device-setup-classes-available-to-vendors
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = AntiVirus
+ClassGuid   = {b1d1a169-c54f-4379-81db-bee7d88d7454}
+Provider    = %ManufacturerName%
+CatalogFile = %DriverName%.cat
+DriverVer   = 08/02/2018,9.43.55.74
+
+
+;-------------------------------------------------------------------------
+; Installation Section
+;-------------------------------------------------------------------------
+
+
+; DestinationDirs MSDN
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-destinationdirs-section
+[DestinationDirs]
+DefaultDestDir      = 12
+
+
+; SourceDisksNames MSDN
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-sourcedisksnames-section
+[SourceDisksNames]
+1 = %DiskId%,,,""
+
+
+; SourceDisksFiles MSDN
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-sourcedisksfiles-section
+; Each filename entry must specify the exact name of a file on the source disk. 
+;     You cannot use a %strkey% token to specify the file name.
+[SourceDisksFiles]
+ucxxrt-test.sys        = 1,,
+
+[SourceDisksFiles.x86]
+ucxxrt-test.sys        = 1,,
+
+[SourceDisksFiles.amd64]
+ucxxrt-test.sys        = 1,,
+
+
+; Copyfiles MSDN:
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-copyfiles-directive
+[Install.Copyfiles.NTx86]
+%DriverName%.sys,%DriverName%.sys,,0x00004022 ; COPYFLG_NOSKIP | COPYFLG_NO_VERSION_DIALOG | COPYFLG_IN_USE_RENAME
+
+[Install.Copyfiles.NTamd64]
+%DriverName%.sys,%DriverName%.sys,,0x00004022
+
+; Delfiles MSDN:
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-delfiles-directive
+[Install.Delfiles]
+%DriverName%.sys
+
+
+;-------------------------------------------------------------------------
+; Service installation support
+;-------------------------------------------------------------------------
+
+
+[DefaultInstall.NTx86]
+CopyFiles       = Install.Copyfiles.NTx86
+
+[DefaultInstall.NTamd64]
+CopyFiles       = Install.Copyfiles.NTamd64
+
+
+; LegacyUninstall MSDN:
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/develop/creating-a-primitive-driver
+[DefaultUninstall.NTx86]
+LegacyUninstall = 1
+DelFiles        = Install.Delfiles
+
+[DefaultUninstall.NTamd64]
+LegacyUninstall = 1
+DelFiles        = Install.Delfiles
+
+
+[DefaultInstall.NTx86.Services]
+; You may want to add the SPSVCINST_STARTSERVICE flag, like this:
+;     AddService=%ServiceName%,0x800,InstallService.Arch ; SPSVCINST_STARTSERVICE
+; AddService MSDN
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-addservice-directive
+AddService=%ServiceName%,,InstallService
+
+[DefaultInstall.NTamd64.Services]
+AddService=%ServiceName%,,InstallService
+
+
+; DelService MSDN:
+;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-delservice-directive
+[DefaultUninstall.NTx86.Services]
+DelService = %ServiceName%,0x200
+
+[DefaultUninstall.NTamd64.Services]
+DelService = %ServiceName%,0x200
+
+
+[InstallService]
+DisplayName    = %ServiceName%
+Description    = %ServiceDesc%
+ServiceBinary  = %12%\%DriverName%.sys
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; 0 = SERVICE_BOOT_START
+                                    ; 1 = SERVICE_SYSTEM_START
+                                    ; 2 = SERVICE_AUTO_START
+                                    ; 3 = SERVICE_DEMAND_START
+                                    ; 4 = SERVICE_DISABLED
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+
+
+;-------------------------------------------------------------------------
+; Strings section
+;-------------------------------------------------------------------------
+
+
+[Strings]
+ManufacturerName        = "VCRTL"
+DriverName              = "ucxxrt-test"
+ServiceName             = "VCRTL"
+ServiceDesc             = "VCRTL Legacy Driver"
+DiskId                  = "VCRTL Device Installation Disk"

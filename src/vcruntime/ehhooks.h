@@ -1,0 +1,124 @@
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      ehhooks.h
+ * DATA:      2020/02/08
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
+#pragma once
+#include "vcruntime/trnsctrl.h"
+
+namespace ucxxrt
+{
+
+#define EHTRACE_ENTER_FMT1(...)
+#define EHTRACE_ENTER_FMT2(...)
+#define EHTRACE_FMT1(...)
+#define EHTRACE_FMT2(...)
+
+#define EHTRACE_ENTER
+#define EHTRACE_EXIT
+#define EHTRACE_EXCEPT(x) x
+#define EHTRACE_HANDLER_EXIT(x)
+
+#define EHTRACE_RESET
+
+#define DASSERT(x)
+#define _VCRT_VERIFY(x)
+
+#define _ValidateRead(ptr)    (ptr != NULL)
+#define _ValidateWrite(ptr)   (ptr != NULL)
+#define _ValidateExecute(ptr) (ptr != NULL)
+
+
+#define RENAME_EH_EXTERN(x) x
+#define RENAME_BASE_PTD(x) x
+
+#if _EH_RELATIVE_FUNCINFO
+    EXTERN_C uintptr_t __cdecl _GetImageBase();
+
+    EXTERN_C void __cdecl _SetImageBase(uintptr_t ImageBaseToRestore);
+#endif
+
+#if _EH_RELATIVE_TYPEINFO
+    EXTERN_C uintptr_t __cdecl _GetThrowImageBase();
+
+    EXTERN_C void __cdecl _SetThrowImageBase(uintptr_t NewThrowImageBase);
+#endif
+
+
+    EXTERN_C _VCRTIMP FRAMEINFO* __cdecl RENAME_EH_EXTERN(_CreateFrameInfo)(
+        FRAMEINFO* pFrameInfo,
+        PVOID       pExceptionObject
+    );
+
+    EXTERN_C _VCRTIMP void __cdecl RENAME_EH_EXTERN(_FindAndUnlinkFrame)(
+        FRAMEINFO* pFrameInfo
+    );
+
+
+    EXTERN_C _VCRTIMP BOOL __cdecl _IsExceptionObjectToBeDestroyed(
+        PVOID pExceptionObject
+    );
+
+
+#if defined _M_X64 || defined _M_ARM_NT || defined _M_ARM64 || defined _CHPE_X86_ARM64_EH_
+    EXTERN_C PVOID __cdecl RENAME_EH_EXTERN(_CallSettingFrame)(
+        void* handler,
+        EHRegistrationNode* pEstablisher,
+#if defined _M_ARM_NT || defined _M_ARM64 || defined _CHPE_X86_ARM64_EH_
+        PULONG pNonVolatiles,
+#endif
+        ULONG NLG_CODE
+        );
+
+    EXTERN_C PVOID __cdecl RENAME_EH_EXTERN(_CallSettingFrame_LookupContinuationIndex)(
+        void* handler,
+        EHRegistrationNode* pEstablisher,
+#if defined _M_ARM_NT || defined _M_ARM64 || defined _CHPE_X86_ARM64_EH_
+        PULONG pNonVolatiles,
+#endif
+        ULONG NLG_CODE
+        );
+
+    EXTERN_C PVOID __cdecl RENAME_EH_EXTERN(_CallSettingFrameEncoded)(
+        void* handler,
+        EHRegistrationNode Establisher,
+        void* object,
+#if defined _M_ARM_NT || defined _M_ARM64 || defined _CHPE_X86_ARM64_EH_
+        PULONG pNonVolatiles,
+#endif
+        ULONG NLG_CODE
+        );
+#endif
+
+#ifndef EXCEPTION_NONCONTINUABLE_EXCEPTION
+    #define EXCEPTION_NONCONTINUABLE_EXCEPTION STATUS_NONCONTINUABLE_EXCEPTION
+#endif
+
+    EXTERN_C [[noreturn]] void __CxxRaiseException(
+        _In_ DWORD dwExceptionCode,
+        _In_ DWORD dwExceptionFlags,
+        _In_ DWORD nNumberOfArguments,
+        _In_reads_opt_(nNumberOfArguments) CONST ULONG_PTR* lpArguments
+    );
+
+    EXTERN_C [[noreturn]] void __CxxDispatchException(
+        _In_ PEXCEPTION_RECORD ExceptionRecord,
+        _In_ PCONTEXT ContextRecord
+    );
+
+    EXTERN_C EXCEPTION_DISPOSITION __CxxExecuteHandlerForException(
+        PEXCEPTION_RECORD ExceptionRecord,
+        PVOID EstablisherFrame,
+        PCONTEXT Context,
+        PVOID DispatcherContext,
+        PEXCEPTION_ROUTINE ExceptionHandler
+    );
+
+}
