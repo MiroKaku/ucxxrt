@@ -14,6 +14,10 @@
 
 #if __has_include(<wdm.h>)
 
+#if _HAS_FLOATPOINT
+#pragma comment(lib, "libcntpr")
+#endif
+
 extern ULONG     DefaultPoolTag;
 extern POOL_TYPE DefaultPoolType;
 

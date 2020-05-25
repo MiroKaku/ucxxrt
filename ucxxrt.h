@@ -12,6 +12,14 @@
 
 #pragma once
 
+// If you use float-point please open _HAS_FLOATPOINT
+// and link libcntpr.lib
+//   1. Open the project's Property Pages dialog box.
+//   2. Choose the Input property page in the Linker folder.
+//   3. Modify the Additional Dependencies property to add the libcntpr.lib file.
+#define _HAS_FLOATPOINT 1
+
+
 #ifndef _CRT_BEGIN_C_HEADER
 #define _CRT_BEGIN_C_HEADER            \
         __pragma(pack(push, _CRT_PACKING)) \

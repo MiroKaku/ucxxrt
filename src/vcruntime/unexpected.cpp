@@ -18,6 +18,7 @@
 
 #if __has_include(<wdm.h>)
 
+#if !_HAS_FLOATPOINT
 __declspec(noreturn) void __cdecl abort(void)
 {
     KeBugCheckEx(
@@ -27,6 +28,7 @@ __declspec(noreturn) void __cdecl abort(void)
         EH_MAGIC_NUMBER1,
         0);
 }
+#endif
 
 __declspec(noreturn) void __cdecl terminate(void)
 {
