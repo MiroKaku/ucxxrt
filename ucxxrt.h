@@ -32,6 +32,22 @@
 #define _VCRTIMP _CRTIMP
 #endif
 
+#ifndef _HAS_NODISCARD
+#ifndef __has_cpp_attribute
+#define _HAS_NODISCARD 0
+#elif __has_cpp_attribute(nodiscard) >= 201603L // TRANSITION, VSO#939899 (need toolset update)
+#define _HAS_NODISCARD 1
+#else
+#define _HAS_NODISCARD 0
+#endif
+#endif // _HAS_NODISCARD
+
+#if _HAS_NODISCARD
+    #define _NODISCARD [[nodiscard]]
+#else // ^^^ CAN HAZ [[nodiscard]] / NO CAN HAZ [[nodiscard]] vvv
+    #define _NODISCARD
+#endif // _HAS_NODISCARD
+
 
 #include "include/stdint.h"
 #include "include/new.h"
@@ -41,9 +57,9 @@
 namespace ucxxrt
 {
 #if (_MSVC_LANG < 201704L) && (__cplusplus < 201704L)
-    constexpr char    __Version[] = u8"0.0.0.1";
+    constexpr char    __Version[] = u8"0.0.0.2";
 #else
-    constexpr char8_t __Version[] = u8"0.0.0.1";
+    constexpr char8_t __Version[] = u8"0.0.0.2";
 #endif
 }
 

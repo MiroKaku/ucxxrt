@@ -21,6 +21,10 @@
 #undef _MSC_EXTENSIONS
 #include <new.h>
 
+ // disable tag warning
+#pragma warning(push)
+#pragma warning(disable: 28251)
+
 // replaceable usual deallocation functions
 auto __cdecl operator new (size_t _size)
     -> void*;
@@ -49,10 +53,13 @@ auto __cdecl operator delete[](void *_ptr, POOL_TYPE _pool_type, ULONG _tag) noe
 -> void;
 
 // replaceable placement deallocation functions
+#pragma warning(push)
+#pragma warning(disable: 5043)
 auto __cdecl operator new (size_t _size, void* _ptr)
     -> void*;
 auto __cdecl operator new[] (size_t _size, void* _ptr)
     -> void*;
+#pragma warning(pop)
 
 // T::~T()
 auto __cdecl operator delete (void*, void*) noexcept
@@ -79,5 +86,7 @@ auto __cdecl operator new[] (size_t _size, POOL_TYPE _pool_type, const std::noth
 -> void*;
 auto __cdecl operator new[] (size_t _size, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t&) noexcept
 -> void*;
+
+#pragma warning(pop)
 
 #endif

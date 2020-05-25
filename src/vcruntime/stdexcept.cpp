@@ -113,6 +113,11 @@ exception::__exString exception::what() const
         return "Unknown exception";
 }
 
+namespace std
+{
+    using ::exception;
+}
+
 #pragma pack(pop)
 
 #endif

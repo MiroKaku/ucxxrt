@@ -8,8 +8,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user-mode", "user-mode", "{0EB63158-8278-40D0-9F7E-FB4D5B14E483}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt-test", "unittest\kernel-mode\ucxxrt-test.vcxproj", "{4E2839CA-3BE7-44BC-B42D-445779B8A626}"
+	ProjectSection(ProjectDependencies) = postProject
+		{EB3FFE0C-999D-4391-98D7-F309A511619F} = {EB3FFE0C-999D-4391-98D7-F309A511619F}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt-test", "unittest\user-mode\ucxxrt-test.vcxproj", "{2F30D706-8EB8-47AD-926E-CEE6C30801C6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C2EEFC15-6B22-443F-9DF5-6E34BA0906D4} = {C2EEFC15-6B22-443F-9DF5-6E34BA0906D4}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt", "kernel-mode.vcxproj", "{EB3FFE0C-999D-4391-98D7-F309A511619F}"
 EndProject
