@@ -25,7 +25,7 @@ namespace ucxxrt
 
     _CRT_BEGIN_C_HEADER;
 
-    _VCRTIMP int __cdecl __cxx_type_info_compare(
+    _VCRTIMP int __cdecl __std_type_info_compare(
         _In_ const __cxx_type_info_data* _Lhs,
         _In_ const __cxx_type_info_data* _Rhs
     )
@@ -38,7 +38,7 @@ namespace ucxxrt
         return strcmp(_Lhs->_DecoratedName + 1, _Rhs->_DecoratedName + 1);
     }
 
-    _VCRTIMP size_t __cdecl __cxx_type_info_hash(
+    _VCRTIMP size_t __cdecl __std_type_info_hash(
         _In_ const __cxx_type_info_data* _Data
     )
     {

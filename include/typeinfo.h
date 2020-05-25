@@ -40,12 +40,12 @@ namespace ucxxrt
         __cxx_type_info_data& operator=(__cxx_type_info_data&&) = delete;
     };
 
-    _VCRTIMP int __cdecl __cxx_type_info_compare(
+    _VCRTIMP int __cdecl __std_type_info_compare(
         _In_ const __cxx_type_info_data* _Lhs,
         _In_ const __cxx_type_info_data* _Rhs
     );
 
-    _VCRTIMP size_t __cdecl __cxx_type_info_hash(
+    _VCRTIMP size_t __cdecl __std_type_info_hash(
         _In_ const __cxx_type_info_data* _Data
     );
 
@@ -65,22 +65,22 @@ public:
 
     size_t hash_code() const noexcept
     {
-        return ucxxrt::__cxx_type_info_hash(&_Data);
+        return ucxxrt::__std_type_info_hash(&_Data);
     }
 
     bool operator==(const type_info& _Other) const noexcept
     {
-        return ucxxrt::__cxx_type_info_compare(&_Data, &_Other._Data) == 0;
+        return ucxxrt::__std_type_info_compare(&_Data, &_Other._Data) == 0;
     }
 
     bool operator!=(const type_info& _Other) const noexcept
     {
-        return ucxxrt::__cxx_type_info_compare(&_Data, &_Other._Data) != 0;
+        return ucxxrt::__std_type_info_compare(&_Data, &_Other._Data) != 0;
     }
 
     bool before(const type_info& _Other) const noexcept
     {
-        return ucxxrt::__cxx_type_info_compare(&_Data, &_Other._Data) < 0;
+        return ucxxrt::__std_type_info_compare(&_Data, &_Other._Data) < 0;
     }
 
     const char* name() const noexcept
