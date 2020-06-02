@@ -25,7 +25,7 @@
 #pragma warning(push)
 #pragma warning(disable: 28251)
 
-// replaceable usual deallocation functions
+// replaceable usual allocation functions
 auto __cdecl operator new (size_t _size)
     -> void*;
 auto __cdecl operator new (size_t _size, POOL_TYPE _pool_type)
@@ -39,6 +39,7 @@ auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type)
 auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type, ULONG _tag)
 -> void*;
 
+// replaceable usual deallocation functions
 auto __cdecl operator delete (void* _ptr) noexcept
 -> void;
 auto __cdecl operator delete (void* _ptr, POOL_TYPE _pool_type) noexcept
@@ -52,7 +53,7 @@ auto __cdecl operator delete[](void *_ptr, POOL_TYPE _pool_type) noexcept
 auto __cdecl operator delete[](void *_ptr, POOL_TYPE _pool_type, ULONG _tag) noexcept
 -> void;
 
-// replaceable placement deallocation functions
+// replaceable placement allocation functions
 #pragma warning(push)
 #pragma warning(disable: 5043)
 auto __cdecl operator new (size_t _size, void* _ptr)
@@ -61,6 +62,7 @@ auto __cdecl operator new[] (size_t _size, void* _ptr)
     -> void*;
 #pragma warning(pop)
 
+// replaceable placement deallocation functions
 // T::~T()
 auto __cdecl operator delete (void*, void*) noexcept
     -> void;
@@ -73,7 +75,7 @@ auto __cdecl operator delete  (void* _ptr, size_t _size) noexcept
 auto __cdecl operator delete[](void* _ptr, size_t _size) noexcept
     -> void;
 
-// replaceable usual deallocation functions (noexcept)
+// replaceable usual allocation functions (noexcept)
 auto __cdecl operator new (size_t _size, const std::nothrow_t&) noexcept
 -> void*;
 auto __cdecl operator new (size_t _size, POOL_TYPE _pool_type, const std::nothrow_t&) noexcept
@@ -86,6 +88,20 @@ auto __cdecl operator new[] (size_t _size, POOL_TYPE _pool_type, const std::noth
 -> void*;
 auto __cdecl operator new[] (size_t _size, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t&) noexcept
 -> void*;
+
+// replaceable usual deallocation functions (noexcept)
+auto __cdecl operator delete (void* _ptr, const std::nothrow_t&) noexcept
+-> void;
+auto __cdecl operator delete (void* _ptr, POOL_TYPE _pool_type, const std::nothrow_t&) noexcept
+-> void;
+auto __cdecl operator delete (void* _ptr, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t&) noexcept
+-> void;
+auto __cdecl operator delete[](void* _ptr, const std::nothrow_t&) noexcept
+-> void;
+auto __cdecl operator delete[](void* _ptr, POOL_TYPE _pool_type, const std::nothrow_t&) noexcept
+-> void;
+auto __cdecl operator delete[](void* _ptr, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t&) noexcept
+-> void;
 
 #pragma warning(pop)
 

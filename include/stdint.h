@@ -12,6 +12,8 @@
 
 #pragma once
 
+typedef unsigned char byte;
+
 #if __has_include(<stdint.h>)
 
 #include <stdint.h>

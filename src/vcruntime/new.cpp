@@ -388,4 +388,51 @@ auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type, ULONG _tag, cons
     return nullptr;
 }
 
+auto __cdecl operator delete (void* _ptr, const std::nothrow_t&) noexcept
+-> void
+{
+    if (nullptr == _ptr) return;
+
+    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
+}
+
+auto __cdecl operator delete (void* _ptr, POOL_TYPE /*_pool_type*/, const std::nothrow_t&) noexcept
+-> void
+{
+    if (nullptr == _ptr) return;
+
+    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
+}
+
+auto __cdecl operator delete (void* _ptr, POOL_TYPE /*_pool_type*/, ULONG _tag, const std::nothrow_t&) noexcept
+-> void
+{
+    if (nullptr == _ptr) return;
+
+    return ExFreePoolWithTag(_ptr, _tag);
+}
+
+auto __cdecl operator delete[](void* _ptr, const std::nothrow_t&) noexcept
+-> void
+{
+    if (nullptr == _ptr) return;
+
+    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
+}
+
+auto __cdecl operator delete[](void* _ptr, POOL_TYPE /*_pool_type*/, const std::nothrow_t&) noexcept
+-> void
+{
+    if (nullptr == _ptr) return;
+
+    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
+}
+
+auto __cdecl operator delete[](void* _ptr, POOL_TYPE /*_pool_type*/, ULONG _tag, const std::nothrow_t&) noexcept
+-> void
+{
+    if (nullptr == _ptr) return;
+
+    return ExFreePoolWithTag(_ptr, _tag);
+}
 #endif
