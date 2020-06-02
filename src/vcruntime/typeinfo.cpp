@@ -19,15 +19,15 @@
 
 #include "include/typeinfo.h"
 
-#if !__has_include(<vcruntime.h>)
+#if __has_include(<wdm.h>)
 namespace ucxxrt
 {
 
     _CRT_BEGIN_C_HEADER;
 
     _VCRTIMP int __cdecl __std_type_info_compare(
-        _In_ const __cxx_type_info_data* _Lhs,
-        _In_ const __cxx_type_info_data* _Rhs
+        _In_ const __std_type_info_data* _Lhs,
+        _In_ const __std_type_info_data* _Rhs
     )
     {
         if (_Lhs == _Rhs)
@@ -39,7 +39,7 @@ namespace ucxxrt
     }
 
     _VCRTIMP size_t __cdecl __std_type_info_hash(
-        _In_ const __cxx_type_info_data* _Data
+        _In_ const __std_type_info_data* _Data
     )
     {
         // FNV-1a hash function for the undecorated name

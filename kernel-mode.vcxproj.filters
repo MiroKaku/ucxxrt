@@ -112,9 +112,6 @@
     <ClCompile Include="src\vcruntime\startup.cpp">
       <Filter>ucxxrt\vcruntime</Filter>
     </ClCompile>
-    <ClCompile Include="src\vcruntime\stdexcept.cpp">
-      <Filter>ucxxrt\vcruntime</Filter>
-    </ClCompile>
     <ClCompile Include="src\vcruntime\stdlib.cpp">
       <Filter>ucxxrt\vcruntime</Filter>
     </ClCompile>
@@ -122,9 +119,6 @@
       <Filter>ucxxrt\vcruntime</Filter>
     </ClCompile>
     <ClCompile Include="src\vcruntime\throw.cpp">
-      <Filter>ucxxrt\vcruntime</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vcruntime\typeinfo.cpp">
       <Filter>ucxxrt\vcruntime</Filter>
     </ClCompile>
     <ClCompile Include="src\vcruntime\unexpected.cpp">
@@ -150,6 +144,9 @@
     </ClCompile>
     <ClCompile Include="src\x86\trnsctrl.cpp">
       <Filter>ucxxrt\x86</Filter>
+    </ClCompile>
+    <ClCompile Include="src\vcruntime\typeinfo.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

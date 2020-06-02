@@ -207,42 +207,49 @@
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemGroup>
     <FilesToPackage Include="$(TargetPath)" />

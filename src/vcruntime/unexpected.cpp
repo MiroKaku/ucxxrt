@@ -18,8 +18,10 @@
 
 #if __has_include(<wdm.h>)
 
+_CRT_BEGIN_C_HEADER
+
 #if !_HAS_FLOATPOINT
-__declspec(noreturn) void __cdecl abort(void)
+_ACRTIMP __declspec(noreturn) void __cdecl abort(void)
 {
     KeBugCheckEx(
         KMODE_EXCEPTION_NOT_HANDLED,
@@ -30,7 +32,7 @@ __declspec(noreturn) void __cdecl abort(void)
 }
 #endif
 
-__declspec(noreturn) void __cdecl terminate(void)
+_ACRTIMP __declspec(noreturn) void __cdecl terminate(void) throw()
 {
     KeBugCheckEx(
         KMODE_EXCEPTION_NOT_HANDLED,
@@ -47,14 +49,14 @@ static unexpected_handler __cdecl get_unexpected_or_default(
     return ptd->_unexpected ? ptd->_unexpected : &terminate;
 }
 
-extern "C" _CRTIMP unexpected_handler __cdecl _get_unexpected(void)
+_CRTIMP unexpected_handler __cdecl _get_unexpected(void) noexcept
 {
     return get_unexpected_or_default(RENAME_BASE_PTD(ucxxrt::__ucxxrt_getptd)());
 }
 
 _CRTIMP unexpected_handler __cdecl set_unexpected(
     _In_opt_ unexpected_handler const new_handler
-)
+) noexcept
 {
     RENAME_BASE_PTD(ucxxrt::__ucxxrt_ptd)* const ptd = RENAME_BASE_PTD(ucxxrt::__ucxxrt_getptd)();
 
@@ -65,7 +67,7 @@ _CRTIMP unexpected_handler __cdecl set_unexpected(
     return old_handler;
 }
 
-_CRTIMP void __cdecl unexpected(void)
+_VCRTIMP __declspec(noreturn) void __cdecl unexpected(void) noexcept(false)
 {
     unexpected_handler const handler = RENAME_BASE_PTD(ucxxrt::__ucxxrt_getptd)()->_unexpected;
     if (handler)
@@ -75,6 +77,8 @@ _CRTIMP void __cdecl unexpected(void)
 
     terminate();
 }
+_CRT_END_C_HEADER
+
 
 namespace std
 {

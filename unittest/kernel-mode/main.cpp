@@ -1,4 +1,4 @@
-#define _KERNEL_MODE
+#define _KERNEL_MODE 1
 
 #include <wdm.h>
 #include <ntddk.h>

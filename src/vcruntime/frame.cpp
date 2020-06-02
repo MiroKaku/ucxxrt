@@ -43,6 +43,8 @@
 
 #include "shared/ucxxrt_traits.h"
 
+#include <exception>
+
 
 namespace ucxxrt
 {
