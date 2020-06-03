@@ -67,9 +67,12 @@ extern "C" _CRTAlloc$(".CRT$XTZ") _PVFV __xt_z[] = { nullptr };
 #pragma comment(linker, "/merge:.CRT=.rdata")
 
 
-extern ULONG     DefaultPoolTag;
-extern POOL_TYPE DefaultPoolType;
-extern ULONG     DefaultMdlProtection;
+namespace ucxxrt
+{
+    extern ULONG     DefaultPoolTag;
+    extern POOL_TYPE DefaultPoolType;
+    extern ULONG     DefaultMdlProtection;
+}
 
 namespace ucxxrt
 {

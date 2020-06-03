@@ -69,6 +69,12 @@ namespace ucxxrt
 #else
     constexpr char8_t __Version[] = u8"0.0.0.2";
 #endif
+
+#if __has_include(<wdm.h>)
+    extern ULONG        DefaultPoolTag;
+    extern POOL_TYPE    DefaultPoolType;
+    extern ULONG        DefaultMdlProtection;
+#endif
 }
 
 

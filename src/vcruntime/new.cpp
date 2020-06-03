@@ -30,409 +30,376 @@
 
 #if __has_include(<wdm.h>)
 
-#if defined DBG && __has_include(<wdm.h>)
-#   define DisableCheckPoolTag 1
-#elif !__has_include(<wdm.h>)
-#   define DisableCheckPoolTag 1
-#endif
 
-
-#ifndef DisableCheckPoolTag
-
-#pragma warning( push )
-#pragma warning( disable: 4201)
-#ifdef _AMD64_
-struct PoolHeader
+// global
+namespace ucxxrt
 {
-    union
-    {
-        struct
-        {
-            uint16_t PreviousSize : 8;
-            uint16_t PoolIndex    : 8;
-            uint16_t BlockSize    : 8;
-            uint16_t POOL_TYPE     : 8;
-        };
-        uint32_t Filling;
-    };
-    uint32_t     PoolTag;
-    union
-    {
-        struct _EPROCESS* ProcessBilled;
-        struct
-        {
-            uint16_t AllocatorBackTraceIndex;
-            uint16_t PoolTagHash;
-        };
-    };
-};
-#else
-struct PoolHeader
-{
-    union
-    {
-        struct
-        {
-            uint16_t PreviousSize : 9;
-            uint16_t PoolIndex : 7;
-            uint16_t BlockSize : 9;
-            uint16_t POOL_TYPE : 7;
-        };
-        uint32_t Filling;
-    };
-    union
-    {
-        uint32_t     PoolTag;
-        struct
-        {
-            uint16_t AllocatorBackTraceIndex;
-            uint16_t PoolTagHash;
-        };
-    };
-};
-#endif
-#pragma warning( pop )
-
-#define PageAlign$(Va) ((void*)((size_t)(Va) & ~(0x1000 - 1)))
-static auto check_pooltag(void* _ptr, POOL_TYPE /*_pool_type*/, uint32_t _tag)
-{
-    if (PageAlign$(_ptr) == _ptr)
-    {
-        //
-        // 不支持
-        // 因为存储大页池的 nt!PoolBigPageTable 数组,
-        // 以及描述数组大小的 nt!PoolBigPageTableSize 都未导出.
-        //
-        return;
-    }
-
-    const auto pool_header = reinterpret_cast<PoolHeader*>(size_t(_ptr) - sizeof(PoolHeader));
-    if (_tag != pool_header->PoolTag)
-    {
-        // See https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/bug-check-0x19--bad-pool-header
-        KeBugCheckEx(
-            BAD_POOL_HEADER,
-            0x50u,
-            size_t(_ptr),
-            size_t(pool_header->PoolTag),
-            size_t(_tag));
-    }
+    ULONG       DefaultPoolTag          = _ByteSwap32('ucrt');
+    POOL_TYPE   DefaultPoolType         = POOL_TYPE::NonPagedPoolNx;
+    ULONG       DefaultMdlProtection    = MdlMappingNoExecute;
 }
-#undef PageAlign$
-
-#else
-#define check_pooltag(_ptr, _pool_type, _tag)
-#endif
-
-extern ULONG        DefaultPoolTag          = _ByteSwap32('ucrt'); // ucrt
-extern POOL_TYPE    DefaultPoolType         = POOL_TYPE::NonPagedPoolNx;
-extern ULONG        DefaultMdlProtection    = MdlMappingNoExecute;
 
 namespace std
 {
     [[noreturn]] void __cdecl _Xbad_alloc();
 }
 
+using namespace ucxxrt;
+
+// replaceable allocation functions
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count
+    )
+{
+    if (count == 0)
+        count = 1;
+
+    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, count, DefaultPoolTag))
+        return ptr;
+
+    std::_Xbad_alloc();
+}
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count
+    )
+{
+    if (count == 0)
+        count = 1;
+
+    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, count, DefaultPoolTag))
+        return ptr;
+
+    std::_Xbad_alloc();
+}
+
+
 // replaceable usual deallocation functions
-auto __cdecl operator new(size_t _size)
--> void *
+void __CRTDECL operator delete(
+    void* ptr
+    ) noexcept
 {
-    if (0 == _size) _size = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, _size, DefaultPoolTag))
+    if (ptr)
     {
-        return ptr;
+        ExFreePool(ptr);
     }
-
-    std::_Xbad_alloc();
 }
 
-auto __cdecl operator new(size_t _size, POOL_TYPE _pool_type)
--> void *
+void __CRTDECL operator delete[](
+    void* ptr
+    ) noexcept
 {
-    if (0 == _size) _size = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(_pool_type, _size, DefaultPoolTag))
+    if (ptr)
     {
-        return ptr;
+        ExFreePool(ptr);
     }
-
-    std::_Xbad_alloc();
 }
 
-auto __cdecl operator new(size_t _size, POOL_TYPE _pool_type, ULONG _tag)
--> void *
+void __CRTDECL operator delete(
+    void* ptr,
+    size_t /*count*/
+    ) noexcept
 {
-    if (0 == _size) _size = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(_pool_type, _size, _tag))
+    if (ptr)
     {
-        return ptr;
+        ExFreePool(ptr);
     }
-
-    std::_Xbad_alloc();
 }
 
-auto __cdecl operator new[](size_t _size)
--> void *
+void __CRTDECL operator delete[](
+    void* ptr,
+    size_t /*count*/
+    ) noexcept
 {
-    if (0 == _size) _size = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, _size, DefaultPoolTag))
+    if (ptr)
     {
-        return ptr;
+        ExFreePool(ptr);
     }
-
-    std::_Xbad_alloc();
 }
 
-auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type)
--> void*
-{
-    if (0 == _size) _size = 1;
 
-    if (auto ptr = ExAllocatePoolWithTag(_pool_type, _size, DefaultPoolTag))
-    {
+// replaceable non-throwing allocation functions
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    std::nothrow_t const&
+    ) noexcept
+{
+    if (count == 0)
+        count = 1;
+
+    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, count, DefaultPoolTag))
         return ptr;
-    }
 
-    std::_Xbad_alloc();
+    return nullptr;
 }
 
-auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type, ULONG _tag)
--> void*
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    std::nothrow_t const&
+    ) noexcept
 {
-    if (0 == _size) _size = 1;
+    if (count == 0)
+        count = 1;
 
-    if (auto ptr = ExAllocatePoolWithTag(_pool_type, _size, _tag))
-    {
+    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, count, DefaultPoolTag))
         return ptr;
-    }
 
-    std::_Xbad_alloc();
+    return nullptr;
 }
 
-auto __cdecl operator delete(void* _ptr)
--> void
-{
-    if (nullptr == _ptr) return;
-
-    check_pooltag(_ptr, DefaultPoolType, DefaultPoolTag);
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
-}
-
-auto __cdecl operator delete(void* _ptr, POOL_TYPE _pool_type)
--> void
-{
-    _pool_type;
-
-    if (nullptr == _ptr) return;
-
-    check_pooltag(_ptr, _pool_type, DefaultPoolTag);
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
-}
-
-auto __cdecl operator delete(void* _ptr, POOL_TYPE _pool_type, ULONG _tag)
--> void
-{
-    _pool_type;
-
-    if (nullptr == _ptr) return;
-
-    check_pooltag(_ptr, _pool_type, _tag);
-    return ExFreePoolWithTag(_ptr, _tag);
-}
-
-auto __cdecl operator delete[](void * _ptr)
--> void
-{
-    if (nullptr == _ptr) return;
-
-    check_pooltag(_ptr, DefaultPoolType, DefaultPoolTag);
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
-}
-
-auto __cdecl operator delete[](void * _ptr, POOL_TYPE _pool_type) -> void
-{
-    _pool_type;
-
-    if (nullptr == _ptr) return;
-
-    check_pooltag(_ptr, _pool_type, DefaultPoolTag);
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
-}
-
-auto __cdecl operator delete[](void * _ptr, POOL_TYPE _pool_type, ULONG _tag)
--> void
-{
-    _pool_type;
-
-    if (nullptr == _ptr) return;
-
-    check_pooltag(_ptr, _pool_type, _tag);
-    return ExFreePoolWithTag(_ptr, _tag);
-}
 
 // replaceable placement deallocation functions
-//auto __cdecl operator new   (size_t /*_size*/, void* _ptr) noexcept
-//-> void*
-//{
-//    return _ptr;
-//}
-//
-//auto __cdecl operator new[](size_t /*_size*/, void* _ptr) noexcept
-//-> void*
-//{
-//    return _ptr;
-//}
-
-// T::~T()
-//auto __cdecl operator delete  (void*, void*)
-//-> void
-//{
-//    return ;
-//}
-//
-//auto __cdecl operator delete[](void*, void*)
-//-> void
-//{
-//    return ;
-//}
-
-// sized class - specific deallocation functions
-auto __cdecl operator delete  (void* _ptr, size_t /*_size*/)
--> void
+void __CRTDECL operator delete(
+    void* ptr,
+    std::nothrow_t const&
+    ) noexcept
 {
-    if (nullptr == _ptr) return;
-
-    check_pooltag(_ptr, DefaultPoolType, DefaultPoolTag);
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
-}
-
-auto __cdecl operator delete[](void* _ptr, size_t /*_size*/)
--> void
-{
-    if (nullptr == _ptr) return;
-
-    check_pooltag(_ptr, DefaultPoolType, DefaultPoolTag);
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
-}
-
-// replaceable usual deallocation functions (noexcept)
-auto __cdecl operator new(size_t _size, const std::nothrow_t& ) noexcept -> void*
-{
-    if (0 == _size) _size = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, _size, DefaultPoolTag))
+    if (ptr)
     {
-        return ptr;
+        ExFreePool(ptr);
     }
+}
+
+void __CRTDECL operator delete[](
+    void* ptr,
+    std::nothrow_t const&
+    ) noexcept
+{
+    if (ptr)
+    {
+        ExFreePool(ptr);
+    }
+}
+
+
+// user-defined placement allocation functions
+// void* operator new  (std::size_t count, user-defined-args...);
+// void* operator new[](std::size_t count, user-defined-args...);
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    POOL_TYPE pool
+    )
+{
+    if (count == 0)
+        count = 1;
+
+    if (auto ptr = ExAllocatePoolWithTag(pool, count, DefaultPoolTag))
+        return ptr;
+
+    std::_Xbad_alloc();
+}
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    POOL_TYPE pool
+    )
+{
+    if (count == 0)
+        count = 1;
+
+    if (auto ptr = ExAllocatePoolWithTag(pool, count, DefaultPoolTag))
+        return ptr;
+
+    std::_Xbad_alloc();
+}
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    POOL_TYPE pool,
+    ULONG tag
+    )
+{
+    if (count == 0)
+        count = 1;
+
+    if (auto ptr = ExAllocatePoolWithTag(pool, count, tag))
+        return ptr;
+
+    std::_Xbad_alloc();
+}
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    POOL_TYPE pool,
+    ULONG tag
+    )
+{
+    if (count == 0)
+        count = 1;
+
+    if (auto ptr = ExAllocatePoolWithTag(pool, count, tag))
+        return ptr;
+
+    std::_Xbad_alloc();
+}
+
+
+// user-defined placement deallocation functions
+// void operator delete  (void* ptr, args...);
+// void operator delete[](void* ptr, args...);
+
+void __CRTDECL operator delete(
+    void* ptr,
+    POOL_TYPE /*pool*/
+    ) noexcept
+{
+    if (ptr)
+    {
+        ExFreePool(ptr);
+    }
+}
+
+void __CRTDECL operator delete[](
+    void* ptr,
+    POOL_TYPE /*pool*/
+    ) noexcept
+{
+    if (ptr)
+    {
+        ExFreePool(ptr);
+    }
+}
+
+void __CRTDECL operator delete(
+    void* ptr,
+    POOL_TYPE /*pool*/,
+    ULONG tag
+    ) noexcept
+{
+    if (ptr)
+    {
+        ExFreePoolWithTag(ptr, tag);
+    }
+}
+
+void __CRTDECL operator delete[](
+    void* ptr,
+    POOL_TYPE /*pool*/,
+    ULONG tag
+    ) noexcept
+{
+    if (ptr)
+    {
+        ExFreePoolWithTag(ptr, tag);
+    }
+}
+
+
+// user-defined non-throwing placement allocation functions
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    POOL_TYPE pool,
+    std::nothrow_t const&
+    )
+{
+    if (count == 0)
+        count = 1;
+
+    if (auto ptr = ExAllocatePoolWithTag(pool, count, DefaultPoolTag))
+        return ptr;
+
     return nullptr;
 }
 
-auto __cdecl operator new(size_t _size, POOL_TYPE _pool_type, const std::nothrow_t& ) noexcept -> void*
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    POOL_TYPE pool,
+    std::nothrow_t const&
+    )
 {
-    if (0 == _size) _size = 1;
+    if (count == 0)
+        count = 1;
 
-    if (auto ptr = ExAllocatePoolWithTag(_pool_type, _size, DefaultPoolTag))
-    {
+    if (auto ptr = ExAllocatePoolWithTag(pool, count, DefaultPoolTag))
         return ptr;
-    }
-    return nullptr;
-}
-
-auto __cdecl operator new(size_t _size, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t& ) noexcept -> void*
-{
-    if (0 == _size) _size = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(_pool_type, _size, _tag))
-    {
-        return ptr;
-    }
-    return nullptr;
-}
-
-auto __cdecl operator new[](size_t _size, const std::nothrow_t& ) noexcept -> void*
-{
-    if (0 == _size) _size = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, _size, DefaultPoolTag))
-    {
-        return ptr;
-    }
 
     return nullptr;
 }
 
-auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type, const std::nothrow_t& ) noexcept -> void*
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    POOL_TYPE pool,
+    ULONG tag,
+    std::nothrow_t const&
+    )
 {
-    if (0 == _size) _size = 1;
+    if (count == 0)
+        count = 1;
 
-    if (auto ptr = ExAllocatePoolWithTag(_pool_type, _size, DefaultPoolTag))
-    {
+    if (auto ptr = ExAllocatePoolWithTag(pool, count, tag))
         return ptr;
-    }
 
     return nullptr;
 }
 
-auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t& ) noexcept -> void*
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    POOL_TYPE pool,
+    ULONG tag,
+    std::nothrow_t const&
+    )
 {
-    if (0 == _size) _size = 1;
+    if (count == 0)
+        count = 1;
 
-    if (auto ptr = ExAllocatePoolWithTag(_pool_type, _size, _tag))
-    {
+    if (auto ptr = ExAllocatePoolWithTag(pool, count, tag))
         return ptr;
-    }
 
     return nullptr;
 }
 
-auto __cdecl operator delete (void* _ptr, const std::nothrow_t&) noexcept
--> void
-{
-    if (nullptr == _ptr) return;
 
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
+// user-defined non-throwing placement deallocation functions
+void __CRTDECL operator delete(
+    void* ptr,
+    POOL_TYPE /*pool*/,
+    std::nothrow_t const&
+    ) noexcept
+{
+    if (ptr)
+    {
+        ExFreePool(ptr);
+    }
 }
 
-auto __cdecl operator delete (void* _ptr, POOL_TYPE /*_pool_type*/, const std::nothrow_t&) noexcept
--> void
+void __CRTDECL operator delete[](
+    void* ptr,
+    POOL_TYPE /*pool*/,
+    std::nothrow_t const&
+    ) noexcept
 {
-    if (nullptr == _ptr) return;
-
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
+    if (ptr)
+    {
+        ExFreePool(ptr);
+    }
 }
 
-auto __cdecl operator delete (void* _ptr, POOL_TYPE /*_pool_type*/, ULONG _tag, const std::nothrow_t&) noexcept
--> void
+void __CRTDECL operator delete(
+    void* ptr,
+    POOL_TYPE /*pool*/,
+    ULONG tag,
+    std::nothrow_t const&
+    ) noexcept
 {
-    if (nullptr == _ptr) return;
-
-    return ExFreePoolWithTag(_ptr, _tag);
+    if (ptr)
+    {
+        ExFreePoolWithTag(ptr, tag);
+    }
 }
 
-auto __cdecl operator delete[](void* _ptr, const std::nothrow_t&) noexcept
--> void
+void __CRTDECL operator delete[](
+    void* ptr,
+    POOL_TYPE /*pool*/,
+    ULONG tag,
+    std::nothrow_t const&
+    ) noexcept
 {
-    if (nullptr == _ptr) return;
-
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
+    if (ptr)
+    {
+        ExFreePoolWithTag(ptr, tag);
+    }
 }
 
-auto __cdecl operator delete[](void* _ptr, POOL_TYPE /*_pool_type*/, const std::nothrow_t&) noexcept
--> void
-{
-    if (nullptr == _ptr) return;
 
-    return ExFreePoolWithTag(_ptr, DefaultPoolTag);
-}
-
-auto __cdecl operator delete[](void* _ptr, POOL_TYPE /*_pool_type*/, ULONG _tag, const std::nothrow_t&) noexcept
--> void
-{
-    if (nullptr == _ptr) return;
-
-    return ExFreePoolWithTag(_ptr, _tag);
-}
 #endif

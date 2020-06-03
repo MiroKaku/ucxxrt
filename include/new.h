@@ -21,88 +21,208 @@
 #undef _MSC_EXTENSIONS
 #include <new.h>
 
+
  // disable tag warning
 #pragma warning(push)
 #pragma warning(disable: 28251)
 
-// replaceable usual allocation functions
-auto __cdecl operator new (size_t _size)
-    -> void*;
-auto __cdecl operator new (size_t _size, POOL_TYPE _pool_type)
-    -> void*;
-auto __cdecl operator new (size_t _size, POOL_TYPE _pool_type, ULONG _tag)
--> void*;
-auto __cdecl operator new[](size_t _size)
--> void*;
-auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type)
--> void*;
-auto __cdecl operator new[](size_t _size, POOL_TYPE _pool_type, ULONG _tag)
--> void*;
+
+// replaceable allocation functions
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count
+    );
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count
+    );
+
 
 // replaceable usual deallocation functions
-auto __cdecl operator delete (void* _ptr) noexcept
--> void;
-auto __cdecl operator delete (void* _ptr, POOL_TYPE _pool_type) noexcept
--> void;
-auto __cdecl operator delete (void* _ptr, POOL_TYPE _pool_type, ULONG _tag) noexcept
--> void;
-auto __cdecl operator delete[](void* _ptr) noexcept
--> void;
-auto __cdecl operator delete[](void *_ptr, POOL_TYPE _pool_type) noexcept
--> void;
-auto __cdecl operator delete[](void *_ptr, POOL_TYPE _pool_type, ULONG _tag) noexcept
--> void;
+void __CRTDECL operator delete(
+    void* ptr
+    ) noexcept;
 
-// replaceable placement allocation functions
-#pragma warning(push)
-#pragma warning(disable: 5043)
-auto __cdecl operator new (size_t _size, void* _ptr)
-    -> void*;
-auto __cdecl operator new[] (size_t _size, void* _ptr)
-    -> void*;
-#pragma warning(pop)
+void __CRTDECL operator delete[](
+    void* ptr
+    ) noexcept;
+
+void __CRTDECL operator delete(
+    void* ptr,
+    size_t count
+    ) noexcept;
+
+void __CRTDECL operator delete[](
+    void* ptr,
+    size_t count
+    ) noexcept;
+
+
+// replaceable non-throwing allocation functions
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    std::nothrow_t const&
+    ) noexcept;
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    std::nothrow_t const&
+    ) noexcept;
+
 
 // replaceable placement deallocation functions
-// T::~T()
-auto __cdecl operator delete (void*, void*) noexcept
-    -> void;
-auto __cdecl operator delete[](void*, void*) noexcept
-    -> void;
+void __CRTDECL operator delete(
+    void* ptr,
+    std::nothrow_t const&
+    ) noexcept;
 
-// sized class - specific deallocation functions
-auto __cdecl operator delete  (void* _ptr, size_t _size) noexcept
-    -> void;
-auto __cdecl operator delete[](void* _ptr, size_t _size) noexcept
-    -> void;
+void __CRTDECL operator delete[](
+    void* ptr,
+    std::nothrow_t const&
+    ) noexcept;
 
-// replaceable usual allocation functions (noexcept)
-auto __cdecl operator new (size_t _size, const std::nothrow_t&) noexcept
--> void*;
-auto __cdecl operator new (size_t _size, POOL_TYPE _pool_type, const std::nothrow_t&) noexcept
--> void*;
-auto __cdecl operator new (size_t _size, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t&) noexcept
--> void*;
-auto __cdecl operator new[] (size_t _size, const std::nothrow_t&) noexcept
--> void*;
-auto __cdecl operator new[] (size_t _size, POOL_TYPE _pool_type, const std::nothrow_t&) noexcept
--> void*;
-auto __cdecl operator new[] (size_t _size, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t&) noexcept
--> void*;
 
-// replaceable usual deallocation functions (noexcept)
-auto __cdecl operator delete (void* _ptr, const std::nothrow_t&) noexcept
--> void;
-auto __cdecl operator delete (void* _ptr, POOL_TYPE _pool_type, const std::nothrow_t&) noexcept
--> void;
-auto __cdecl operator delete (void* _ptr, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t&) noexcept
--> void;
-auto __cdecl operator delete[](void* _ptr, const std::nothrow_t&) noexcept
--> void;
-auto __cdecl operator delete[](void* _ptr, POOL_TYPE _pool_type, const std::nothrow_t&) noexcept
--> void;
-auto __cdecl operator delete[](void* _ptr, POOL_TYPE _pool_type, ULONG _tag, const std::nothrow_t&) noexcept
--> void;
+// non-allocating placement allocation/deallocation functions
+#pragma warning(push)
+#pragma warning(disable: 4577) // 'noexcept' used with no exception handling mode specified
+#pragma warning(disable: 4514) // 'operator new': unreferenced inline function has been removed
+#ifndef __PLACEMENT_NEW_INLINE
+#define __PLACEMENT_NEW_INLINE
+_NODISCARD inline void* __CRTDECL operator new(size_t count, void* place) noexcept
+{
+    (void)count;
+    return place;
+}
 
+inline void __CRTDECL operator delete(void* ptr, void* place) noexcept
+{
+    return;
+}
+#endif
+
+#ifndef __PLACEMENT_VEC_NEW_INLINE
+#define __PLACEMENT_VEC_NEW_INLINE
+_NODISCARD inline void* __CRTDECL operator new[](size_t count, void* place) noexcept
+{
+    (void)count;
+    return place;
+}
+
+inline void __CRTDECL operator delete[](void* ptr, void* place) noexcept
+{
+}
+#endif
 #pragma warning(pop)
 
+
+// user-defined placement allocation functions
+// void* operator new  (std::size_t count, user-defined-args...);
+// void* operator new[](std::size_t count, user-defined-args...);
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    POOL_TYPE pool
+    );
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    POOL_TYPE pool
+    );
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    POOL_TYPE pool,
+    ULONG tag
+    );
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    POOL_TYPE pool,
+    ULONG tag
+    );
+
+
+// user-defined placement deallocation functions
+// void operator delete  (void* ptr, args...);
+// void operator delete[](void* ptr, args...);
+
+void __CRTDECL operator delete(
+    void* ptr,
+    POOL_TYPE pool
+    ) noexcept;
+
+void __CRTDECL operator delete[](
+    void* ptr,
+    POOL_TYPE pool
+    ) noexcept;
+
+void __CRTDECL operator delete(
+    void* ptr,
+    POOL_TYPE pool,
+    ULONG tag
+    ) noexcept;
+
+void __CRTDECL operator delete[](
+    void* ptr,
+    POOL_TYPE pool,
+    ULONG tag
+    ) noexcept;
+
+
+// user-defined non-throwing placement allocation functions
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    POOL_TYPE pool,
+    std::nothrow_t const&
+    );
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    POOL_TYPE pool,
+    std::nothrow_t const&
+    );
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
+    size_t count,
+    POOL_TYPE pool,
+    ULONG tag,
+    std::nothrow_t const&
+    );
+
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
+    size_t count,
+    POOL_TYPE pool,
+    ULONG tag,
+    std::nothrow_t const&
+    );
+
+
+// user-defined non-throwing placement deallocation functions
+void __CRTDECL operator delete(
+    void* ptr,
+    POOL_TYPE pool,
+    std::nothrow_t const&
+    ) noexcept;
+
+void __CRTDECL operator delete[](
+    void* ptr,
+    POOL_TYPE pool,
+    std::nothrow_t const&
+    ) noexcept;
+
+void __CRTDECL operator delete(
+    void* ptr,
+    POOL_TYPE pool,
+    ULONG tag,
+    std::nothrow_t const&
+    ) noexcept;
+
+void __CRTDECL operator delete[](
+    void* ptr,
+    POOL_TYPE pool,
+    ULONG tag,
+    std::nothrow_t const&
+    ) noexcept;
+
+
+#pragma warning(pop)
 #endif

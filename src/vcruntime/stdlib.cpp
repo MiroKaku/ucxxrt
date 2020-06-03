@@ -35,18 +35,21 @@
 #pragma comment(lib, "libcntpr")
 #endif
 
-extern ULONG     DefaultPoolTag;
-extern POOL_TYPE DefaultPoolType;
+namespace ucxxrt
+{
+    extern ULONG     DefaultPoolTag;
+    extern POOL_TYPE DefaultPoolType;
+}
 
 #pragma warning(push)
 #pragma warning(disable: 4559)
 _CRTIMP _CRTNOALIAS void __cdecl free(_Pre_maybenull_ _Post_invalid_ void* _Memory)
 {
-    ExFreePoolWithTag(_Memory, DefaultPoolTag);
+    ExFreePoolWithTag(_Memory, ucxxrt::DefaultPoolTag);
 }
 _Check_return_ _Ret_maybenull_ _Post_writable_byte_size_(_Size) _CRTIMP _CRT_JIT_INTRINSIC _CRTNOALIAS _CRTRESTRICT void* __cdecl malloc(_In_ size_t _Size)
 {
-    return ExAllocatePoolWithTag(DefaultPoolType, _Size, DefaultPoolTag);
+    return ExAllocatePoolWithTag(ucxxrt::DefaultPoolType, _Size, ucxxrt::DefaultPoolTag);
 }
 #pragma warning(pop)
 
