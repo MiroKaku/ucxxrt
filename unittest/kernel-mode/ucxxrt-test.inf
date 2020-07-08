@@ -17,7 +17,7 @@ ClassGuid   = {b1d1a169-c54f-4379-81db-bee7d88d7454}
 Provider    = %ManufacturerName%
 CatalogFile = %DriverName%.cat
 DriverVer   = 08/02/2018,9.43.55.74
-
+PnpLockdown = 1
 
 ;-------------------------------------------------------------------------
 ; Installation Section

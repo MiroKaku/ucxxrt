@@ -68,6 +68,7 @@
     <ConfigurationType>Driver</ConfigurationType>
     <DriverType>WDM</DriverType>
     <DriverTargetPlatform>Desktop</DriverTargetPlatform>
+    <Driver_SpectreMitigation>Spectre</Driver_SpectreMitigation>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <TargetVersion>Windows7</TargetVersion>
@@ -117,96 +118,80 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="..\..\ucxxrt\ucxxrt.props" />
-    <Import Project="..\..\ucxxrt.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="..\..\ucxxrt\ucxxrt.props" />
-    <Import Project="..\..\ucxxrt.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="..\..\ucxxrt\ucxxrt.props" />
-    <Import Project="..\..\ucxxrt.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="..\..\ucxxrt\ucxxrt.props" />
-    <Import Project="..\..\ucxxrt.props" />
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <Import Project="..\..\ucxxrt.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <Import Project="..\..\ucxxrt.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <Import Project="..\..\ucxxrt.props" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <Import Project="..\..\ucxxrt.props" />
-  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <Inf2CatUseLocalTime>true</Inf2CatUseLocalTime>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)\bin\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ClCompile>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
-    </ClCompile>
+    <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
+    <ClCompile />
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
+    <ClCompile />
+    <ClCompile />
     <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -215,12 +200,18 @@
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile />
+    <ClCompile />
+    <ClCompile />
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
+    <ClCompile />
+    <ClCompile />
     <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
@@ -229,12 +220,18 @@
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile />
+    <ClCompile />
+    <ClCompile />
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
+    <ClCompile />
+    <ClCompile />
     <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -243,12 +240,18 @@
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile />
+    <ClCompile />
+    <ClCompile />
+    <ClCompile />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile />
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ClCompile />
+    <ClCompile />
+    <ClCompile />
     <ClCompile />
   </ItemDefinitionGroup>
   <ItemGroup>

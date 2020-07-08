@@ -19,6 +19,11 @@
 //   3. Modify the Additional Dependencies property to add the libcntpr.lib file.
 #define _HAS_FLOATPOINT 1
 
+#if __has_include(<wdm.h>)
+#   ifndef  _KERNEL_MODE
+#       error _KERNEL_MODE must be defined before all header files.
+#   endif
+#endif
 
 #ifndef _CRT_BEGIN_C_HEADER
 #define _CRT_BEGIN_C_HEADER            \
@@ -65,9 +70,9 @@
 namespace ucxxrt
 {
 #if (_MSVC_LANG < 201704L) && (__cplusplus < 201704L)
-    constexpr char    __Version[] = u8"0.0.0.2";
+    constexpr char    __Version[] = u8"0.0.0.3";
 #else
-    constexpr char8_t __Version[] = u8"0.0.0.2";
+    constexpr char8_t __Version[] = u8"0.0.0.3";
 #endif
 
 #if __has_include(<wdm.h>)

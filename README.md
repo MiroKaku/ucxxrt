@@ -22,8 +22,8 @@ I want to use the full STL in the kernel
     ![Add Property Sheet](https://github.com/MiroKaku/ucxxrt/raw/master/readme/add_props.png)
 
 ### If in kermel mode
-1. Rename "**DriverEntry**" to "**DriverMain**".
-2. Define `_KERNEL_MODE` Macro 
+1. Define `_KERNEL_MODE` macro before all header files.
+2. Rename "**DriverEntry**" to "**DriverMain**".
 
 ## More
 Please refer to the example (`unittest`) for more

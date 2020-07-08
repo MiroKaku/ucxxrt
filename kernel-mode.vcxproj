@@ -196,80 +196,71 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="kernel-mode.props" />
+    <Import Project="ucxxrtlib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="kernel-mode.props" />
+    <Import Project="ucxxrtlib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="kernel-mode.props" />
+    <Import Project="ucxxrtlib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="kernel-mode.props" />
+    <Import Project="ucxxrtlib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <Import Project="kernel-mode.props" />
+    <Import Project="ucxxrtlib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <Import Project="kernel-mode.props" />
+    <Import Project="ucxxrtlib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <Import Project="kernel-mode.props" />
+    <Import Project="ucxxrtlib.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <Import Project="kernel-mode.props" />
+    <Import Project="ucxxrtlib.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
-    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo />
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt" || copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)include" "$(SolutionDir)ucxxrt\include\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
@@ -277,14 +268,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo />
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt" || copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)include" "$(SolutionDir)ucxxrt\include\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
@@ -292,14 +282,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo />
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt" || copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)include" "$(SolutionDir)ucxxrt\include\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
@@ -307,14 +296,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo />
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt" || copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)include" "$(SolutionDir)ucxxrt\include\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
@@ -322,14 +310,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo />
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt" || copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)include" "$(SolutionDir)ucxxrt\include\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
@@ -337,14 +324,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo />
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt" || copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)include" "$(SolutionDir)ucxxrt\include\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
@@ -352,14 +338,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo />
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt" || copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)include" "$(SolutionDir)ucxxrt\include\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
@@ -367,14 +352,13 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <ClCompile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ConformanceMode>true</ConformanceMode>
-      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <RuntimeTypeInfo />
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt" || copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)include" "$(SolutionDir)ucxxrt\include\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
