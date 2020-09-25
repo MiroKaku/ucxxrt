@@ -27,12 +27,13 @@ jobs:
         shell: cmd
         run: call .\.github\workflows\build.bat
 
-      - name: Build Artifact
-        shell: cmd
-        run: 7z a -tzip ucxxrt.zip ucxxrt\
+      #- name: Build Artifact
+      #  shell: cmd
+      #  run: 7z a -tzip ucxxrt.zip ucxxrt\
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
         with:
-          path: ucxxrt.zip
+          name: ucxxrt
+          path: ucxxrt\
           if-no-files-found: error
