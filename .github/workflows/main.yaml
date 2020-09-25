@@ -28,6 +28,7 @@ jobs:
         run: call .\.github\workflows\build.bat
 
       - name: Build Artifact
+        shell: cmd
         run: call .\.github\workflows\artifact_build.bat
 
       - name: Upload a Build Artifact
