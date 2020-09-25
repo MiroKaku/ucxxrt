@@ -25,10 +25,10 @@ jobs:
 
       - name: Build Library
         shell: cmd
-        run: call .\build.bat
+        run: call .\.github\workflows\build.bat
 
       - name: Build Artifact
-        run: call .\artifact_build.bat
+        run: call .\.github\workflows\artifact_build.bat
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2
