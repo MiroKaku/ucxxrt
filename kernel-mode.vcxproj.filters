@@ -19,6 +19,9 @@
     <Filter Include="ucxxrt\x86">
       <UniqueIdentifier>{a3d50442-11da-4797-b2cb-16eae70812b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ucxxrt\stl">
+      <UniqueIdentifier>{f331b7b4-27a2-41e6-8003-3e9a72b5f04c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
@@ -147,6 +150,12 @@
     </ClCompile>
     <ClCompile Include="src\vcruntime\typeinfo.cpp">
       <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\syserror.cpp">
+      <Filter>ucxxrt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stl\thread0.cpp">
+      <Filter>ucxxrt\stl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@
 #include <string>
 #include <random>
 #include <unordered_map>
-
+#include <thread>
 
 class Test
 {
@@ -32,7 +32,7 @@ static Test _test;
 
 EXTERN_C VOID DriverUnload(PDRIVER_OBJECT /*aDriverObject*/)
 {
-
+    std::thread tmp([] {});
 }
 
 EXTERN_C NTSTATUS DriverMain(PDRIVER_OBJECT aDriverObject, PUNICODE_STRING aRegistry)

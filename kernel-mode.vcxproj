@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\shared\image.cpp" />
+    <ClCompile Include="src\stl\syserror.cpp" />
+    <ClCompile Include="src\stl\thread0.cpp" />
     <ClCompile Include="src\vcruntime\ehhelpers.cpp" />
     <ClCompile Include="src\vcruntime\ehstate.cpp" />
     <ClCompile Include="src\vcruntime\frame.cpp" />
