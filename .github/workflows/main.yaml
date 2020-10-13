@@ -17,6 +17,9 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
 
+    # Any commit that contains [build] will now trigger these jobs, everything else will be skipped.
+    if: "contains(github.event.head_commit.message, '[build]')"
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
