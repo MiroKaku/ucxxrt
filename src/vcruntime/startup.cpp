@@ -76,6 +76,8 @@ namespace ucxxrt
 
 namespace ucxxrt
 {
+    extern "C" void __cdecl __isa_available_init();
+
     extern "C" void __cdecl _initalloc()
     {
         RTL_OSVERSIONINFOW ver_info{};
@@ -215,6 +217,8 @@ namespace ucxxrt
 
         __try
         {
+            __isa_available_init();
+
             // do allocator initializions
             _initalloc();
 
