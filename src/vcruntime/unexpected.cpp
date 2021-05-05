@@ -1,64 +1,48 @@
-/*
- * PROJECT:   Universal C++ RunTime (UCXXRT)
- * FILE:      unexpected.cpp
- * DATA:      2020/02/28
- *
- * PURPOSE:   Universal C++ RunTime
- *
- * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
- *
- * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
- */
+//
+// unexpected.cpp
+//
+//      Copyright (c) Microsoft Corporation. All rights reserved.
+//
+// The unexpected handler
+//
+#include <eh.h>
+#include <vcruntime_internal.h>
+#include <corecrt_internal.h>
+#include <winapi_thunks.h>
+#include <msvcrt_IAT.h>
 
 
-#include "vcruntime/ehdata_values.h"
-#include "vcruntime/ehhooks.h"
-#include "vcruntime/ptd_downlevel.h"
-
-
-#if __has_include(<wdm.h>)
-
-_CRT_BEGIN_C_HEADER
-
-#if !_HAS_FLOATPOINT
-_ACRTIMP __declspec(noreturn) void __cdecl abort(void)
-{
-    KeBugCheckEx(
-        KMODE_EXCEPTION_NOT_HANDLED,
-        EH_EXCEPTION_NUMBER,
-        (ULONG_PTR)_ReturnAddress(),
-        EH_MAGIC_NUMBER1,
-        0);
-}
-#endif
-
-_ACRTIMP __declspec(noreturn) void __cdecl terminate(void) throw()
-{
-    KeBugCheckEx(
-        KMODE_EXCEPTION_NOT_HANDLED,
-        EH_EXCEPTION_NUMBER,
-        (ULONG_PTR)_ReturnAddress(),
-        EH_MAGIC_NUMBER1,
-        1);
-}
 
 static unexpected_handler __cdecl get_unexpected_or_default(
-    RENAME_BASE_PTD(ucxxrt::__ucxxrt_ptd) const* const ptd
-) noexcept
+    __acrt_ptd const* const ptd
+    ) noexcept
 {
-    return ptd->_unexpected ? ptd->_unexpected : &terminate;
+#if _CRT_NTDDI_MIN < NTDDI_WIN6
+    const auto OSVersion = __LTL_GetOsMinVersion();
+
+#if defined(_M_IX86)
+    if (OSVersion < 0x00050001)
+        return ((_ptd_msvcrt_win2k*)ptd)->_unexpected ? (unexpected_handler)((_ptd_msvcrt_win2k*)ptd)->_unexpected : &terminate;
+#endif
+
+    if (OSVersion < 0x00060000)
+        return ((_ptd_msvcrt_winxp*)ptd)->_unexpected ? (unexpected_handler)((_ptd_msvcrt_winxp*)ptd)->_unexpected : &terminate;
+    else
+#endif
+        return ((_ptd_msvcrt_win6_shared*)ptd)->_unexpected ? (unexpected_handler)((_ptd_msvcrt_win6_shared*)ptd)->_unexpected : &terminate;
 }
 
-_CRTIMP unexpected_handler __cdecl _get_unexpected(void) noexcept
+extern "C" unexpected_handler __cdecl _get_unexpected() noexcept
 {
-    return get_unexpected_or_default(RENAME_BASE_PTD(ucxxrt::__ucxxrt_getptd)());
+    return get_unexpected_or_default(__acrt_getptd());
 }
 
-_CRTIMP unexpected_handler __cdecl set_unexpected(
-    _In_opt_ unexpected_handler const new_handler
-) noexcept
+#if 0 //由 set_unexpected.asm 转发
+extern "C" unexpected_handler __cdecl set_unexpected(
+    unexpected_handler const new_handler
+    ) noexcept
 {
-    RENAME_BASE_PTD(ucxxrt::__ucxxrt_ptd)* const ptd = RENAME_BASE_PTD(ucxxrt::__ucxxrt_getptd)();
+    RENAME_BASE_PTD(__vcrt_ptd)* const ptd = RENAME_BASE_PTD(__vcrt_getptd)();
 
     unexpected_handler const old_handler = get_unexpected_or_default(ptd);
 
@@ -66,23 +50,17 @@ _CRTIMP unexpected_handler __cdecl set_unexpected(
 
     return old_handler;
 }
+#endif
 
-_VCRTIMP __declspec(noreturn) void __cdecl unexpected(void) noexcept(false)
+#if 0 //由 unexpected.asm 转发
+extern "C" void __cdecl unexpected() noexcept(false)
 {
-    unexpected_handler const handler = RENAME_BASE_PTD(ucxxrt::__ucxxrt_getptd)()->_unexpected;
+    unexpected_handler const handler = RENAME_BASE_PTD(__vcrt_getptd)()->_unexpected;
     if (handler)
     {
         handler();
     }
 
     terminate();
-}
-_CRT_END_C_HEADER
-
-
-namespace std
-{
-    using ::abort;
-    using ::terminate;
 }
 #endif

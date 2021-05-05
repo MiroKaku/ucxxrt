@@ -3,7 +3,7 @@
 
   <!--
   作者：MiroKaku
-  修改日期：04/25/2021
+  修改日期：07/07/2020
 
   ucxxrt 自动化加载配置，建议你将此文件单独复制到你的工程再使用，该文件能自动识别当前环境是否存在 ucxxrt，并且自动应用。
 
@@ -42,7 +42,7 @@
 
   <PropertyGroup>
     <UCRT_KernelMode>false</UCRT_KernelMode>
-    <UCRT_KernelMode Condition=" ('$(PlatformToolset)'=='WindowsKernelModeDriver10.0') ">true</UCRT_KernelMode>
+    <UCRT_KernelMode Condition=" ('$(PlatformToolset.TrimEnd(`0123456789.`))' == 'WindowsKernelModeDriver') ">true</UCRT_KernelMode>
   </PropertyGroup>
 
   <PropertyGroup>

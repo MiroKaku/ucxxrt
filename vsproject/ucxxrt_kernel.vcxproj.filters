@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ucxxrt">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ucxxrt\stl">
+      <UniqueIdentifier>{6a65e2c5-a6f3-4649-b1eb-ba25378b58c5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\ucxxrt.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\new.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\stl\xthrow.cpp">
+      <Filter>ucxxrt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\malloc.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ucxxrt.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ucxxrt.inl" />
+  </ItemGroup>
+</Project>
