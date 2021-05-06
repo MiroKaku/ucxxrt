@@ -12,8 +12,6 @@
 
 #pragma once
 
-#define _VCRT_BUILD
-#define _CRT_ENABLE_SELECTANY_NOTHROW
 
 #if __has_include(<wdm.h>)
 #   ifndef  _KERNEL_MODE
@@ -26,8 +24,13 @@
 #   include <Windows.h>
 #endif
 
-#include <stddef.h>
-#include <stdlib.h>
+#include <corecrt.h>
+
+#define _VCRT_BUILD
+#define _CRT_ENABLE_SELECTANY_NOTHROW
+
+#include <cstddef>
+#include <cstdlib>
 #include <minwindef.h>
 
 #include "ucxxrt.h"
