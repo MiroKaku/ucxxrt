@@ -24,7 +24,6 @@
 #include <isa_availability.h>
 #include <malloc.h>
 #include <stdbool.h>
-#include <Windows.h>
 #include <evntprov.h>
 
 _CRT_BEGIN_C_HEADER
@@ -327,6 +326,7 @@ void WINAPI __vcrt_freefls(_Inout_opt_ void* _Pfd);
     }
 
 #else // ^^^ Uplevel ^^^ // vvv Downlevel vvv //
+    using PFLS_CALLBACK_FUNCTION = VOID(NTAPI*) (IN PVOID lpFlsData);
 
     DWORD __cdecl __vcrt_FlsAlloc(
         _In_opt_ PFLS_CALLBACK_FUNCTION callback
@@ -346,14 +346,14 @@ void WINAPI __vcrt_freefls(_Inout_opt_ void* _Pfd);
         );
 
     BOOL __cdecl __vcrt_InitializeCriticalSectionEx(
-        _Out_ LPCRITICAL_SECTION critical_section,
-        _In_  DWORD              spin_count,
-        _In_  DWORD              flags
+        _Out_ PVOID critical_section,
+        _In_  DWORD spin_count,
+        _In_  DWORD flags
         );
 
     __inline PVOID __vcrt_EncodePointer(PVOID const ptr)
     {
-        return EncodePointer(ptr);
+        return __crt_fast_encode_pointer(ptr);
     }
 
 #endif // Downlevel

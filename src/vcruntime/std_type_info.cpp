@@ -10,12 +10,8 @@
 #include <vcruntime_string.h>
 #include <vcruntime_typeinfo.h>
 //#include <undname.h>
-#include <msvcrt_IAT.h>
 
 
-
-
-#if 0 //直接由msvcrt.dll提供
 extern "C" int __cdecl __std_type_info_compare(
     __std_type_info_data const* const lhs,
     __std_type_info_data const* const rhs
@@ -28,7 +24,6 @@ extern "C" int __cdecl __std_type_info_compare(
 
     return strcmp(lhs->_DecoratedName + 1, rhs->_DecoratedName + 1);
 }
-#endif
 
 extern "C" size_t __cdecl __std_type_info_hash(
     __std_type_info_data const* const data

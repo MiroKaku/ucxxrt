@@ -41,13 +41,13 @@ DefaultDestDir      = 12
 ; Each filename entry must specify the exact name of a file on the source disk. 
 ;     You cannot use a %strkey% token to specify the file name.
 [SourceDisksFiles]
-ucxxrt.sys        = 1,,
+unittest.sys        = 1,,
 
 [SourceDisksFiles.x86]
-ucxxrt.sys        = 1,,
+unittest.sys        = 1,,
 
 [SourceDisksFiles.amd64]
-ucxxrt.sys        = 1,,
+unittest.sys        = 1,,
 
 
 ; Copyfiles MSDN:
@@ -127,7 +127,7 @@ ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
 
 [Strings]
 ManufacturerName        = "MiroKaku"
-DriverName              = "ucxxrt"
+DriverName              = "unittest"
 ServiceName             = "ucxxrt"
 ServiceDesc             = "ucxxrt Legacy Driver"
 DiskId                  = "ucxxrt Device Installation Disk"

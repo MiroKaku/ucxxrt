@@ -9,8 +9,9 @@
 // inline functions that may be referenced by user code.  The operators
 // themselves are replaceable by the user.
 //
+#include <exception>
 #include <vcruntime_exception.h>
-#include <vcstartup_internal.h>
+#include <internal_shared.h>
 
 
 

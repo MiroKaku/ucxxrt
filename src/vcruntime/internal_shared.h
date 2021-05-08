@@ -12,7 +12,6 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include <vcruntime.h>
-#include <Windows.h>
 
 _CRT_BEGIN_C_HEADER
 

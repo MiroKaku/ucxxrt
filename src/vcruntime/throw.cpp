@@ -7,8 +7,6 @@
 #include <ehdata4.h>
 #include <trnsctrl.h>
 
-#include <Windows.h>
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // _CxxThrowException - implementation of 'throw'

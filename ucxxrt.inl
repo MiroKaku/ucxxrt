@@ -12,14 +12,16 @@
 
 #pragma once
 
+#define WINBASEAPI
 
 #if __has_include(<wdm.h>)
 #   ifndef  _KERNEL_MODE
 #       define  _KERNEL_MODE 1
 #   endif
 
-#   include <wdm.h>
 #   include <ntddk.h>
+#   include <wdm.h>
+#   include <ntimage.h>
 #else
 #   include <Windows.h>
 #endif
@@ -27,7 +29,6 @@
 #include <corecrt.h>
 
 #define _VCRT_BUILD
-#define _CRT_ENABLE_SELECTANY_NOTHROW
 
 #include <cstddef>
 #include <cstdlib>

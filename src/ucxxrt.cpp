@@ -9,3 +9,6 @@
  *
  * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
  */
+
+extern UINT_PTR __security_cookie;
+extern UINT_PTR __security_cookie_complement;
