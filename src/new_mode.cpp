@@ -10,6 +10,7 @@
 #include <new.h>
 #include <internal_shared.h>
 
+#ifdef _KERNEL_MODE
 
 
 static volatile long __acrt_global_new_mode;
@@ -30,3 +31,5 @@ extern "C" int __cdecl _query_new_mode()
 {
     return static_cast<int>(__crt_interlocked_read(&__acrt_global_new_mode));
 }
+
+#endif

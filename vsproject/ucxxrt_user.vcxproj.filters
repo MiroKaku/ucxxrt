@@ -1,17 +1,208 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="ucxxrt">
+      <UniqueIdentifier>{64b61753-b0cc-4eb5-b064-274568fe25ca}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd;cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="ucxxrt\arm">
+      <UniqueIdentifier>{f3a79da6-b369-4ac3-a719-4afde9f38226}</UniqueIdentifier>
     </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="ucxxrt\arm64">
+      <UniqueIdentifier>{8d5df1dd-a2b2-4d49-983d-f03ee645557f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ucxxrt\i386">
+      <UniqueIdentifier>{80b35c8a-e49e-4490-9b0f-42cab5276400}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucxxrt\inc">
+      <UniqueIdentifier>{efa66f29-8455-458e-83c1-b83a3f724d56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucxxrt\misc">
+      <UniqueIdentifier>{3e7e8f03-4972-47f5-ade4-78100d45b006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucxxrt\stl">
+      <UniqueIdentifier>{5e330d2d-b43d-4b66-ae84-c33e53d8884c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucxxrt\vcruntime">
+      <UniqueIdentifier>{cc8e005c-2249-4c27-8abb-43ae274eec54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucxxrt\x64">
+      <UniqueIdentifier>{36b2da25-f51e-413b-bc02-d7b03915cdeb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\cpu_disp.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dbgrpt.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\errno.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\malloc.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\malloc_align.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\new_handler.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\new_mode.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\startup.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\sys_main.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\terminate.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ucxxrt.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\i386\except.cpp">
+      <Filter>ucxxrt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\i386\trnsctrl.cpp">
+      <Filter>ucxxrt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\misc\invalid_parameter.cpp">
+      <Filter>ucxxrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\delete.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehhelpers.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehstate.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\frame.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\jbcxrval.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\new.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\pesect.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\pre_thread_data.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\std_exception.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\std_nothrow.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\std_type_info.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\std_type_info_static.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\throw.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\throw_bad_alloc.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\uncaught_exception.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\uncaught_exceptions.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\unexpected.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\utility.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\x86_exception_filter.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\stl\xthrow.cpp">
+      <Filter>ucxxrt\stl</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ucxxrt.h" />
+    <ClInclude Include="..\inc\malloc.h">
+      <Filter>ucxxrt\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehassert.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata_forceinclude.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata_values.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata4.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata4_export.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehhelpers.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehhooks.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehstate.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\internal_shared.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\trnsctrl.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\vcruntime_internal.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ucxxrt.inl" />
+    <None Include="..\src\i386\cruntime.inc">
+      <Filter>ucxxrt\i386</Filter>
+    </None>
+    <None Include="..\src\i386\exsup.inc">
+      <Filter>ucxxrt\i386</Filter>
+    </None>
+    <None Include="..\src\i386\vcruntime.inc">
+      <Filter>ucxxrt\i386</Filter>
+    </None>
+    <None Include="..\src\misc\cfg_support.inc">
+      <Filter>ucxxrt\misc</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="..\src\i386\ftol3.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\i386\ftol2.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\i386\lowhelpr.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\i386\ftol.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

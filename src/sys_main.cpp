@@ -12,9 +12,27 @@
 
 #include <corecrt_startup.h>
 #include <vcruntime_internal.h>
-#include <startup.h>
 
-extern "C" void __cdecl _initialize_pool();
+#ifdef _KERNEL_MODE
+
+_CRT_BEGIN_C_HEADER
+
+int  __cdecl _do_onexit();
+int  __cdecl _do_quick_onexit();
+
+void __cdecl __initialize_memory();
+void __cdecl __acrt_initialize_new_handler(_In_opt_ void* encoded_null);
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//
+// Client Entry Point Declarations
+//
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+NTSTATUS DriverMain(
+    _In_ PDRIVER_OBJECT     DriverObject,
+    _In_ PUNICODE_STRING    Registry
+);
 
 static int __cdecl invoke_main(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Registry)
 {
@@ -30,29 +48,36 @@ VOID DriverUnload(PDRIVER_OBJECT DriverObject)
     }
 
     // do exit() of atexit()
-    onexit(nullptr);
+    _do_onexit();
 
-    // do C initializations
+    // do pre terminations
     _initterm(__xp_a, __xp_z);
 
-    // do C++ terminations
+    // do terminations
     _initterm(__xt_a, __xt_z);
 }
 
-EXTERN_C NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Registry)
+NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Registry)
 {
     long main_result = STATUS_UNSUCCESSFUL;
 
+    // do feature initializions
+    __isa_available_init();
+
+    // do memory initializions
+    __initialize_memory();
+
+    // do pointer initializions
+    void* const encoded_null = __crt_fast_encode_pointer(nullptr);
+    __acrt_initialize_new_handler(encoded_null);
+
     __try
     {
-        __isa_available_init();
-
-        // do allocator initializions
-        _initialize_pool();
-
+        // do C initializions
         if (_initterm_e(__xi_a, __xi_z) != 0)
             return 255;
 
+        // do C++ initializions
         _initterm(__xc_a, __xc_z);
 
         //
@@ -71,12 +96,12 @@ EXTERN_C NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Regis
         else
         {
             // do exit() of atexit()
-            onexit(nullptr);
+            _do_onexit();
 
-            // do C initializations
+            // do pre terminations
             _initterm(__xp_a, __xp_z);
 
-            // do C++ terminations
+            // do terminations
             _initterm(__xt_a, __xt_z);
         }
     }
@@ -87,3 +112,7 @@ EXTERN_C NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Regis
 
     return main_result;
 }
+
+_CRT_END_C_HEADER
+
+#endif

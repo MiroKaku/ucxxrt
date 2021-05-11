@@ -9,7 +9,10 @@
 #include <vcruntime_internal.h>
 #include <vcruntime_string.h>
 #include <vcruntime_typeinfo.h>
-//#include <undname.h>
+#include <undname.h>
+
+
+
 
 
 extern "C" int __cdecl __std_type_info_compare(
@@ -58,7 +61,7 @@ extern "C" size_t __cdecl __std_type_info_hash(
     return value;
 }
 
-#if 0 //直接由msvcrt.dll提供
+#if 0
 extern "C" char const* __cdecl __std_type_info_name(
     __std_type_info_data* const data,
     __type_info_node*     const root_node

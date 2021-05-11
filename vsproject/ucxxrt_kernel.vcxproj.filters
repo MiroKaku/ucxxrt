@@ -43,9 +43,6 @@
     <ClCompile Include="..\src\sys_main.cpp">
       <Filter>ucxxrt</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\vcruntime\new_mode.cpp">
-      <Filter>ucxxrt\vcruntime</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\vcruntime\throw_bad_alloc.cpp">
       <Filter>ucxxrt\vcruntime</Filter>
     </ClCompile>
@@ -94,6 +91,48 @@
     <ClCompile Include="..\src\vcruntime\std_type_info_static.cpp">
       <Filter>ucxxrt\vcruntime</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpu_disp.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\throw.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\i386\except.cpp">
+      <Filter>ucxxrt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\i386\trnsctrl.cpp">
+      <Filter>ucxxrt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\jbcxrval.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\frame.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehhelpers.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehstate.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\unexpected.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\terminate.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\x86_exception_filter.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\uncaught_exception.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\uncaught_exceptions.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\pre_thread_data.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ucxxrt.h" />
@@ -106,11 +145,64 @@
     <ClInclude Include="..\inc\malloc.h">
       <Filter>ucxxrt\inc</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\startup.h">
-      <Filter>ucxxrt</Filter>
+    <ClInclude Include="..\src\vcruntime\ehassert.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehhooks.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehstate.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehhelpers.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata_forceinclude.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata_values.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata4.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\ehdata4_export.h">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\trnsctrl.h">
+      <Filter>ucxxrt\vcruntime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ucxxrt.inl" />
+    <None Include="..\src\i386\cruntime.inc">
+      <Filter>ucxxrt\i386</Filter>
+    </None>
+    <None Include="..\src\i386\vcruntime.inc">
+      <Filter>ucxxrt\i386</Filter>
+    </None>
+    <None Include="..\src\i386\exsup.inc">
+      <Filter>ucxxrt\i386</Filter>
+    </None>
+    <None Include="..\src\misc\cfg_support.inc">
+      <Filter>ucxxrt\misc</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="..\src\i386\ftol.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\i386\ftol2.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\i386\ftol3.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\i386\lowhelpr.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@
 #include <internal_shared.h>
 #include <new.h>
 
+#ifdef _KERNEL_MODE
 
 // The global new handler.  This pointer should only be accessed via the
 // functions defined in this source file.
@@ -46,8 +47,10 @@ _PNH __cdecl _set_new_handler(int const new_handler)
 // Gets the current new handler.
 _PNH __cdecl _query_new_handler()
 {
+    void* const encoded_null = __crt_fast_encode_pointer(nullptr);
+
     return (_PNH)__crt_fast_decode_pointer(
-        InterlockedCompareExchangePointer((volatile PVOID*)&__acrt_new_handler, nullptr, nullptr));
+        InterlockedCompareExchangePointer((volatile PVOID*)&__acrt_new_handler, encoded_null, encoded_null));
 }
 
 // Calls the currently registered new handler with the provided size.  If the
@@ -62,3 +65,5 @@ extern "C" int __cdecl _callnewh(size_t const size)
 
     return 1;
 }
+
+#endif

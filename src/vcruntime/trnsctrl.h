@@ -10,6 +10,7 @@
 
 #include <vcruntime_internal.h>
 #include <ehdata.h>
+#include <ehhelpers.h>
 
 #if !defined(RENAME_EH_EXTERN)
 #define RENAME_EH_EXTERN(x) x
@@ -230,9 +231,9 @@ extern "C" _VCRTIMP int*   __cdecl __processing_throw();
 
 #if _VCRT_DIRECT_PTD
 
-    #define _pCurrentException (*reinterpret_cast<EHExceptionRecord**>(&RENAME_BASE_PTD(__vcrt_getptd)()->_curexception))
-    #define _pCurrentExContext (*reinterpret_cast<CONTEXT**>(&RENAME_BASE_PTD(__vcrt_getptd)()->_curcontext))
-    #define __ProcessingThrow  (RENAME_BASE_PTD(__vcrt_getptd)()->_ProcessingThrow)
+    #define _pCurrentException (*reinterpret_cast<EHExceptionRecord**>(&RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curexception))
+    #define _pCurrentExContext (*reinterpret_cast<CONTEXT**>(&RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curcontext))
+    #define __ProcessingThrow  (RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_ProcessingThrow)
 
 #else // ^^^ _VCRT_DIRECT_PTD ^^^ // vvv !_VCRT_DIRECT_PTD vvv //
 

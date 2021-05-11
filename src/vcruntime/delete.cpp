@@ -20,6 +20,8 @@
 #include <vcruntime_new.h>
 #include <internal_shared.h>
 
+#ifdef _KERNEL_MODE
+
 ////////////////////////////////////////////////////////////////
 // delete() Fallback Ordering
 //
@@ -283,5 +285,7 @@ void __CRTDECL operator delete[](
 
     return operator delete[](block);
 }
+
+#endif
 
 #endif

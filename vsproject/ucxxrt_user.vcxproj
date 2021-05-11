@@ -18,6 +18,79 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\cpu_disp.cpp" />
+    <ClCompile Include="..\src\dbgrpt.cpp" />
+    <ClCompile Include="..\src\errno.cpp" />
+    <ClCompile Include="..\src\i386\except.cpp" />
+    <ClCompile Include="..\src\i386\trnsctrl.cpp" />
+    <ClCompile Include="..\src\malloc.cpp" />
+    <ClCompile Include="..\src\malloc_align.cpp" />
+    <ClCompile Include="..\src\misc\invalid_parameter.cpp" />
+    <ClCompile Include="..\src\new_handler.cpp" />
+    <ClCompile Include="..\src\new_mode.cpp" />
+    <ClCompile Include="..\src\startup.cpp" />
+    <ClCompile Include="..\src\stl\xthrow.cpp" />
+    <ClCompile Include="..\src\sys_main.cpp" />
+    <ClCompile Include="..\src\terminate.cpp" />
+    <ClCompile Include="..\src\ucxxrt.cpp" />
+    <ClCompile Include="..\src\vcruntime\delete.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehhelpers.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehstate.cpp" />
+    <ClCompile Include="..\src\vcruntime\frame.cpp" />
+    <ClCompile Include="..\src\vcruntime\jbcxrval.cpp" />
+    <ClCompile Include="..\src\vcruntime\new.cpp" />
+    <ClCompile Include="..\src\vcruntime\pesect.cpp" />
+    <ClCompile Include="..\src\vcruntime\pre_thread_data.cpp" />
+    <ClCompile Include="..\src\vcruntime\std_exception.cpp" />
+    <ClCompile Include="..\src\vcruntime\std_nothrow.cpp" />
+    <ClCompile Include="..\src\vcruntime\std_type_info.cpp" />
+    <ClCompile Include="..\src\vcruntime\std_type_info_static.cpp" />
+    <ClCompile Include="..\src\vcruntime\throw.cpp" />
+    <ClCompile Include="..\src\vcruntime\throw_bad_alloc.cpp" />
+    <ClCompile Include="..\src\vcruntime\uncaught_exception.cpp" />
+    <ClCompile Include="..\src\vcruntime\uncaught_exceptions.cpp" />
+    <ClCompile Include="..\src\vcruntime\unexpected.cpp" />
+    <ClCompile Include="..\src\vcruntime\utility.cpp" />
+    <ClCompile Include="..\src\vcruntime\x86_exception_filter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\inc\malloc.h" />
+    <ClInclude Include="..\src\vcruntime\ehassert.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata4.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata4_export.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata_forceinclude.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata_values.h" />
+    <ClInclude Include="..\src\vcruntime\ehhelpers.h" />
+    <ClInclude Include="..\src\vcruntime\ehhooks.h" />
+    <ClInclude Include="..\src\vcruntime\ehstate.h" />
+    <ClInclude Include="..\src\vcruntime\internal_shared.h" />
+    <ClInclude Include="..\src\vcruntime\trnsctrl.h" />
+    <ClInclude Include="..\src\vcruntime\vcruntime_internal.h" />
+    <ClInclude Include="..\ucxxrt.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\src\i386\cruntime.inc" />
+    <None Include="..\src\i386\exsup.inc" />
+    <MASM Include="..\src\i386\ftol.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="..\src\i386\ftol2.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="..\src\i386\ftol3.asm">
+      <FileType>Document</FileType>
+    </MASM>
+    <MASM Include="..\src\i386\lowhelpr.asm">
+      <FileType>Document</FileType>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
+    </MASM>
+    <None Include="..\src\i386\vcruntime.inc" />
+    <None Include="..\src\misc\cfg_support.inc" />
+    <None Include="..\ucxxrt.inl" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -55,6 +128,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.props" />
   </ImportGroup>
   <ImportGroup Label="Shared">
   </ImportGroup>
@@ -93,8 +167,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -110,8 +182,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -127,8 +197,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -144,8 +212,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -157,5 +223,6 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\masm.targets" />
   </ImportGroup>
 </Project>

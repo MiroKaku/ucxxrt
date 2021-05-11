@@ -16,6 +16,7 @@
 
 #include <internal_shared.h>
 
+#ifdef _KERNEL_MODE
 
  // Need to put the following marker variables into the .CRT section.
  // The .CRT section contains arrays of function pointers.
@@ -59,33 +60,6 @@ extern "C" _CRTALLOC(".CRT$XTZ") _PVFV __xt_z[] = { nullptr }; // C terminators 
 
 #pragma comment(linker, "/merge:.CRT=.rdata")
 
-
-extern "C" void __cdecl __isa_available_init();
-
-namespace ucxxrt
-{
-    extern ULONG     DefaultPoolTag;
-    extern POOL_TYPE DefaultPoolType;
-    extern ULONG     DefaultMdlProtection;
-}
-
-extern "C" void __cdecl _initialize_pool()
-{
-    RTL_OSVERSIONINFOW ver_info{};
-
-    auto status = RtlGetVersion(&ver_info);
-    if (!NT_SUCCESS(status))
-    {
-        return;
-    }
-
-    if ((ver_info.dwMajorVersion < 6) ||
-        (ver_info.dwMajorVersion == 6 && ver_info.dwMinorVersion < 2))
-    {
-        ucxxrt::DefaultPoolType = POOL_TYPE::NonPagedPool;
-        ucxxrt::DefaultMdlProtection = 0;
-    }
-}
 
 // Calls each function in [first, last).  [first, last) must be a valid range of
 // function pointers.  Each function is called, in order.
@@ -187,3 +161,15 @@ extern "C" onexit_t __cdecl _onexit(_In_opt_ onexit_t function)
 {
     return onexit(function);
 }
+
+extern "C" int __cdecl _do_onexit()
+{
+    return _execute_onexit_table(s_onexit_table);
+}
+
+extern "C" int __cdecl _do_quick_onexit()
+{
+    return _execute_onexit_table(s_quick_onexit_table);
+}
+
+#endif

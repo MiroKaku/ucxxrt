@@ -35,8 +35,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\cpu_disp.cpp" />
     <ClCompile Include="..\src\dbgrpt.cpp" />
     <ClCompile Include="..\src\errno.cpp" />
+    <ClCompile Include="..\src\i386\except.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\src\i386\trnsctrl.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\src\malloc.cpp" />
     <ClCompile Include="..\src\malloc_align.cpp" />
     <ClCompile Include="..\src\misc\invalid_parameter.cpp" />
@@ -45,27 +58,81 @@
     <ClCompile Include="..\src\startup.cpp" />
     <ClCompile Include="..\src\stl\xthrow.cpp" />
     <ClCompile Include="..\src\sys_main.cpp" />
+    <ClCompile Include="..\src\terminate.cpp" />
     <ClCompile Include="..\src\ucxxrt.cpp" />
     <ClCompile Include="..\src\vcruntime\delete.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehhelpers.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehstate.cpp" />
+    <ClCompile Include="..\src\vcruntime\frame.cpp" />
+    <ClCompile Include="..\src\vcruntime\jbcxrval.cpp" />
     <ClCompile Include="..\src\vcruntime\new.cpp" />
-    <ClCompile Include="..\src\vcruntime\new_mode.cpp" />
     <ClCompile Include="..\src\vcruntime\pesect.cpp" />
+    <ClCompile Include="..\src\vcruntime\pre_thread_data.cpp" />
     <ClCompile Include="..\src\vcruntime\std_exception.cpp" />
     <ClCompile Include="..\src\vcruntime\std_nothrow.cpp" />
     <ClCompile Include="..\src\vcruntime\std_type_info.cpp" />
     <ClCompile Include="..\src\vcruntime\std_type_info_static.cpp" />
+    <ClCompile Include="..\src\vcruntime\throw.cpp" />
     <ClCompile Include="..\src\vcruntime\throw_bad_alloc.cpp" />
+    <ClCompile Include="..\src\vcruntime\uncaught_exception.cpp" />
+    <ClCompile Include="..\src\vcruntime\uncaught_exceptions.cpp" />
+    <ClCompile Include="..\src\vcruntime\unexpected.cpp" />
     <ClCompile Include="..\src\vcruntime\utility.cpp" />
+    <ClCompile Include="..\src\vcruntime\x86_exception_filter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\malloc.h" />
-    <ClInclude Include="..\src\startup.h" />
+    <ClInclude Include="..\src\vcruntime\ehassert.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata4.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata4_export.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata_forceinclude.h" />
+    <ClInclude Include="..\src\vcruntime\ehdata_values.h" />
+    <ClInclude Include="..\src\vcruntime\ehhelpers.h" />
+    <ClInclude Include="..\src\vcruntime\ehhooks.h" />
+    <ClInclude Include="..\src\vcruntime\ehstate.h" />
     <ClInclude Include="..\src\vcruntime\internal_shared.h" />
+    <ClInclude Include="..\src\vcruntime\trnsctrl.h" />
     <ClInclude Include="..\src\vcruntime\vcruntime_internal.h" />
     <ClInclude Include="..\ucxxrt.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\src\i386\cruntime.inc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\src\i386\exsup.inc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\src\i386\vcruntime.inc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="..\src\misc\cfg_support.inc" />
     <None Include="..\ucxxrt.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="..\src\i386\ftol.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="..\src\i386\ftol2.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="..\src\i386\ftol3.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="..\src\i386\lowhelpr.asm">
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</UseSafeExceptionHandlers>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </MASM>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8D969184-788F-48AA-BF18-2898FC167C91}</ProjectGuid>

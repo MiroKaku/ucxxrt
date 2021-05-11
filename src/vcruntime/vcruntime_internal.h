@@ -172,9 +172,16 @@ extern "C++"
 
 // When building the satellite, define __vcrt_ptd to be the satellite-specific implementation, rename the base implementation to __vcrt_ptd_base
 #if defined _VCRT_SAT_1
-#define RENAME_BASE_PTD(x) x##base
+#define RENAME_BASE_PTD(x) 
 #else
 #define RENAME_BASE_PTD(x) x
+#endif
+
+#if defined _KERNEL_MODE
+#define RENAME_UCXXRT(x) x
+#else
+#define RENAME_UCXXRT_(x)  x##_ucxxrt
+#define RENAME_UCXXRT(x) RENAME_UCXXRT_(x)
 #endif
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -234,163 +241,18 @@ RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_BASE_PTD(__vcrt_getptd)(void);
 RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_BASE_PTD(__vcrt_getptd_noinit)(void);
 #endif
 
+#if not defined _KERNEL_MODE
+RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))(void);
+RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd_noexit))(void);
+RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd_noinit))(void);
+#endif
+
 // These functions are defined differently for satellite DLL compilation to get the PTD
 // from the base vcruntime DLL.
 __vcrt_ptd* __cdecl __vcrt_getptd(void);
 __vcrt_ptd* __cdecl __vcrt_getptd_noexit(void);
 __vcrt_ptd* __cdecl __vcrt_getptd_noinit(void);
-void __cdecl __vcrt_freeptd(_Inout_opt_ __vcrt_ptd* _Ptd);
-void WINAPI __vcrt_freefls(_Inout_opt_ void* _Pfd);
 
-//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-//
-// Windows API wrappers
-//
-//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#if defined _VCRT_ENCLAVE_BUILD
-
-    // When building for Enclave, we directly call the most suitable corresponding API.
-    __inline DWORD __vcrt_FlsAlloc(PFLS_CALLBACK_FUNCTION const callback)
-    {
-        UNREFERENCED_PARAMETER(callback);
-        return TlsAlloc();
-    }
-
-    __inline BOOL __vcrt_FlsFree(DWORD const fls_index)
-    {
-        return TlsFree(fls_index);
-    }
-
-    __inline PVOID __vcrt_FlsGetValue(DWORD const fls_index)
-    {
-        return TlsGetValue(fls_index);
-    }
-
-    __inline BOOL __vcrt_FlsSetValue(DWORD const fls_index, PVOID const fls_data)
-    {
-
-        return TlsSetValue(fls_index, fls_data);
-    }
-
-    __inline BOOL __vcrt_InitializeCriticalSectionEx(
-        LPCRITICAL_SECTION const critical_section,
-        DWORD              const spin_count,
-        DWORD              const flags
-    )
-    {
-        return InitializeCriticalSectionEx(critical_section, spin_count, flags);
-    }
-
-    __inline PVOID __vcrt_EncodePointer(PVOID const ptr)
-    {
-        return ptr;
-    }
-
-#elif !defined _VCRT_WINDOWS_BUILD && (defined _ONECORE || _VCRT_WIN32_WINNT >= _WIN32_WINNT_VISTA) // ^^^ Enclave ^^^ // vvv Uplevel vvv //
-
-
-    // When building for OneCore, we can directly call these APIs.
-    __inline DWORD __vcrt_FlsAlloc(PFLS_CALLBACK_FUNCTION const callback)
-    {
-        return FlsAlloc(callback);
-    }
-
-    __inline BOOL __vcrt_FlsFree(DWORD const fls_index)
-    {
-        return FlsFree(fls_index);
-    }
-
-    __inline PVOID __vcrt_FlsGetValue(DWORD const fls_index)
-    {
-        return FlsGetValue(fls_index);
-    }
-
-    __inline BOOL __vcrt_FlsSetValue(DWORD const fls_index, PVOID const fls_data)
-    {
-
-        return FlsSetValue(fls_index, fls_data);
-    }
-
-    __inline BOOL __vcrt_InitializeCriticalSectionEx(
-        LPCRITICAL_SECTION const critical_section,
-        DWORD              const spin_count,
-        DWORD              const flags
-        )
-    {
-        return InitializeCriticalSectionEx(critical_section, spin_count, flags);
-    }
-
-    __inline PVOID __vcrt_EncodePointer(PVOID const ptr)
-    {
-        return EncodePointer(ptr);
-    }
-
-#else // ^^^ Uplevel ^^^ // vvv Downlevel vvv //
-    using PFLS_CALLBACK_FUNCTION = VOID(NTAPI*) (IN PVOID lpFlsData);
-
-    DWORD __cdecl __vcrt_FlsAlloc(
-        _In_opt_ PFLS_CALLBACK_FUNCTION callback
-        );
-
-    BOOL __cdecl __vcrt_FlsFree(
-        _In_ DWORD fls_index
-        );
-
-    PVOID __cdecl __vcrt_FlsGetValue(
-        _In_ DWORD fls_index
-        );
-
-    BOOL __cdecl __vcrt_FlsSetValue(
-        _In_     DWORD fls_index,
-        _In_opt_ PVOID fls_data
-        );
-
-    BOOL __cdecl __vcrt_InitializeCriticalSectionEx(
-        _Out_ PVOID critical_section,
-        _In_  DWORD spin_count,
-        _In_  DWORD flags
-        );
-
-    __inline PVOID __vcrt_EncodePointer(PVOID const ptr)
-    {
-        return __crt_fast_encode_pointer(ptr);
-    }
-
-#endif // Downlevel
-
-// These APIs are available on all supported operating systems, but they are not
-// defined in WindowsApp.lib.  We rely on these APIs in the statically-linked
-// RTC code, which we build into the CRT for Windows Store apps.  To avoid link
-// errors in user code, we encapsulate their usage within the VCRuntime DLL.
-// When we are MSDK-constrained, these functions simply return failure.
-#ifdef _CRT_WINDOWS
-    // Windows OS components do not need this layer of indirection.  To avoid
-    // dependencies on these exports, we redefine them to map to the real Windows
-    // APIs.
-    #define __vcrt_GetModuleFileNameW GetModuleFileNameW
-    #define __vcrt_GetModuleHandleW   GetModuleHandleW
-    #define __vcrt_LoadLibraryExW     LoadLibraryExW
-#else // ^^^ _CRT_WINDOWS ^^^ // vvv Public Runtimes vvv //
-    _Success_(return != 0) _Ret_range_(1, buffer_count)
-    DWORD __cdecl __vcrt_GetModuleFileNameW(
-        _In_opt_                                                                               HMODULE module_handle,
-        _Out_writes_to_(buffer_count, ((return < buffer_count) ? (return + 1) : buffer_count)) LPWSTR  buffer,
-        _In_                                                                                   DWORD   buffer_count
-        );
-
-    _When_(file_name == NULL, _Ret_notnull_)
-    _When_(file_name != NULL, _Ret_maybenull_)
-    HMODULE __cdecl __vcrt_GetModuleHandleW(
-        _In_opt_ LPCWSTR file_name
-        );
-
-    _Ret_maybenull_
-    HMODULE __cdecl __vcrt_LoadLibraryExW(
-        _In_       LPCWSTR file_name,
-        _Reserved_ HANDLE  file_handle,
-        _In_       DWORD   flags
-        );
-#endif // ^^^ Public Runtimes ^^^ //
 
 
 BOOL __cdecl _ValidateImageBase(PBYTE pImageBase);

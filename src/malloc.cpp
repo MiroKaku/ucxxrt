@@ -30,12 +30,32 @@
 #include <malloc.h>
 #include <new.h>
 
+#ifdef _KERNEL_MODE
+
  // global
 namespace ucxxrt
 {
     ULONG       DefaultPoolTag       = _ByteSwap32('ucrt');
     POOL_TYPE   DefaultPoolType      = POOL_TYPE::NonPagedPoolNx;
     ULONG       DefaultMdlProtection = MdlMappingNoExecute;
+}
+
+extern "C" void __cdecl __initialize_memory()
+{
+    RTL_OSVERSIONINFOW ver_info{};
+
+    auto status = RtlGetVersion(&ver_info);
+    if (!NT_SUCCESS(status))
+    {
+        return;
+    }
+
+    if ((ver_info.dwMajorVersion < 6) ||
+        (ver_info.dwMajorVersion == 6 && ver_info.dwMinorVersion < 2))
+    {
+        ucxxrt::DefaultPoolType = POOL_TYPE::NonPagedPool;
+        ucxxrt::DefaultMdlProtection = 0;
+    }
 }
 
 // Allocates a block of memory of size 'size' bytes in the heap.  If allocation
@@ -355,3 +375,5 @@ void* __cdecl _expand(void* const block, size_t const size)
 {
     return _expand_base(block, size);
 }
+
+#endif

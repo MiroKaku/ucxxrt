@@ -30,6 +30,8 @@
 #include <internal_shared.h>
 #include <malloc.h>
 
+#ifdef _KERNEL_MODE
+
 #define IS_2_POW_N(X)   ((X) != 0 && ((X) & ((X) - 1)) == 0)
 #define PTR_SZ          sizeof(void *)
 
@@ -614,3 +616,5 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_recalloc(
 {
     return _aligned_recalloc_base(block, count, size, alignment);
 }
+
+#endif

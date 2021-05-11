@@ -40,7 +40,6 @@
 #pragma check_stack ( off )
 #endif
 
-
 #define PURE = 0
 
 #ifndef CC_COR
@@ -48,6 +47,7 @@
 #endif
 
 #include "undname.hxx"
+#define __UNDNAME_IMP
 
 #if !defined(DASSERT)
 #if !defined(_VCRT_BUILD) && defined(_DEBUG)
@@ -73,8 +73,7 @@
 #define _countof(_Array) (sizeof(_Array) / sizeof(_Array[0]))
 #endif
 
-#include <Windows.h>
-#include "utf8.h"
+//#include "utf8.h"
 
 #include <optional>
 
@@ -150,7 +149,7 @@ public:
 
 
 
-void   *	operator new (size_t, _HeapManager &, int = 0);
+void* operator new (size_t, _HeapManager &, int = 0);
 
 
 
@@ -617,6 +616,10 @@ private:
 	static DName getValueObject();
 	static DName getArrayObject();
 	static DName getStringObject();
+	static DName getAddressOf();
+	static DName getMemberAccess();
+	static DName getUnionObject();
+	static DName getPointerToMember();
 	static int getNumberOfDimensions(void);
 	static DName getTemplateName(bool);
 	static DName getTemplateArgumentList(void);
@@ -747,6 +750,17 @@ pchar_t __cdecl unDNameGenerateCHPE (
 
     return chpeName;
 }
+
+pchar_t __UNDNAME_IMP __cdecl __UNDNAME_NAME_EX(
+	_Out_opt_z_cap_(maxStringLength) pchar_t outputString,
+	pcchar_t name,
+	int maxStringLength,	// Note, COMMA is leading following optional arguments
+	Alloc_t pAlloc,
+	Free_t pFree,
+	GetParameter_t pGetParameter,
+	unsigned long disableFlags
+
+);
 
 pchar_t __UNDNAME_IMP __cdecl __UNDNAME_NAME(
     _Out_opt_z_cap_(maxStringLength) pchar_t outputString,
@@ -2009,6 +2023,9 @@ DName UnDecorator::getFloatingPoint(int type_category)
 	
 	if (auto result = getValue())
 	{
+		// Skip the terminator
+		++gName;
+
 		auto value = *result;
 		char buffer[64 + 1];
 		if (type_category == TC_double)
@@ -2073,6 +2090,11 @@ DName UnDecorator::getValueObject()
 			break;
 		}
 
+		if (!encoding.isValid())
+		{
+			return DName(DN_invalid);
+		}
+
 		if (*gName == '@')
 		{
 			++gName;		// Consume the '@'
@@ -2134,6 +2156,82 @@ DName UnDecorator::getStringObject()
 	}
 	return DName(DN_invalid);
 }
+
+DName UnDecorator::getAddressOf()
+{
+	if (*gName == '\0')
+		return DName(DN_truncated);
+	auto encoding = DName('&');
+	encoding += getTemplateNonTypeArgument();
+	if (*gName == '@')
+	{
+		// Consume the terminating '@'
+		++gName;
+		return encoding;
+	}
+	return DName(DN_invalid);
+}
+
+DName UnDecorator::getMemberAccess()
+{
+	if (*gName == '\0')
+		return DName(DN_truncated);
+	auto encoding = getTemplateNonTypeArgument();
+	encoding += '.';
+	encoding += getZName(false, false);
+	if (*gName == '@')
+	{
+		// Consume the terminating '@'
+		++gName;
+		return encoding;
+	}
+	return DName(DN_invalid);
+}
+
+DName UnDecorator::getUnionObject()
+{
+	if (*gName == '\0')
+		return DName(DN_truncated);
+	auto encoding = getTemplateTypeArgument() + '{';
+	// Note: we may have a union without an active member
+	if (*gName != '@')
+	{
+		encoding += getZName(false, false);
+		encoding += ':';
+		encoding += getTemplateNonTypeArgument();
+	}
+	encoding += '}';
+	if (*gName == '@')
+	{
+		// Consume the terminating '@'
+		++gName;
+		return encoding;
+	}
+	return DName(DN_invalid);
+}
+
+DName UnDecorator::getPointerToMember()
+{
+	if (*gName == '\0')
+		return DName(DN_truncated);
+	auto encoding = DName('&');
+	encoding += getScope();
+	if (encoding.isValid() && (*gName == '@'))
+	{
+		// Consume the '@' that terminates the scope encoding
+		gName++;
+		encoding += "::"_l;
+		encoding += getZName(false, false);
+		if (*gName == '@')
+		{
+			// Consume the terminating '@'
+			++gName;
+			return encoding;
+		}
+	}
+	return DName(DN_invalid);
+}
+
 
 int UnDecorator::getNumberOfDimensions(void)
 {
@@ -2544,6 +2642,14 @@ DName UnDecorator::getTemplateNonTypeArgument(void)
 		return getValueObject();
 	case TC_string_object:
 		return getStringObject();
+	case TC_address_of:
+		return getAddressOf();
+	case TC_member_access:
+		return getMemberAccess();
+	case TC_union_object:
+		return getUnionObject();
+	case TC_pointer_to_member:
+		return getPointerToMember();
 	case '\0':
 		--gName;
 		return DName(DN_truncated);

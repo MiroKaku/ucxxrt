@@ -8,8 +8,6 @@
 
 #include <cstdlib>
 
-#include <Windows.h>
-
 #pragma pack(push, _CRT_PACKING)
 #pragma warning(push, 3)
 #pragma push_macro("new")
@@ -17,7 +15,7 @@
 
 _EXTERN_C_UNLESS_PURE
 
-using _Rmtx = CRITICAL_SECTION;
+using _Rmtx = int;
 
 #ifdef _M_CEE_PURE
 void __clrcall _Mtxinit(_Rmtx*) noexcept;

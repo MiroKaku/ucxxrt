@@ -14,8 +14,11 @@
 #include <vcruntime_exception.h>
 #include <vcruntime_typeinfo.h>
 
+#ifdef _KERNEL_MODE
+#include <Unknown.h>
+#else
 #include <Unknwn.h>
-#include <Windows.h>
+#endif
 
 #include "ehhelpers.h"
 
@@ -40,7 +43,6 @@ extern "C" void (__cdecl * const _pDestructExceptionObject)(EHExceptionRecord *,
 // Side-effects:
 //     NONE.
 
-#if _CRT_NTDDI_MIN < NTDDI_WINBLUE
 extern "C" _VCRTIMP void *__AdjustPointer(
     void *pThis,                        // Address point of exception object
     const PMD& pmd                      // Generalized pointer-to-member
@@ -61,7 +63,6 @@ extern "C" _VCRTIMP void *__AdjustPointer(
 
     return pRet;
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -114,73 +115,17 @@ extern "C" _VCRTIMP void * __GetPlatformExceptionInfo(
 #if !defined _VCRT_SAT_1
 extern "C" void** __cdecl __current_exception()
 {
-	auto ptd = __acrt_getptd();
-#if _CRT_NTDDI_MIN < NTDDI_WIN6
-    const auto OSVersion = __LTL_GetOsMinVersion();
-
-#if defined(_M_IX86)
-    if (OSVersion < 0x00050001)
-    {
-        return &((_ptd_msvcrt_win2k*)ptd)->_curexception;
-    }
-#endif
-	if (OSVersion < 0x00060000)
-	{
-		return &((_ptd_msvcrt_winxp*)ptd)->_curexception;
-	}
-	else
-#endif
-	{
-		return &((_ptd_msvcrt_win6_shared*)ptd)->_curexception;
-	}
+    return &RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curexception;
 }
 
 extern "C" void** __cdecl __current_exception_context()
 {
-	auto ptd = __acrt_getptd();
-#if _CRT_NTDDI_MIN < NTDDI_WIN6
-    const auto OSVersion = __LTL_GetOsMinVersion();
-
-#if defined(_M_IX86)
-    if (OSVersion < 0x00050001)
-    {
-        return &((_ptd_msvcrt_win2k*)ptd)->_curcontext;
-    }
-#endif
-
-	if (OSVersion < 0x00060000)
-	{
-		return &((_ptd_msvcrt_winxp*)ptd)->_curcontext;
-	}
-	else
-#endif
-	{
-		return &((_ptd_msvcrt_win6_shared*)ptd)->_curcontext;
-	}
+    return &RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curcontext;
 }
 
 extern "C" int* __cdecl __processing_throw()
 {
-	auto ptd = __acrt_getptd();
-#if _CRT_NTDDI_MIN < NTDDI_WIN6
-    const auto OSVersion = __LTL_GetOsMinVersion();
-
-#if defined(_M_IX86)
-    if (OSVersion < 0x00050001)
-    {
-        return &__LTL_get_ptd_downlevel()->_ProcessingThrow;
-    }
-#endif
-
-	if (OSVersion < 0x00060000)
-	{
-		return &((_ptd_msvcrt_winxp*)ptd)->_ProcessingThrow;
-	}
-	else
-#endif
-	{
-		return &((_ptd_msvcrt_win6_shared*)ptd)->_ProcessingThrow;
-	}
+    return &RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_ProcessingThrow;
 }
 #endif
 
@@ -245,12 +190,10 @@ extern "C" _VCRTIMP void __cdecl _SetWinRTOutOfMemoryExceptionCallback(PGETWINRT
 // though, we may no longer cross a noexcept function boundary when searching for
 // a handler. In this case the inlined code contains an EH state that will invoke
 // this function should an exception occur.
-#if 0
 extern "C" __declspec(noreturn) void __cdecl __std_terminate()
 {
     terminate();
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -267,7 +210,6 @@ extern "C" __declspec(noreturn) void __cdecl __std_terminate()
 //       object as a result of a new exception, we give up.  If the destruction
 //       throws otherwise, we let it be.
 
-#if 0
 static DWORD _FilterSetCurrentException(EXCEPTION_POINTERS* pointers, BOOLEAN fThrowNotAllowed)
 {
     if (fThrowNotAllowed) {
@@ -325,7 +267,6 @@ extern "C" _VCRTIMP void __cdecl __DestructExceptionObject(
         }
     }
 }
-#endif
 
 /////////////////////////////////////////////////////////////////////////////
 //

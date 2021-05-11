@@ -9,7 +9,7 @@
 #include <winerror.h>
 #include <errno.h>
 
-
+#ifdef _KERNEL_MODE
 
 // This is the error table that defines the mapping between OS error codes and
 // errno values.
@@ -166,7 +166,7 @@ static unsigned long doserrno_no_memory{ERROR_NOT_ENOUGH_MEMORY};
 
 extern "C" int* __cdecl _errno()
 {
-    // !!TODO
+    // TODO
 
     //__acrt_ptd* const ptd{__acrt_getptd_noexit()};
     //if (!ptd)
@@ -177,9 +177,13 @@ extern "C" int* __cdecl _errno()
 
 extern "C" unsigned long* __cdecl __doserrno()
 {
+    // TODO
+
     //__acrt_ptd* const ptd{__acrt_getptd_noexit()};
     //if (!ptd)
         return &doserrno_no_memory;
 
     //return &ptd->_tdoserrno;
 }
+
+#endif

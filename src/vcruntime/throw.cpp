@@ -3,9 +3,11 @@
 //
 
 #include <ehassert.h>
+#include <ehhooks.h>
 #include <ehdata.h>
 #include <ehdata4.h>
 #include <trnsctrl.h>
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -69,5 +71,5 @@ extern "C" __declspec(noreturn) void __stdcall _CxxThrowException(
     };
 
     // Hand it off to the OS:
-    RaiseException(EH_EXCEPTION_NUMBER, EXCEPTION_NONCONTINUABLE, _countof(parameters), parameters);
+    __CxxRaiseException(EH_EXCEPTION_NUMBER, EXCEPTION_NONCONTINUABLE, _countof(parameters), parameters);
 }

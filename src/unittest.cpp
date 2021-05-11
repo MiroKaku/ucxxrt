@@ -81,11 +81,13 @@ void Test$ThrowInt()
         }
         catch (std::string& e)
         {
+            ASSERT(false);
             LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %s\n", e.c_str());
         }
     }
     catch (...)
     {
+        ASSERT(false);
         LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: ...\n");
     }
 }
@@ -102,6 +104,7 @@ void Test$ThrowObject()
             }
             catch (int& e)
             {
+                ASSERT(false);
                 LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %d\n", e);
             }
         }
@@ -112,6 +115,7 @@ void Test$ThrowObject()
     }
     catch (...)
     {
+        ASSERT(false);
         LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: ...\n");
     }
 }
@@ -128,11 +132,13 @@ void Test$ThrowUnknow()
             }
             catch (int& e)
             {
+                ASSERT(false);
                 LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %d\n", e);
             }
         }
         catch (std::string& e)
         {
+            ASSERT(false);
             LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %s\n", e.c_str());
         }
     }

@@ -8,8 +8,6 @@
 
 #include <sdkddkver.h>
 
-#include <Windows.h>
-
 _CRT_BEGIN_C_HEADER
 
 #if !defined(_CRT_WINDOWS) && !defined(UNDOCKED_WINDOWS_UCRT)

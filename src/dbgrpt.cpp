@@ -7,7 +7,7 @@
 *
 *******************************************************************************/
 
-#ifdef _DEBUG
+#if defined(_DEBUG) and defined(_KERNEL_MODE)
 
 /***
 *int _CrtDbgReport() - primary reporting function

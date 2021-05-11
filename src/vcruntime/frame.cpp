@@ -10,7 +10,7 @@
 *       _CxxFrameHandler   - the frame handler.
 *
 *       Open issues:
-*         Handling re-throw from dynamicly nested scope.
+*         Handling re-throw from dynamically nested scope.
 *         Fault-tolerance (checking for data structure validity).
 ****/
 
@@ -23,9 +23,18 @@
 #include <vcruntime_exception.h>
 #include <vcruntime_typeinfo.h>
 
+#ifdef _KERNEL_MODE
+#include <Unknown.h>
+#else
 #include <Unknwn.h>
-#include <Windows.h>
+#endif
+
 #include "ehhelpers.h"
+
+#if defined(_M_ARM64EC)
+#include <vcwininternls.h> //PDISPATCHER_CONTEXT_ARM64EC
+#include <winternl.h>
+#endif
 
 // Make non-namespace prefixed names available for FH4
 using namespace FH4;
@@ -34,11 +43,8 @@ using namespace FH4;
 #pragma warning(disable: 4505) // unreferenced local function has been removed
 #pragma warning(disable: 4702) // unreachable code
 
-#if _CRT_NTDDI_MIN >= NTDDI_WIN6
-#define cxxReThrow        (((_ptd_msvcrt_win6_shared*)__acrt_getptd())->_cxxReThrow)
-#else
-#define cxxReThrow   (*((int*)  (__LTL_GetOsMinVersion() < 0x00060000 ? &(__LTL_get_ptd_downlevel()->_cxxReThrow) : &(((_ptd_msvcrt_win6_shared*)__acrt_getptd())->_cxxReThrow))))
-#endif
+#define cxxReThrow  (RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_cxxReThrow)
+#define __pSETranslator   (_se_translator_function) ((RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))())->_translator)
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +53,6 @@ using namespace FH4;
 //
 #if defined(_M_IX86) && !defined(_CHPE_X86_ARM64_EH_)
 
-#if 0
 void RENAME_EH_EXTERN(__FrameHandler3)::FrameUnwindToEmptyState(
     EHRegistrationNode *pRN,
     DispatcherContext  *pDC,
@@ -56,7 +61,6 @@ void RENAME_EH_EXTERN(__FrameHandler3)::FrameUnwindToEmptyState(
 {
     FrameUnwindToState(pRN, pDC, pFuncInfo, EH_EMPTY_STATE);
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -200,16 +204,7 @@ static BOOLEAN Is_bad_exception_allowed(ESTypeList *pExceptionSpec);
 //
 // This describes the most recently handled exception, in case of a rethrow:
 //
-#if _CRT_NTDDI_MIN >= NTDDI_WIN6
-#define _pCurrentFuncInfo   (*((ESTypeList **)&(((_ptd_msvcrt_win6_shared*)__acrt_getptd())->_curexcspec)))
-#else
-#define _pCurrentFuncInfo   (*((ESTypeList **)(__LTL_GetOsMinVersion() < 0x00060000 ? &(((_ptd_msvcrt_winxp*)__acrt_getptd())->_curexcspec) : \
-          &(((_ptd_msvcrt_win6_shared*)__acrt_getptd())->_curexcspec))))
-#endif
-
-#if _VCRT_BUILD_FH4
-thread_local int _CatchStateInParent = 0;
-#endif
+#define _pCurrentFuncInfo       (*((ESTypeList **)&(RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curexcspec)))
 
 inline ESTypeList* RENAME_EH_EXTERN(__FrameHandler3)::getESTypes(FuncInfo* pFuncInfo)
 {
@@ -366,7 +361,6 @@ EXCEPTION_DISPOSITION __InternalCxxFrameHandler(
 
 } // __InternalCxxFrameHandler
 
-#if 0
 template EXCEPTION_DISPOSITION __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler3)>(
     EHExceptionRecord  *pExcept,
     EHRegistrationNode *pRN,
@@ -377,7 +371,6 @@ template EXCEPTION_DISPOSITION __InternalCxxFrameHandler<RENAME_EH_EXTERN(__Fram
     EHRegistrationNode *pMarkerRN,
     BOOLEAN recursive
     );
-#endif
 
 #if _VCRT_BUILD_FH4
 template EXCEPTION_DISPOSITION __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler4)>(
@@ -438,7 +431,6 @@ template EXCEPTION_DISPOSITION __InternalCxxFrameHandler<RENAME_EH_EXTERN(__Fram
 */
 
 #if _EH_RELATIVE_FUNCINFO
-#if 0
 inline __ehstate_t RENAME_EH_EXTERN(__FrameHandler3)::GetHandlerSearchState(
     EHRegistrationNode *pRN,
     DispatcherContext  *pDC,
@@ -457,7 +449,6 @@ inline __ehstate_t RENAME_EH_EXTERN(__FrameHandler3)::GetHandlerSearchState(
 
     return curState;
 }
-#endif
 
 #if _VCRT_BUILD_FH4
 inline __ehstate_t RENAME_EH_EXTERN(__FrameHandler4)::GetHandlerSearchState(
@@ -508,7 +499,6 @@ static void FindHandler(
 #endif
 
     BOOLEAN IsRethrow = FALSE;
-    BOOLEAN gotMatch = FALSE;
 
     // Get the current state (machine-dependent)
     __ehstate_t curState = EH_EMPTY_STATE;
@@ -636,9 +626,6 @@ static void FindHandler(
                         // OK.  We finally found a match.  Activate the catch.  If
                         // control gets back here, the catch did a re-throw, so
                         // keep searching.
-
-                        gotMatch = TRUE;
-
                         CatchIt<T>(pExcept,
                                    pRN,
                                    pContext,
@@ -685,10 +672,20 @@ static void FindHandler(
         }
 #endif
 
+        // We did not find a handler in this function. Or, we found a handler and that
+        // handler re-threw the exception, so we returned from CatchIt and no other handler
+        // was found in this function to handle the re-thrown exception. Note: this only
+        // happens for true re-throw (throw;) and not a nested exception where the catch
+        // handler throws some entirely new exception.
+        //
+        // Since we didn't find a handler here, we will be returning to the caller to
+        // allow it to search the current function's callers for a handler. Before we leave
+        // we need to check for a noexcept violation and possibly terminate.
+
         // FH4 doesn't support Exception Specifications aside from NoExcept
         if constexpr (std::is_same_v<T, RENAME_EH_EXTERN(__FrameHandler4)>)
         {
-            if (!gotMatch && T::isNoExcept(pFuncInfo) &&
+            if (T::isNoExcept(pFuncInfo) &&
 #if defined(_M_IX86) && !defined(_CHPE_X86_ARM64_EH_)
                 CatchDepth == 0
 #else
@@ -725,7 +722,7 @@ static void FindHandler(
             // Catch block detection uses CatchDepth on X86, or _ExecutionInCatch on other platforms. On
             // these platforms CatchDepth is always 0 - we don't maintain a stack of entered try/catch
             // states.
-            if (!gotMatch && FUNC_MAGICNUM(*pFuncInfo) >= EH_MAGIC_HAS_ES &&
+            if (FUNC_MAGICNUM(*pFuncInfo) >= EH_MAGIC_HAS_ES &&
                 (T::getESTypes(pFuncInfo) || (T::isNoExcept(pFuncInfo) &&
 #if defined(_M_IX86) && !defined(_CHPE_X86_ARM64_EH_)
                     CatchDepth == 0
@@ -848,7 +845,7 @@ static void FindHandlerForForeignException(
         return;
     }
 
-    if (__pSETranslator && __pSETranslator != __vcrt_EncodePointer(nullptr) &&
+    if (__pSETranslator && __pSETranslator != __crt_fast_encode_pointer(nullptr) &&
         pExcept->ExceptionCode != MANAGED_EXCEPTION_CODE &&
         pExcept->ExceptionCode != MANAGED_EXCEPTION_CODE_V4) {
 
@@ -1129,7 +1126,6 @@ void RENAME_EH_EXTERN(__FrameHandler4)::FrameUnwindToState(
 }
 #endif // _VCRT_BUILD_FH4
 
-#if 0
 void RENAME_EH_EXTERN(__FrameHandler3)::FrameUnwindToState(
     EHRegistrationNode *pRN,            // Registration node for subject
                                         //   function
@@ -1169,11 +1165,26 @@ void RENAME_EH_EXTERN(__FrameHandler3)::FrameUnwindToState(
                 SetState(pRN, pFuncInfo, nxtState);
 
                 EHTRACE_FMT2("Unwind from state %d to state %d", curState, nxtState);
+
+#if defined(_M_ARM64EC)
+                if (RtlIsEcCode((ULONG64)UWE_ACTION(FUNC_UNWIND(*pFuncInfo, curState)))) {
+                    RENAME_EH_EXTERN(_CallSettingFrameArm64Ec)(UWE_ACTION(FUNC_UNWIND(*pFuncInfo, curState)),
+                                                            pRN,
+                                                            (PULONG)(((PDISPATCHER_CONTEXT_ARM64EC)pDC)->NonVolatileRegisters),
+                                                            0x103);
+                } else {
+                    RENAME_EH_EXTERN(_CallSettingFrame)(UWE_ACTION(FUNC_UNWIND(*pFuncInfo, curState)), pRN,
+                                                        0x103);
+                }
+#else
+
                 RENAME_EH_EXTERN(_CallSettingFrame)(UWE_ACTION(FUNC_UNWIND(*pFuncInfo, curState)), pRN,
 #if defined(_M_ARM_NT) || defined(_M_ARM64) || defined(_CHPE_X86_ARM64_EH_)
                                                     (PULONG)pDC->NonVolatileRegisters,
 #endif
                                                     0x103);
+
+#endif
 
 #if _EH_RELATIVE_FUNCINFO
                 _SetImageBase(unwindImageBase);
@@ -1205,7 +1216,6 @@ void RENAME_EH_EXTERN(__FrameHandler3)::FrameUnwindToState(
 
     SetState(pRN, pFuncInfo, curState);
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -1220,7 +1230,7 @@ void RENAME_EH_EXTERN(__FrameHandler3)::FrameUnwindToState(
 //     Handler funclet returns address to continue execution, or nullptr if the
 //       handler re-threw ("throw;" lexically in handler)
 //     If the handler throws an EH exception whose exception info is nullptr, then
-//       it's a re-throw from a dynamicly enclosed scope.
+//       it's a re-throw from a dynamically enclosed scope.
 //
 // It is an open question whether the catch object is built before or after the local unwind.
 //
@@ -1271,7 +1281,7 @@ static void CatchIt(
 
 #if _EH_RELATIVE_FUNCINFO
     // This call will never return. This call will end up calling CxxCallCatchBlock
-    // through RtlUnwind (STATUS_CONSULIDATE_FRAMES) mechanism.
+    // through RtlUnwind (STATUS_CONSOLIDATE_FRAMES) mechanism.
     T::UnwindNestedFrames(
         pRN,
         pExcept,
@@ -1456,7 +1466,6 @@ void * RENAME_EH_EXTERN(__FrameHandler4)::CxxCallCatchBlock(
 }
 #endif // _VCRT_BUILD_FH4
 
-#if 0
 void * RENAME_EH_EXTERN(__FrameHandler3)::CxxCallCatchBlock(
     EXCEPTION_RECORD *pExcept
     )
@@ -1499,12 +1508,28 @@ void * RENAME_EH_EXTERN(__FrameHandler3)::CxxCallCatchBlock(
 
     __try {
         __try{
+#if defined(_M_ARM64EC)
+
+            if (RtlIsEcCode((ULONG64)handlerAddress)) {
+                continuationAddress = RENAME_EH_EXTERN(_CallSettingFrameArm64Ec) (handlerAddress,
+                                                                                  pEstablisherFrame,
+                                                                                  (PULONG)pExcept->ExceptionInformation[10],
+                                                                                  0x100);
+
+            } else {
+                continuationAddress = RENAME_EH_EXTERN(_CallSettingFrame) (handlerAddress,
+                                                                           pEstablisherFrame,
+                                                                           0x100);
+            }
+
+#else
             continuationAddress = RENAME_EH_EXTERN(_CallSettingFrame)(handlerAddress,
                                                                       pEstablisherFrame,
 #if defined(_M_ARM_NT) || defined(_M_ARM64) || defined(_CHPE_X86_ARM64_EH_)
                                                                       (PULONG)pExcept->ExceptionInformation[10],
 #endif
                                                                       0x100);
+#endif
         } __except(ExFilterRethrow(exception_info(),
                                    pThisException,
                                    &rethrow)) {
@@ -1538,7 +1563,6 @@ void * RENAME_EH_EXTERN(__FrameHandler3)::CxxCallCatchBlock(
 #endif
     return continuationAddress;
 }
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -1603,7 +1627,6 @@ static __declspec(guard(ignore)) int ExFilterRethrowFH4(
 //   nested frames has been completed (otherwise this frame would be the first
 //   to go).
 
-#if 0
 static __declspec(guard(ignore)) void *CallCatchBlock(
     EHExceptionRecord *pExcept,         // The exception thrown
     EHRegistrationNode *pRN,            // Dynamic info of function with catch
@@ -1723,7 +1746,6 @@ static int ExFilterRethrow(
         return EXCEPTION_CONTINUE_SEARCH;
     }
 }
-#endif
 
 #endif /* } } */
 
@@ -2065,7 +2087,6 @@ static BOOLEAN IsInExceptionSpec(
 //
 // Simple, isn't it?
 //
-#if 0
 static void CallUnexpected( ESTypeList* pESTypeList )
 {
     _VCRT_VERIFY(_pCurrentFuncInfo == nullptr);
@@ -2082,7 +2103,6 @@ static void CallUnexpected( ESTypeList* pESTypeList )
     }
     terminate();
 }
-#endif
 
 //////////////////////////////////////////////////////////////////////////////////
 // Is_bad_exception_allowed - checks if std::bad_exception belongs to the list
