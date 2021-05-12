@@ -11,10 +11,22 @@
  */
 
 #pragma once
-#include <cstdint>
 
-namespace ucxxrt
-{
+#if __has_include(<wdm.h>)
+#   ifndef  _KERNEL_MODE
+#       error _KERNEL_MODE must be defined before all header files.
+#   endif
+#endif
+
+#ifndef _CRTIMP
+#   define _CRTIMP
+#endif
+
+#ifndef _VCRTIMP
+#define _VCRTIMP _CRTIMP
+#endif
+
+#include <cstdint>
 
 #ifndef _ByteSwap16
 #define _ByteSwap16(x) (                            \
@@ -44,5 +56,3 @@ namespace ucxxrt
     ((uint64_t(x) & uint64_t(0xFF <<  0)) << 56) |  \
 )
 #endif
-
-}

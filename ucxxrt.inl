@@ -53,6 +53,11 @@
 #endif
 #endif
 
+
+#define _CRTIMP
+#define _VCRTIMP _CRTIMP
+
+
 #if __has_include(<wdm.h>)
 #   ifndef  _KERNEL_MODE
 #       define  _KERNEL_MODE 1

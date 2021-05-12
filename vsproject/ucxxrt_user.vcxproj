@@ -73,6 +73,10 @@
   <ItemGroup>
     <None Include="..\src\i386\cruntime.inc" />
     <None Include="..\src\i386\exsup.inc" />
+    <MASM Include="..\src\i386\exsup.asm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </MASM>
     <MASM Include="..\src\i386\ftol.asm">
       <FileType>Document</FileType>
     </MASM>

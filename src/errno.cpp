@@ -9,7 +9,6 @@
 #include <winerror.h>
 #include <errno.h>
 
-#ifdef _KERNEL_MODE
 
 // This is the error table that defines the mapping between OS error codes and
 // errno values.
@@ -185,5 +184,3 @@ extern "C" unsigned long* __cdecl __doserrno()
 
     //return &ptd->_tdoserrno;
 }
-
-#endif

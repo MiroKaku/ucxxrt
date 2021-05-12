@@ -8,7 +8,6 @@
 #include <internal_shared.h>
 #include <new.h>
 
-#ifdef _KERNEL_MODE
 
 // The global new handler.  This pointer should only be accessed via the
 // functions defined in this source file.
@@ -65,5 +64,3 @@ extern "C" int __cdecl _callnewh(size_t const size)
 
     return 1;
 }
-
-#endif

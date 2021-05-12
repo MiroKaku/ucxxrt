@@ -87,8 +87,8 @@ C8_TRYLEVEL     equ     12
 MAGIC_NUMBER1           equ     019930520h
 
 _NLG_INFO struc
-    dwSig                       dd      MAGIC_NUMBER1
+    dwSig               dd      MAGIC_NUMBER1
     uoffDestination     dd      0
-    dwCode                      dd      0
+    dwCode              dd      0
     uoffFramePointer    dd      0
 _NLG_INFO ends

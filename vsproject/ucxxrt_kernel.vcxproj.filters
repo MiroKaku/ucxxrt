@@ -204,5 +204,8 @@
     <MASM Include="..\src\i386\lowhelpr.asm">
       <Filter>ucxxrt\i386</Filter>
     </MASM>
+    <MASM Include="..\src\i386\exsup.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
   </ItemGroup>
 </Project>
