@@ -51,7 +51,7 @@ extern "C" void __cdecl _invalid_parameter(
 
 extern "C" void __cdecl _invalid_parameter_noinfo()
 {
-    _invalid_parameter(nullptr, nullptr, nullptr, 0, 0);
+    _invalid_parameter_advanced(nullptr, nullptr, nullptr, 0, 0);
 }
 
 // This is used by inline code in the C++ Standard Library and the SafeInt
@@ -59,7 +59,10 @@ extern "C" void __cdecl _invalid_parameter_noinfo()
 // optimize use of the invalid parameter handler for inline code.
 extern "C" __declspec(noreturn) void __cdecl _invalid_parameter_noinfo_noreturn()
 {
+#ifdef _DEBUG
     _invalid_parameter(nullptr, nullptr, nullptr, 0, 0);
+#endif
+
     _invoke_watson(nullptr, nullptr, nullptr, 0, 0);
 }
 

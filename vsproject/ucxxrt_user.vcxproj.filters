@@ -133,6 +133,12 @@
     <ClCompile Include="..\src\stl\xthrow.cpp">
       <Filter>ucxxrt\stl</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\i386\ehprolg2.cpp">
+      <Filter>ucxxrt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\i386\ehprolg3.cpp">
+      <Filter>ucxxrt\i386</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ucxxrt.h" />
@@ -205,6 +211,9 @@
       <Filter>ucxxrt\i386</Filter>
     </MASM>
     <MASM Include="..\src\i386\exsup.asm">
+      <Filter>ucxxrt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\i386\ehprolog.asm">
       <Filter>ucxxrt\i386</Filter>
     </MASM>
   </ItemGroup>

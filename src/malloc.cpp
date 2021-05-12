@@ -150,6 +150,7 @@ void __cdecl _free_pool_tag(
     }
 }
 
+#ifdef _DEBUG
 // These are the allocation functions that allocate, manipulate, and free blocks
 // from the debug heap.  They are equivalent to the main allocation functions,
 // which deal with blocks from the process heap.  Most of the debug allocation
@@ -185,6 +186,7 @@ void __cdecl _free_dbg(void* const block, int const /*block_use*/)
     // TODO
     return free(block);
 }
+#endif // _DEBUG
 
 // Allocates a block of memory of size 'count * size' in the heap.  The newly
 // allocated block is zero-initialized.  If allocation fails, nullptr is

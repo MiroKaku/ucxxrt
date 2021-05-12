@@ -22,6 +22,8 @@
     <ClCompile Include="..\src\cpu_disp.cpp" />
     <ClCompile Include="..\src\dbgrpt.cpp" />
     <ClCompile Include="..\src\errno.cpp" />
+    <ClCompile Include="..\src\i386\ehprolg2.cpp" />
+    <ClCompile Include="..\src\i386\ehprolg3.cpp" />
     <ClCompile Include="..\src\i386\except.cpp" />
     <ClCompile Include="..\src\i386\trnsctrl.cpp" />
     <ClCompile Include="..\src\malloc.cpp" />
@@ -73,18 +75,27 @@
   <ItemGroup>
     <None Include="..\src\i386\cruntime.inc" />
     <None Include="..\src\i386\exsup.inc" />
+    <MASM Include="..\src\i386\ehprolog.asm" />
     <MASM Include="..\src\i386\exsup.asm">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
     </MASM>
     <MASM Include="..\src\i386\ftol.asm">
       <FileType>Document</FileType>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
     </MASM>
     <MASM Include="..\src\i386\ftol2.asm">
       <FileType>Document</FileType>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
     </MASM>
     <MASM Include="..\src\i386\ftol3.asm">
       <FileType>Document</FileType>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</UseSafeExceptionHandlers>
+      <UseSafeExceptionHandlers Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</UseSafeExceptionHandlers>
     </MASM>
     <MASM Include="..\src\i386\lowhelpr.asm">
       <FileType>Document</FileType>
