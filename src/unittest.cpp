@@ -1,5 +1,5 @@
-#if __has_include(<wdm.h>)
-#define _KERNEL_MODE
+#ifdef __KERNEL_MODE
+#define _KERNEL_MODE __KERNEL_MODE
 #endif
 
 #ifdef _KERNEL_MODE

@@ -136,7 +136,7 @@ unsigned int __favor         = 0;
 
 BOOLEAN __stdcall __IsProcessorFeaturePresent(_In_ ULONG ProcessorFeature)
 {
-#if __has_include(<wdm.h>)
+#ifdef _KERNEL_MODE
     return (BOOLEAN)ExIsProcessorFeaturePresent(ProcessorFeature);
 #else
     return (BOOLEAN)IsProcessorFeaturePresent(ProcessorFeature);

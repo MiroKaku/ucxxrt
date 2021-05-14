@@ -58,9 +58,12 @@
 #define _VCRTIMP _CRTIMP
 
 
-#if __has_include(<wdm.h>)
+#ifdef __KERNEL_MODE
 #   ifndef  _KERNEL_MODE
-#       define  _KERNEL_MODE 1
+#       define _KERNEL_MODE __KERNEL_MODE
+#   endif
+#   ifndef  NTOS_KERNEL_RUNTIME
+#       define NTOS_KERNEL_RUNTIME __KERNEL_MODE
 #   endif
 
 #   include <ntddk.h>

@@ -37,7 +37,7 @@ enum : size_t
 };
 
 
-#if !__has_include(<winnt.h>)
+#ifdef _KERNEL_MODE
 EXTERN_C NTSYSAPI VOID NTAPI
 RtlRaiseException(
     _In_ PEXCEPTION_RECORD ExceptionRecord

@@ -64,7 +64,7 @@
   
   <ItemDefinitionGroup Condition=" ('$(UCRT_KernelMode)'=='true') ">
     <ClCompile>
-      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;NTOS_KERNEL_RUNTIME;_HAS_EXCEPTIONS=1;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;_HAS_EXCEPTIONS=1;_ITERATOR_DEBUG_LEVEL=0;__KERNEL_MODE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>

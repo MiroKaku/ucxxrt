@@ -144,22 +144,20 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -184,33 +182,21 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Link />
-    <ClCompile>
-      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
+    <ClCompile />
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Link />
-    <Link>
-      <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Link />
-    <ClCompile>
-      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
+    <ClCompile />
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Link />
-    <Link>
-      <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemGroup>
     <FilesToPackage Include="$(TargetPath)" />

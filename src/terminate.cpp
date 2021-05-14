@@ -16,15 +16,15 @@
 
 EXTERN_C_START
 
-//_ACRTIMP __declspec(noreturn) inline void __cdecl abort(void)
-//{
-//    KeBugCheckEx(
-//        KMODE_EXCEPTION_NOT_HANDLED,
-//        EH_EXCEPTION_NUMBER,
-//        (ULONG_PTR)_ReturnAddress(),
-//        EH_MAGIC_NUMBER1,
-//        0);
-//}
+_ACRTIMP __declspec(noreturn) void __cdecl abort(void)
+{
+    KeBugCheckEx(
+        KMODE_EXCEPTION_NOT_HANDLED,
+        EH_EXCEPTION_NUMBER,
+        (ULONG_PTR)_ReturnAddress(),
+        EH_MAGIC_NUMBER1,
+        0);
+}
 
 _ACRTIMP __declspec(noreturn) void __cdecl terminate() throw()
 {

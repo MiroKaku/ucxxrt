@@ -20,7 +20,7 @@ static __vcrt_ptd_ext __vcrt_ptd_data[0x4000];
 
 extern"C" ULONG_PTR __GetCurrentThreadId()
 {
-#if __has_include(<wdm.h>)
+#ifdef _KERNEL_MODE
     return (ULONG_PTR)PsGetCurrentThreadId();
 #else
     return (ULONG_PTR)GetCurrentThreadId();

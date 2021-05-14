@@ -12,9 +12,9 @@
 
 #pragma once
 
-#if __has_include(<wdm.h>)
+#ifdef __KERNEL_MODE
 #   ifndef  _KERNEL_MODE
-#       error _KERNEL_MODE must be defined before all header files.
+#       define  _KERNEL_MODE __KERNEL_MODE
 #   endif
 #endif
 
