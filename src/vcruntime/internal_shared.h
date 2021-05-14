@@ -1,3 +1,15 @@
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      internal_shared.h
+ * DATA:      2021/05/14
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 //
 // internal_shared.h
 //

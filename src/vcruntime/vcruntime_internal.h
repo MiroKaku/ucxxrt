@@ -1,3 +1,15 @@
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      vcruntime_internal.h
+ * DATA:      2021/05/14
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 //
 // vcruntime_internal.h
 //
@@ -47,6 +59,23 @@ _CRT_BEGIN_C_HEADER
         __pragma(optimize("", on))
 #endif
 
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//
+// Runtime Checks macros
+//
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+// Note:  These macros must match their definitions in the Windows build.
+#ifndef BEGIN_PRAGMA_RUNTIME_CHECKS_DISABLE
+#define BEGIN_PRAGMA_RUNTIME_CHECKS_DISABLE(flags, bug, reason) \
+        __pragma(runtime_checks(flags, off))
+
+#define BEGIN_PRAGMA_RUNTIME_CHECKS_ENABLE(flags, bug, reason) \
+        __pragma(runtime_checks(flags, restore))
+
+#define END_PRAGMA_RUNTIME_CHECKS() \
+        __pragma(runtime_checks("", restore))
+#endif
 
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

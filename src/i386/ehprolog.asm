@@ -1,3 +1,15 @@
+;/*
+; * PROJECT:   Universal C++ RunTime (UCXXRT)
+; * FILE:      ehprolog.asm
+; * DATA:      2021/05/14
+; *
+; * PURPOSE:   Universal C++ RunTime
+; *
+; * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+; *
+; * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+; */
+
 ;***
 ;ehprolog.asm   - defines __EH_prolog
 ;

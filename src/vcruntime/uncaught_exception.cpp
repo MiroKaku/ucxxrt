@@ -1,3 +1,15 @@
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      uncaught_exception.cpp
+ * DATA:      2021/05/14
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 /***
 *uncaught_exception.cpp - Some target-independent helper routines used by the EH frame handler.
 *

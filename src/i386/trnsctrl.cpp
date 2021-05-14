@@ -1,3 +1,15 @@
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      trnsctrl.cpp
+ * DATA:      2021/05/14
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 /***
 *trnsctrl.cpp -  Routines for doing control transfers
 *
@@ -53,7 +65,7 @@
 // need.
 //
 
-void __stdcall _JumpToContinuation(
+__declspec(guard(ignore)) void __stdcall _JumpToContinuation(
     void* target,    // The funclet to call
     EHRegistrationNode* pRN        // Registration node, represents location of frame
 ) {
@@ -127,15 +139,15 @@ void __stdcall _JumpToContinuation(
 // here uses EBX, ESI, and EDI, so they will be saved in the prologue.  For
 // the latter, optimizations are disabled for the duration of this function.
 //
-
 BEGIN_PRAGMA_OPTIMIZE_DISABLE("g", DevDivVSO:162582, "RtlUnwind does not preserve registers (see above)")
+BEGIN_PRAGMA_RUNTIME_CHECKS_DISABLE("s", #0, "Run-Time Check Failure #0 - The value of ESP was not properly saved across a function call.");
 
-void __stdcall _UnwindNestedFrames(
-    EHRegistrationNode* pRN,        // Unwind up to (but not including) this frame
-    EHExceptionRecord* pExcept    // The exception that initiated this unwind
+__declspec(guard(ignore)) void __stdcall _UnwindNestedFrames(
+    EHRegistrationNode* pRN,                // Unwind up to (but not including) this frame
+    EHExceptionRecord* pExcept              // The exception that initiated this unwind
 ) {
     void* pReturnPoint;
-    EHRegistrationNode* pDispatcherRN;  // Magic!
+    EHRegistrationNode* pDispatcherRN;      // Magic!
 
     __asm {
         //
@@ -145,7 +157,7 @@ void __stdcall _UnwindNestedFrames(
         // We explicitly use them here in the inline-asm so they get preserved
         // and restored by the function prologue/epilogue.
         //
-        mov     esi, dword ptr FS : [0]   // use ESI
+        mov     esi, dword ptr FS : [0]     // use ESI
         mov     pDispatcherRN, esi
     }
 
@@ -160,15 +172,16 @@ ReturnPoint:
         //
         // Re-link the dispatcher's marker node
         //
-        mov     edi, dword ptr FS : [0]   // Get the current head (use EDI)
-        mov     ebx, pDispatcherRN      // Get the saved head (use EBX)
-        mov[ebx], edi              // Link saved head to current head
-        mov     dword ptr FS : [0] , ebx   // Make saved head current head
+        mov     edi, dword ptr FS : [0]     // Get the current head (use EDI)
+        mov     ebx, pDispatcherRN          // Get the saved head (use EBX)
+        mov     [ebx], edi                  // Link saved head to current head
+        mov     dword ptr FS : [0] , ebx    // Make saved head current head
     }
 
     return;
 }
 
+END_PRAGMA_RUNTIME_CHECKS()
 END_PRAGMA_OPTIMIZE()
 
 //
@@ -176,11 +189,11 @@ END_PRAGMA_OPTIMIZE()
 //
 extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler(
     /*
-        EAX=FuncInfo   *pFuncInfo,          // Static information for this frame
+        EAX=FuncInfo   *pFuncInfo,      // Static information for this frame
     */
     EHExceptionRecord * pExcept,        // Information for this exception
-    EHRegistrationNode * pRN,            // Dynamic information for this frame
-    void* pContext,       // Context info (we don't care what's in it)
+    EHRegistrationNode * pRN,           // Dynamic information for this frame
+    void* pContext,                     // Context info (we don't care what's in it)
     DispatcherContext * pDC             // More dynamic info for this frame (ignored on Intel)
 ) {
     FuncInfo* pFuncInfo;
@@ -196,7 +209,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
         push    ebx
         push    esi
         push    edi
-        cld             // A bit of paranoia -- Our code-gen assumes this
+        cld                             // A bit of paranoia -- Our code-gen assumes this
 
         //
         // Save the extra parameter
@@ -230,11 +243,11 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
 //
 extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler3(
     /*
-        EAX=FuncInfo   *pFuncInfo,          // Static information for this frame
+        EAX=FuncInfo   *pFuncInfo,      // Static information for this frame
     */
     EHExceptionRecord * pExcept,        // Information for this exception
-    EHRegistrationNode * pRN,            // Dynamic information for this frame
-    void* pContext,       // Context info (we don't care what's in it)
+    EHRegistrationNode * pRN,           // Dynamic information for this frame
+    void* pContext,                     // Context info (we don't care what's in it)
     DispatcherContext * pDC             // More dynamic info for this frame (ignored on Intel)
 ) {
     FuncInfo* pFuncInfo;
@@ -250,7 +263,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
         push    ebx
         push    esi
         push    edi
-        cld             // A bit of paranoia -- Our code-gen assumes this
+        cld                             // A bit of paranoia -- Our code-gen assumes this
 
         //
         // Save the extra parameter
@@ -280,11 +293,11 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
 //
 extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler2(
     /*
-        EAX=FuncInfo   *pFuncInfo,          // Static information for this frame
+        EAX=FuncInfo   *pFuncInfo,      // Static information for this frame
     */
     EHExceptionRecord * pExcept,        // Information for this exception
-    EHRegistrationNode * pRN,            // Dynamic information for this frame
-    void* pContext,       // Context info (we don't care what's in it)
+    EHRegistrationNode * pRN,           // Dynamic information for this frame
+    void* pContext,                     // Context info (we don't care what's in it)
     DispatcherContext * pDC             // More dynamic info for this frame (ignored on Intel)
 ) {
     FuncInfo* pFuncInfo;
@@ -300,7 +313,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
         push    ebx
         push    esi
         push    edi
-        cld             // A bit of paranoia -- Our code-gen assumes this
+        cld                             // A bit of paranoia -- Our code-gen assumes this
 
         //
         // Save the extra parameter
@@ -360,9 +373,9 @@ extern "C" DECLSPEC_GUARD_SUPPRESS void __stdcall __CxxLongjmpUnwind(
 
 struct CatchGuardRN {
     EHRegistrationNode* pNext;          // Frame link
-    void* pFrameHandler;  // Frame Handler
+    void* pFrameHandler;                // Frame Handler
     UINT_PTR            RandomCookie;   // __security_cookie XOR node address
-    FuncInfo* pFuncInfo;      // Static info for subject function
+    FuncInfo* pFuncInfo;                // Static info for subject function
     EHRegistrationNode* pRN;            // Dynamic info for subject function
     int                 CatchDepth;     // How deeply nested are we?
 };
@@ -371,8 +384,8 @@ extern "C" EXCEPTION_DISPOSITION __cdecl _CatchGuardHandler(EHExceptionRecord*, 
 
 __declspec(guard(ignore)) void* _CallCatchBlock2(
     EHRegistrationNode* pRN,            // Dynamic info of function with catch
-    FuncInfo* pFuncInfo,      // Static info of function with catch
-    void* handlerAddress, // Code address of handler
+    FuncInfo* pFuncInfo,                // Static info of function with catch
+    void* handlerAddress,               // Code address of handler
     int                CatchDepth,      // How deeply nested in catch blocks are we?
     unsigned long      NLGCode
 ) {
@@ -388,9 +401,9 @@ __declspec(guard(ignore)) void* _CallCatchBlock2(
     };
 
     __asm {
-        mov     eax, FS: [0]     // Fetch frame list head
-        mov     CGRN.pNext, eax // Link this node in
-        lea     eax, CGRN       // Put this node at the head
+        mov     eax, FS: [0]            // Fetch frame list head
+        mov     CGRN.pNext, eax         // Link this node in
+        lea     eax, CGRN               // Put this node at the head
         mov     FS : [0] , eax
     }
 
@@ -403,8 +416,8 @@ __declspec(guard(ignore)) void* _CallCatchBlock2(
     // Unlink our registration node
     //
     __asm {
-        mov     eax, CGRN.pNext // Get parent node
-        mov     FS : [0] , eax     // Put it at the head
+        mov     eax, CGRN.pNext         // Get parent node
+        mov     FS : [0] , eax          // Put it at the head
     }
 
     return continuationAddress;
@@ -425,12 +438,12 @@ __declspec(guard(ignore)) void* _CallCatchBlock2(
 
 extern "C" EXCEPTION_DISPOSITION __cdecl _CatchGuardHandler(
     EHExceptionRecord * pExcept,        // Information for this exception
-    CatchGuardRN * pRN,            // The special marker frame
-    void* pContext,       // Context info (we don't care what's in it)
-    void*                              // (ignored)
+    CatchGuardRN * pRN,                 // The special marker frame
+    void* pContext,                     // Context info (we don't care what's in it)
+    void*                               // (ignored)
 ) {
     EHTRACE_FMT1("pRN = 0x%p", pRN);
-    __asm cld;      // Our code-gen assumes this
+    __asm cld;                          // Our code-gen assumes this
 
     //
     // Validate our registration record, to secure against hacker attacks.
@@ -486,14 +499,14 @@ extern "C" EXCEPTION_DISPOSITION __cdecl _CatchGuardHandler(
 
 struct TranslatorGuardRN /*: CatchGuardRN */ {
     EHRegistrationNode* pNext;          // Frame link
-    void* pFrameHandler;  // Frame Handler
+    void* pFrameHandler;                // Frame Handler
     UINT_PTR            RandomCookie;   // __security_cookie XOR node address
-    FuncInfo* pFuncInfo;      // Static info for subject function
+    FuncInfo* pFuncInfo;                // Static info for subject function
     EHRegistrationNode* pRN;            // Dynamic info for subject function
     int                 CatchDepth;     // How deeply nested are we?
     EHRegistrationNode* pMarkerRN;      // Marker for parent context
-    void* ESP;            // ESP within CallSEHTranslator
-    void* EBP;            // EBP within CallSEHTranslator
+    void* ESP;                          // ESP within CallSEHTranslator
+    void* EBP;                          // EBP within CallSEHTranslator
     BOOL                DidUnwind;      // True if this frame was unwound
 };
 
@@ -509,11 +522,11 @@ BEGIN_PRAGMA_OPTIMIZE_DISABLE("g", DOLPH:3322, "Uninvestigated issue from Visual
 #endif
 
 __declspec(guard(ignore)) BOOL _CallSETranslator(
-    EHExceptionRecord* pExcept,        // The exception to be translated
+    EHExceptionRecord* pExcept,         // The exception to be translated
     EHRegistrationNode* pRN,            // Dynamic info of function with catch
-    void* pContext,       // Context info (we don't care what's in it)
-    DispatcherContext* pDC,            // More dynamic info of function with catch (ignored)
-    FuncInfo* pFuncInfo,      // Static info of function with catch
+    void* pContext,                     // Context info (we don't care what's in it)
+    DispatcherContext* pDC,             // More dynamic info of function with catch (ignored)
+    FuncInfo* pFuncInfo,                // Static info of function with catch
     int                 CatchDepth,     // How deeply nested in catch blocks are we?
     EHRegistrationNode* pMarkerRN       // Marker for parent context
 ) {
@@ -533,16 +546,16 @@ __declspec(guard(ignore)) BOOL _CallSETranslator(
     //
     // Create and link in our special guard node:
     //
-    TranslatorGuardRN TGRN = { nullptr,       // Frame link
+    TranslatorGuardRN TGRN = { nullptr,         // Frame link
                                 (void*)_TranslatorGuardHandler,
                                 __security_cookie ^ (UINT_PTR)&TGRN,
                                 pFuncInfo,
                                 pRN,
                                 CatchDepth,
                                 pMarkerRN,
-                                nullptr,       // ESP
-                                nullptr,       // EBP
-                                FALSE       // DidUnwind
+                                nullptr,        // ESP
+                                nullptr,        // EBP
+                                FALSE           // DidUnwind
     };
 
     __asm {
@@ -555,7 +568,7 @@ __declspec(guard(ignore)) BOOL _CallSETranslator(
         //
         // Link this node in:
         //
-        mov     eax, FS: [0]             // Fetch frame list head
+        mov     eax, FS: [0]            // Fetch frame list head
         mov     TGRN.pNext, eax         // Link this node in
         lea     eax, TGRN               // Put this node at the head
         mov     FS : [0] , eax
@@ -600,11 +613,11 @@ ExceptionContinuation:
         // node was unlinked by RtlUnwind.
         //
         __asm {
-            mov     ebx, FS: [0]     // Get the node below the (bad) NT marker
-            mov     eax, [ebx]      //  (it was the target of the unwind)
-            mov     ebx, TGRN.pNext // Get the node we saved (the 'good' marker)
-            mov[ebx], eax      // Link the good node to the unwind target
-            mov     FS : [0] , ebx     // Put the good node at the head of the list
+            mov     ebx, FS: [0]        // Get the node below the (bad) NT marker
+            mov     eax, [ebx]          //  (it was the target of the unwind)
+            mov     ebx, TGRN.pNext     // Get the node we saved (the 'good' marker)
+            mov[ebx], eax               // Link the good node to the unwind target
+            mov     FS : [0] , ebx      // Put the good node at the head of the list
         }
     }
     else {
@@ -613,8 +626,8 @@ ExceptionContinuation:
         // unlink our registration node and exit
         //
         __asm {
-            mov     eax, TGRN.pNext // Get parent node
-            mov     FS : [0] , eax     // Put it at the head
+            mov     eax, TGRN.pNext     // Get parent node
+            mov     FS : [0] , eax      // Put it at the head
         }
     }
 
@@ -641,8 +654,8 @@ END_PRAGMA_OPTIMIZE()
 extern "C" EXCEPTION_DISPOSITION __cdecl _TranslatorGuardHandler(
     EHExceptionRecord * pExcept,        // Information for this exception
     TranslatorGuardRN * pRN,            // The translator guard frame
-    void* pContext,       // Context info (we don't care what's in it)
-    void*                              // (ignored)
+    void* pContext,                     // Context info (we don't care what's in it)
+    void*                               // (ignored)
 ) {
     EHTRACE_FMT1("pRN = 0x%p", pRN);
     __asm cld;      // Our code-gen assumes this

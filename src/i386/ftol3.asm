@@ -1,9 +1,9 @@
-        page    ,132
-        title   ftol3    - truncate TOS to 32-bit integer
+    page    ,132
+    title   ftol3 - truncate TOS to 32-bit integer
 
 ;/*
 ; * PROJECT:   Universal C++ RunTime (UCXXRT)
-; * FILE:      vcruntime.inc
+; * FILE:      ftol3.asm
 ; * DATA:      2021/04/25
 ; *
 ; * PURPOSE:   Universal C++ RunTime

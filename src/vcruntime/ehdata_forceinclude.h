@@ -1,3 +1,15 @@
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      ehdata_forceinclude.h
+ * DATA:      2021/05/14
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 //
 // Declares internal C++ exception handling data structures.
 // This file is preprocessed and then the preprocessed results are force-included into every C++ TU.

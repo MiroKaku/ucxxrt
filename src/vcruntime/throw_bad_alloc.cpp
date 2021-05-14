@@ -1,3 +1,15 @@
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      throw_bad_alloc.cpp
+ * DATA:      2021/05/14
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 //
 // throw_bad_alloc.cpp
 //
@@ -14,31 +26,12 @@
 #include <internal_shared.h>
 
 
+__declspec(noreturn) void __CRTDECL __scrt_throw_std_bad_alloc()
+{
+    throw std::bad_alloc{};
+}
 
-#if defined MRTDLL && defined _M_CEE
-
-    _CRT_SECURITYCRITICAL_ATTRIBUTE
-    void __CRTDECL __scrt_throw_std_bad_alloc()
-    {
-        TerminateProcess(GetCurrentProcess(), 3);
-    }
-
-    _CRT_SECURITYCRITICAL_ATTRIBUTE
-    void __CRTDECL __scrt_throw_std_bad_array_new_length()
-    {
-        TerminateProcess(GetCurrentProcess(), 3);
-    }
-
-#else // ^^^ Managed ^^^ // vvv Native vvv //
-
-    __declspec(noreturn) void __CRTDECL __scrt_throw_std_bad_alloc()
-    {
-        throw std::bad_alloc{};
-    }
-
-    __declspec(noreturn) void __CRTDECL __scrt_throw_std_bad_array_new_length()
-    {
-        throw std::bad_array_new_length{};
-    }
-
-#endif
+__declspec(noreturn) void __CRTDECL __scrt_throw_std_bad_array_new_length()
+{
+    throw std::bad_array_new_length{};
+}
