@@ -68,6 +68,9 @@
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
 
   <ItemDefinitionGroup>
@@ -78,12 +81,6 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>ucxxrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  
-  <ItemDefinitionGroup Condition=" ('$(UCRT_KernelMode)'=='true') ">
-    <Link>
-      <AdditionalDependencies>ucxxrt.lib;libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 
