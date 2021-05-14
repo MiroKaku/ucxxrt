@@ -21,6 +21,7 @@
 #include <winerror.h>
 #include <errno.h>
 
+_CRT_BEGIN_C_HEADER
 
 // This is the error table that defines the mapping between OS error codes and
 // errno values.
@@ -95,17 +96,16 @@ static errentry const errtable[]
 #define MIN_EACCES_RANGE ERROR_WRITE_PROTECT
 #define MAX_EACCES_RANGE ERROR_SHARING_BUFFER_EXCEEDED
 
-
-extern "C" int __cdecl __acrt_errno_from_os_error(unsigned long const oserrno);
+int __cdecl __acrt_errno_from_os_error(unsigned long const oserrno);
 
 // These map Windows error codes into errno error codes
-extern "C" void __cdecl __acrt_errno_map_os_error(unsigned long const oserrno)
+void __cdecl __acrt_errno_map_os_error(unsigned long const oserrno)
 {
     _doserrno = oserrno;
     errno     = __acrt_errno_from_os_error(oserrno);
 }
 
-extern "C" int __cdecl __acrt_errno_from_os_error(unsigned long const oserrno)
+int __cdecl __acrt_errno_from_os_error(unsigned long const oserrno)
 {
     // Check the table for the OS error code
     for (unsigned i{0}; i < ERRTABLECOUNT; ++i)
@@ -134,13 +134,13 @@ extern "C" int __cdecl __acrt_errno_from_os_error(unsigned long const oserrno)
 
 #if _CRT_NTDDI_MIN < 0x06000000
 // These safely set and get the value of the calling thread's errno
-extern "C" errno_t __cdecl _set_errno(_In_ int const value)
+errno_t __cdecl _set_errno(_In_ int const value)
 {
     errno = value;
     return 0;
 }
 
-extern "C" errno_t __cdecl _get_errno(_Out_ int* const result)
+errno_t __cdecl _get_errno(_Out_ int* const result)
 {
     _VALIDATE_RETURN_NOERRNO(result != nullptr, EINVAL);
 
@@ -149,16 +149,14 @@ extern "C" errno_t __cdecl _get_errno(_Out_ int* const result)
     return 0;
 }
 
-
-
 // These safely set and get the value of the calling thread's doserrno
-extern "C" errno_t __cdecl _set_doserrno(_In_ unsigned long const value)
+errno_t __cdecl _set_doserrno(_In_ unsigned long const value)
 {
     _doserrno = value;
     return 0;
 }
 
-extern "C" errno_t __cdecl _get_doserrno(_Out_ unsigned long* const result)
+errno_t __cdecl _get_doserrno(_Out_ unsigned long* const result)
 {
     _VALIDATE_RETURN_NOERRNO(result != nullptr, EINVAL);
 
@@ -169,13 +167,12 @@ extern "C" errno_t __cdecl _get_doserrno(_Out_ unsigned long* const result)
 #endif
 
 
-
 // These return pointers to the calling thread's errno and doserrno values,
 // respectively, and are used to implement errno and _doserrno in the header.
 static int           errno_no_memory   {ENOMEM};
 static unsigned long doserrno_no_memory{ERROR_NOT_ENOUGH_MEMORY};
 
-extern "C" int* __cdecl _errno()
+int* __cdecl _errno()
 {
     // TODO
 
@@ -186,7 +183,7 @@ extern "C" int* __cdecl _errno()
     //return &ptd->_terrno;
 }
 
-extern "C" unsigned long* __cdecl __doserrno()
+unsigned long* __cdecl __doserrno()
 {
     // TODO
 
@@ -196,3 +193,5 @@ extern "C" unsigned long* __cdecl __doserrno()
 
     //return &ptd->_tdoserrno;
 }
+
+_CRT_END_C_HEADER

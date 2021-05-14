@@ -26,12 +26,12 @@
 #include <internal_shared.h>
 
 
-__declspec(noreturn) void __CRTDECL __scrt_throw_std_bad_alloc()
+[[noreturn]] void __CRTDECL __scrt_throw_std_bad_alloc()
 {
     throw std::bad_alloc{};
 }
 
-__declspec(noreturn) void __CRTDECL __scrt_throw_std_bad_array_new_length()
+[[noreturn]] void __CRTDECL __scrt_throw_std_bad_array_new_length()
 {
     throw std::bad_array_new_length{};
 }

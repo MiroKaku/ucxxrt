@@ -30,7 +30,7 @@ struct __vcrt_ptd_ext : public RENAME_BASE_PTD(__vcrt_ptd)
 
 static __vcrt_ptd_ext __vcrt_ptd_data[0x4000];
 
-extern"C" ULONG_PTR __GetCurrentThreadId()
+ULONG_PTR __GetCurrentThreadId()
 {
 #ifdef _KERNEL_MODE
     return (ULONG_PTR)PsGetCurrentThreadId();

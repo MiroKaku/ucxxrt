@@ -94,7 +94,7 @@
     (((value) shl 24) and 0xFF000000))
 
 
-_CRT_BEGIN_C_HEADER;
+_CRT_BEGIN_C_HEADER
 
 #define __ISA_ENABLED_X86           0x00000001
 #define __ISA_ENABLED_SSE2          0x00000002

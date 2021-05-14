@@ -18,6 +18,8 @@
 
 #ifdef _KERNEL_MODE
 
+_CRT_BEGIN_C_HEADER
+
  // Need to put the following marker variables into the .CRT section.
  // The .CRT section contains arrays of function pointers.
  // The compiler creates functions and adds pointers to this section
@@ -49,21 +51,21 @@
 #pragma section(".CRT$XTA", long, read)      // C terminators
 #pragma section(".CRT$XTZ", long, read)
 
-extern "C" _CRTALLOC(".CRT$XIA") _PIFV __xi_a[] = { nullptr }; // C initializers (first)
-extern "C" _CRTALLOC(".CRT$XIZ") _PIFV __xi_z[] = { nullptr }; // C initializers (last)
-extern "C" _CRTALLOC(".CRT$XCA") _PVFV __xc_a[] = { nullptr }; // C++ initializers (first)
-extern "C" _CRTALLOC(".CRT$XCZ") _PVFV __xc_z[] = { nullptr }; // C++ initializers (last)
-extern "C" _CRTALLOC(".CRT$XPA") _PVFV __xp_a[] = { nullptr }; // C pre-terminators (first)
-extern "C" _CRTALLOC(".CRT$XPZ") _PVFV __xp_z[] = { nullptr }; // C pre-terminators (last)
-extern "C" _CRTALLOC(".CRT$XTA") _PVFV __xt_a[] = { nullptr }; // C terminators (first)
-extern "C" _CRTALLOC(".CRT$XTZ") _PVFV __xt_z[] = { nullptr }; // C terminators (last)
+_CRTALLOC(".CRT$XIA") _PIFV __xi_a[] = { nullptr }; // C initializers (first)
+_CRTALLOC(".CRT$XIZ") _PIFV __xi_z[] = { nullptr }; // C initializers (last)
+_CRTALLOC(".CRT$XCA") _PVFV __xc_a[] = { nullptr }; // C++ initializers (first)
+_CRTALLOC(".CRT$XCZ") _PVFV __xc_z[] = { nullptr }; // C++ initializers (last)
+_CRTALLOC(".CRT$XPA") _PVFV __xp_a[] = { nullptr }; // C pre-terminators (first)
+_CRTALLOC(".CRT$XPZ") _PVFV __xp_z[] = { nullptr }; // C pre-terminators (last)
+_CRTALLOC(".CRT$XTA") _PVFV __xt_a[] = { nullptr }; // C terminators (first)
+_CRTALLOC(".CRT$XTZ") _PVFV __xt_z[] = { nullptr }; // C terminators (last)
 
 #pragma comment(linker, "/merge:.CRT=.rdata")
 
 
 // Calls each function in [first, last).  [first, last) must be a valid range of
 // function pointers.  Each function is called, in order.
-extern "C" void __cdecl _initterm(_PVFV* const first, _PVFV* const last)
+void __cdecl _initterm(_PVFV* const first, _PVFV* const last)
 {
     for (_PVFV* it = first; it != last; ++it)
     {
@@ -82,7 +84,7 @@ extern "C" void __cdecl _initterm(_PVFV* const first, _PVFV* const last)
 //
 // If a nonzero value is returned, it is expected to be one of the runtime error
 // values (_RT_{NAME}, defined in the internal header files).
-extern "C" int __cdecl _initterm_e(_PIFV* const first, _PIFV* const last)
+int __cdecl _initterm_e(_PIFV* const first, _PIFV* const last)
 {
     for (_PIFV* it = first; it != last; ++it)
     {
@@ -97,7 +99,7 @@ extern "C" int __cdecl _initterm_e(_PIFV* const first, _PIFV* const last)
     return 0;
 }
 
-struct onexit_entry
+extern "C++" struct onexit_entry
 {
     onexit_entry* _next = nullptr;
     _PVFV           _destructor = nullptr;
@@ -116,7 +118,7 @@ struct onexit_entry
 static onexit_entry* s_onexit_table = nullptr;
 static onexit_entry* s_quick_onexit_table = nullptr;
 
-extern "C" int __cdecl _register_onexit_function(onexit_entry* table, _PVFV const function)
+int __cdecl _register_onexit_function(onexit_entry* table, _PVFV const function)
 {
     const auto entry = new onexit_entry(table, function);
     if (nullptr == entry)
@@ -128,7 +130,7 @@ extern "C" int __cdecl _register_onexit_function(onexit_entry* table, _PVFV cons
     return 0;
 }
 
-extern "C" int __cdecl _execute_onexit_table(onexit_entry* table)
+int __cdecl _execute_onexit_table(onexit_entry* table)
 {
     for (auto entry = table; entry;)
     {
@@ -140,36 +142,38 @@ extern "C" int __cdecl _execute_onexit_table(onexit_entry* table)
     return 0;
 }
 
-extern "C" int __cdecl atexit(_PVFV const function)
+int __cdecl atexit(_PVFV const function)
 {
     return _register_onexit_function(s_onexit_table, reinterpret_cast<_PVFV const>(function));
 }
 
-extern "C" int __cdecl at_quick_exit(_PVFV const function)
+int __cdecl at_quick_exit(_PVFV const function)
 {
     return _register_onexit_function(s_quick_onexit_table, reinterpret_cast<_PVFV const>(function));
 }
 
-extern "C" onexit_t __cdecl onexit(_In_opt_ onexit_t function)
+onexit_t __cdecl onexit(_In_opt_ onexit_t function)
 {
     return atexit((_PVFV)function) == 0
         ? function
         : nullptr;
 }
 
-extern "C" onexit_t __cdecl _onexit(_In_opt_ onexit_t function)
+onexit_t __cdecl _onexit(_In_opt_ onexit_t function)
 {
     return onexit(function);
 }
 
-extern "C" int __cdecl _do_onexit()
+int __cdecl _do_onexit()
 {
     return _execute_onexit_table(s_onexit_table);
 }
 
-extern "C" int __cdecl _do_quick_onexit()
+int __cdecl _do_quick_onexit()
 {
     return _execute_onexit_table(s_quick_onexit_table);
 }
+
+_CRT_END_C_HEADER
 
 #endif

@@ -89,7 +89,7 @@ static PIMAGE_SECTION_HEADER __cdecl find_pe_section(unsigned char* const image_
 // image located at __ImageBase), that the target address is located in a proper
 // section of the image, and that the section in which it is located is not
 // writable.
-extern "C" bool __cdecl __scrt_is_nonwritable_in_current_image(void const* const target)
+EXTERN_C bool __cdecl __scrt_is_nonwritable_in_current_image(void const* const target)
 {
     auto const target_address = reinterpret_cast<unsigned char const*>(target);
     auto const image_base     = reinterpret_cast<unsigned char*>(&__ImageBase);

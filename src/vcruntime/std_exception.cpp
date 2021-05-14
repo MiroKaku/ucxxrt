@@ -21,8 +21,7 @@
 #include <vcruntime_internal.h>
 
 
-
-extern "C" void __cdecl __std_exception_copy(
+EXTERN_C void __cdecl __std_exception_copy(
     __std_exception_data const* const from,
     __std_exception_data*       const to
     )
@@ -49,7 +48,7 @@ extern "C" void __cdecl __std_exception_copy(
     to->_DoFree = true;
 }
 
-extern "C" void __cdecl __std_exception_destroy(
+void __cdecl __std_exception_destroy(
     __std_exception_data* const data
     )
 {

@@ -28,7 +28,7 @@
 //                          block.
 //
 
-extern "C" bool __cdecl __uncaught_exception()
+EXTERN_C bool __cdecl __uncaught_exception()
 {
     RENAME_BASE_PTD(__vcrt_ptd)* const ptd = RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd_noinit))();
     return ptd ? ptd->_ProcessingThrow > 0 : false;

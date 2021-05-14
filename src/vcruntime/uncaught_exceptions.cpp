@@ -29,7 +29,7 @@
 // just return false/0, without trying to allocate/initialize thread/fiber locals.
 //
 
-extern "C" int __cdecl __uncaught_exceptions()
+EXTERN_C int __cdecl __uncaught_exceptions()
 {
     RENAME_BASE_PTD(__vcrt_ptd)* const ptd = RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd_noinit))();
     return ptd ? ptd->_ProcessingThrow : 0;

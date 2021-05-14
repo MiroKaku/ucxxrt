@@ -192,19 +192,19 @@ EXTERN_C void* __cdecl _CallSettingFrame(
 #define EXCEPTION_NONCONTINUABLE_EXCEPTION STATUS_NONCONTINUABLE_EXCEPTION
 #endif
 
-EXTERN_C [[noreturn]] void __CxxRaiseException(
+[[noreturn]] void __stdcall __CxxRaiseException(
     _In_ DWORD dwExceptionCode,
     _In_ DWORD dwExceptionFlags,
     _In_ DWORD nNumberOfArguments,
     _In_reads_opt_(nNumberOfArguments) CONST ULONG_PTR* lpArguments
 );
 
-EXTERN_C [[noreturn]] void __CxxDispatchException(
+[[noreturn]] void __stdcall __CxxDispatchException(
     _In_ PEXCEPTION_RECORD ExceptionRecord,
     _In_ PCONTEXT ContextRecord
 );
 
-EXTERN_C EXCEPTION_DISPOSITION __CxxExecuteHandlerForException(
+EXCEPTION_DISPOSITION __stdcall __CxxExecuteHandlerForException(
     PEXCEPTION_RECORD ExceptionRecord,
     PVOID EstablisherFrame,
     PCONTEXT Context,

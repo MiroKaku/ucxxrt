@@ -94,14 +94,11 @@
 *
 *******************************************************************************/
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+EXTERN_C_START
 
-void __declspec(naked) __cdecl
-_EH_prolog3(
+void __declspec(naked) __cdecl _EH_prolog3(
     unsigned long LocalAllocation
-    )
+)
 {
     __asm
     {
@@ -211,10 +208,9 @@ _EH_prolog3(
 *
 *******************************************************************************/
 
-void __declspec(naked) __cdecl
-_EH_prolog3_catch(
+void __declspec(naked) __cdecl _EH_prolog3_catch(
     unsigned long LocalAllocation
-    )
+)
 {
     __asm
     {
@@ -327,10 +323,9 @@ _EH_prolog3_catch(
 *
 *******************************************************************************/
 
-void __declspec(naked) __cdecl
-_EH_prolog3_GS(
+void __declspec(naked) __cdecl _EH_prolog3_GS(
     unsigned long LocalAllocation
-    )
+)
 {
     __asm
     {
@@ -446,10 +441,9 @@ _EH_prolog3_GS(
 *
 *******************************************************************************/
 
-void __declspec(naked) __cdecl
-_EH_prolog3_catch_GS(
+void __declspec(naked) __cdecl _EH_prolog3_catch_GS(
     unsigned long LocalAllocation
-    )
+)
 {
     __asm
     {
@@ -539,10 +533,7 @@ _EH_prolog3_catch_GS(
 *
 *******************************************************************************/
 
-void __declspec(naked) __cdecl
-_EH_epilog3(
-    void
-    )
+void __declspec(naked) __cdecl _EH_epilog3(void)
 {
     __asm
     {
@@ -581,9 +572,7 @@ _EH_epilog3(
 *******************************************************************************/
 
 void __declspec(naked) __cdecl
-_EH_epilog3_GS(
-    void
-    )
+_EH_epilog3_GS(void)
 {
     __asm
     {
@@ -615,9 +604,7 @@ _EH_epilog3_GS(
 *******************************************************************************/
 
 void __declspec(naked) __cdecl
-_EH_epilog3_catch_GS(
-    void
-    )
+_EH_epilog3_catch_GS(void)
 {
     __asm
     {
@@ -628,6 +615,4 @@ _EH_epilog3_catch_GS(
     }
 }
 
-#ifdef __cplusplus
-}
-#endif
+EXTERN_C_END

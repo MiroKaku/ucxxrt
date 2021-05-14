@@ -18,6 +18,8 @@
 
 #include <ehdata4.h>
 
+EXTERN_C_START
+
 #if defined(_M_X64) || defined(_M_ARM_NT) || defined(_M_ARM64) || defined(_CHPE_X86_ARM64_EH_)
 
 #define _pForeignExcept   (*((EHExceptionRecord **) &(RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_pForeignException)))
@@ -33,49 +35,48 @@
 // V4 and later managed exception code
 #define MANAGED_EXCEPTION_CODE_V4  0XE0434352
 
-extern "C" void
-__except_validate_context_record(
+void __cdecl __except_validate_context_record(
     _In_ PCONTEXT ContextRecord
     );
 
-extern "C" _VCRTIMP void * __AdjustPointer(
+_VCRTIMP void * __AdjustPointer(
     void *,
     const PMD&
 );
 
-extern "C" _VCRTIMP void * __GetPlatformExceptionInfo(
+_VCRTIMP void * __GetPlatformExceptionInfo(
     int *
 );
 
-extern "C" _VCRTIMP int __cdecl __FrameUnwindFilter(
+_VCRTIMP int __cdecl __FrameUnwindFilter(
     EXCEPTION_POINTERS *
 );
 
-extern PGETWINRT_OOM_EXCEPTION __WinRTOutOfMemoryExceptionCallback;
-
-extern "C" _VCRTIMP void __cdecl __DestructExceptionObject(
+_VCRTIMP void __cdecl __DestructExceptionObject(
     EHExceptionRecord *,
     BOOLEAN
 );
 
-extern "C" _VCRTIMP void __cdecl RENAME_EH_EXTERN(__BuildCatchObject)(
+_VCRTIMP void __cdecl RENAME_EH_EXTERN(__BuildCatchObject)(
     EHExceptionRecord *,
     void *,
     HandlerType *,
     CatchableType *
 );
 
-extern "C" _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch4)(
+_VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch4)(
     FH4::HandlerType4 *,
     CatchableType *,
     ThrowInfo *
     );
 
-extern "C" _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch)(
+_VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch)(
     HandlerType *,
     CatchableType *,
     ThrowInfo *
 );
+
+EXTERN_C_END
 
 //
 // Prototype for the internal handler
@@ -100,3 +101,4 @@ EXCEPTION_DISPOSITION __InternalCxxFrameHandler(
 #define THROW_CTLIST(ti)        THROW_CTLIST_IB(ti, _GetThrowImageBase())
 
 #endif // _EH_RELATIVE_TYPEINFO
+

@@ -1820,15 +1820,7 @@ static int BuildCatchObjectHelperInternal(
 #endif // _EH_RELATIVE_FUNCINFO
     }
     __try {
-        if (HT_ISBADALLOCCOMPAT(*pCatch) && CT_ISSTDBADALLOC(*pConv) && __WinRTOutOfMemoryExceptionCallback)
-        {
-            void* pException = __WinRTOutOfMemoryExceptionCallback();
-
-            _VCRT_VERIFY(pException && pCatchBuffer);
-            *pCatchBuffer = pException;
-            *pCatchBuffer = __AdjustPointer(*pCatchBuffer, CT_THISDISP(*pConv));
-        }
-        else if (HT_ISREFERENCE(*pCatch)) {
+        if (HT_ISREFERENCE(*pCatch)) {
 
             // The catch is of form 'reference to T'.  At the throw point we
             // treat both 'T' and 'reference to T' the same, i.e.

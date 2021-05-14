@@ -61,7 +61,7 @@
 #endif //_MINWINBASE_
 
 
-extern "C" long __CRTDECL _filter_x86_sse2_floating_point_exception_default(long const exception_code)
+EXTERN_C long __CRTDECL _filter_x86_sse2_floating_point_exception_default(long const exception_code)
 {
     // If we're using SSE2 instructions on x86, the OS exception trap does not correctly
     // return accurate floating point exception codes.

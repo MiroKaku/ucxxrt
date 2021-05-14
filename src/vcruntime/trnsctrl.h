@@ -48,7 +48,7 @@ typedef struct FrameInfo
 } FRAMEINFO;
 
 #if defined _M_X64 || defined _M_ARM_NT || defined _M_ARM64 || defined _CHPE_X86_ARM64_EH_
-    extern "C" PVOID RENAME_EH_EXTERN(_CallSettingFrame)(
+    EXTERN_C PVOID RENAME_EH_EXTERN(_CallSettingFrame)(
         void*,
         EHRegistrationNode*,
 #if defined _M_ARM_NT || defined _M_ARM64 || defined _CHPE_X86_ARM64_EH_
@@ -57,7 +57,7 @@ typedef struct FrameInfo
         ULONG
         );
 
-    extern "C" PVOID RENAME_EH_EXTERN(_CallSettingFrame_LookupContinuationIndex)(
+    EXTERN_C PVOID RENAME_EH_EXTERN(_CallSettingFrame_LookupContinuationIndex)(
         void*,
         EHRegistrationNode*,
 #if defined _M_ARM_NT || defined _M_ARM64 || defined _CHPE_X86_ARM64_EH_
@@ -66,12 +66,12 @@ typedef struct FrameInfo
         ULONG
         );
 
-    extern "C" PVOID RENAME_EH_EXTERN(_CallSettingFrame_NotifyContinuationAddr)(
+    EXTERN_C PVOID RENAME_EH_EXTERN(_CallSettingFrame_NotifyContinuationAddr)(
         void*,
         EHRegistrationNode*
         );
 
-    extern "C" PVOID RENAME_EH_EXTERN(_CallSettingFrameEncoded)(
+    EXTERN_C PVOID RENAME_EH_EXTERN(_CallSettingFrameEncoded)(
         void*,
         EHRegistrationNode,
         void*,
@@ -87,17 +87,17 @@ typedef struct FrameInfo
     #define UNWINDTRYBLOCK(base, offset) *((int*)((char*)(OffsetToAddress(offset,base)) + 4))
     #define UNWINDHELP(base, offset)     *((__int64*)((char*)base + offset))
 
-    extern "C" uintptr_t __cdecl _GetImageBase();
+    EXTERN_C uintptr_t __cdecl _GetImageBase();
 
-    extern "C" void __cdecl _SetImageBase(
+    EXTERN_C void __cdecl _SetImageBase(
         uintptr_t ImageBaseToRestore
         );
 
 #if !defined(_CHPE_X86_ARM64_EH_)
 
-    extern "C" uintptr_t __cdecl _GetThrowImageBase();
+    EXTERN_C uintptr_t __cdecl _GetThrowImageBase();
 
-    extern "C" void __cdecl _SetThrowImageBase(
+    EXTERN_C void __cdecl _SetThrowImageBase(
         uintptr_t NewThrowImageBase
         );
 
@@ -117,7 +117,7 @@ typedef struct FrameInfo
 
 #elif defined _M_IX86
 
-    extern "C" void* __stdcall _CallSettingFrame(
+    EXTERN_C void* __stdcall _CallSettingFrame(
         void*,
         EHRegistrationNode*,
         unsigned long
@@ -138,7 +138,7 @@ typedef struct FrameInfo
         EHExceptionRecord*
         );
 
-    void* _CallCatchBlock2(
+    void* __stdcall _CallCatchBlock2(
         EHRegistrationNode*,
         FuncInfo*,
         void*,
@@ -146,7 +146,7 @@ typedef struct FrameInfo
         unsigned long
         );
 
-    BOOL _CallSETranslator(
+    BOOL __stdcall _CallSETranslator(
         EHExceptionRecord*,
         EHRegistrationNode*,
         void*,
@@ -199,37 +199,24 @@ __declspec(guard(ignore)) inline void __stdcall _CallMemberFunction2(
 // The following functions are implemented in the common transfer-of-control
 // implementation shared by the x64, arm, and arm64 EH implementations.
 
-extern "C" _VCRTIMP FRAMEINFO* __cdecl RENAME_EH_EXTERN(_CreateFrameInfo)(
+EXTERN_C _VCRTIMP FRAMEINFO* __cdecl RENAME_EH_EXTERN(_CreateFrameInfo)(
     FRAMEINFO* fi,
     PVOID exception
     );
 
-extern "C" _VCRTIMP BOOL __cdecl _IsExceptionObjectToBeDestroyed(
+EXTERN_C _VCRTIMP BOOL __cdecl _IsExceptionObjectToBeDestroyed(
     PVOID exception
     );
 
-extern "C" _VCRTIMP void __cdecl RENAME_EH_EXTERN(_FindAndUnlinkFrame)(
+EXTERN_C _VCRTIMP void __cdecl RENAME_EH_EXTERN(_FindAndUnlinkFrame)(
     FRAMEINFO* fi
     );
 
 typedef void (__stdcall* PFNPREPARE_FOR_THROW)(void* ExceptionInfo);
 
-typedef struct WinRTExceptionInfo
-{
-    void*                description;
-    void*                restrictedErrorString;
-    void*                restrictedErrorReference;
-    void*                capabilitySid;
-    long                 hr;
-    void*                restrictedInfo;
-    ThrowInfo*           throwInfo;
-    unsigned int         size;
-    PFNPREPARE_FOR_THROW PrepareThrow;
-} WINRTEXCEPTIONINFO;
-
-extern "C" _VCRTIMP void** __cdecl __current_exception();
-extern "C" _VCRTIMP void** __cdecl __current_exception_context();
-extern "C" _VCRTIMP int*   __cdecl __processing_throw();
+EXTERN_C _VCRTIMP void** __cdecl __current_exception();
+EXTERN_C _VCRTIMP void** __cdecl __current_exception_context();
+EXTERN_C _VCRTIMP int*   __cdecl __processing_throw();
 
 // NOTE: __uncaught_exceptions duplicates __ProcessingThrow.
 
@@ -270,9 +257,9 @@ extern "C" _VCRTIMP int*   __cdecl __processing_throw();
 extern thread_local int _CatchStateInParent;
 
 #if _CRT_NTDDI_MIN >= NTDDI_WIN6
-#define CatchStateInParent   (_CatchStateInParent)
+#define CatchStateInParent  (_CatchStateInParent)
 #else
-#define CatchStateInParent  (*(__LTL_GetOsMinVersion() < 0x00060000 ? &__LTL_get_ptd_downlevel()->_CatchStateInParent : &_CatchStateInParent))
+#define CatchStateInParent  (RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_CatchStateInParent)
 #endif
 #endif
 

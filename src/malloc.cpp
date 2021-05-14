@@ -40,7 +40,9 @@ namespace ucxxrt
     ULONG       DefaultMdlProtection = MdlMappingNoExecute;
 }
 
-extern "C" void __cdecl __initialize_memory()
+_CRT_BEGIN_C_HEADER
+
+void __cdecl __initialize_memory()
 {
     RTL_OSVERSIONINFOW ver_info{};
 
@@ -65,7 +67,7 @@ extern "C" void __cdecl __initialize_memory()
 // Both _malloc_dbg and _malloc_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to malloc
 // with either other function or vice versa.
-extern "C" __declspec(noinline) _CRTRESTRICT
+__declspec(noinline) _CRTRESTRICT
 void* __cdecl _malloc_base(size_t const size)
 {
     // Ensure that the requested size is not too large:
@@ -92,7 +94,7 @@ void* __cdecl _malloc_base(size_t const size)
     }
 }
 
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
 void* __cdecl malloc(
     _In_ _CRT_GUARDOVERFLOW size_t size
 )
@@ -107,7 +109,7 @@ void* __cdecl malloc(
 // Both _free_dbg and _free_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to free
 // with either other function or vice versa.
-extern "C" __declspec(noinline)
+__declspec(noinline)
 void __cdecl _free_base(void* const block)
 {
     if (block)
@@ -116,7 +118,7 @@ void __cdecl _free_base(void* const block)
     }
 }
 
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline)
+_CRT_HYBRIDPATCHABLE __declspec(noinline)
 void __cdecl free(
     _Pre_maybenull_ _Post_invalid_ void* block
 )
@@ -124,7 +126,7 @@ void __cdecl free(
     return _free_base(block);
 }
 
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
 void* __cdecl _malloc_pool_tag(
     _In_ _CRT_GUARDOVERFLOW size_t _Size,
     _In_ int _Pool,
@@ -137,7 +139,7 @@ void* __cdecl _malloc_pool_tag(
     return ExAllocatePoolWithTag((POOL_TYPE)_Pool, _Size, _Tag);
 }
 
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline)
+_CRT_HYBRIDPATCHABLE __declspec(noinline)
 void __cdecl _free_pool_tag(
     _Pre_maybenull_ _Post_invalid_ void* _Block,
     _In_ int /*_Pool*/,
@@ -164,7 +166,7 @@ void __cdecl _free_pool_tag(
 // _malloc_dbg will have identical COMDATs, and the linker will fold
 // them when calling one from the CRT. This is necessary because malloc
 // needs to support users patching in custom implementations.
-extern "C" __declspec(noinline)
+__declspec(noinline)
 void* __cdecl _malloc_dbg(
     size_t      const size,
     int         const /*block_use*/,
@@ -180,7 +182,7 @@ void* __cdecl _malloc_dbg(
 // _free_dbg will have identical COMDATs, and the linker will fold
 // them when calling one from the CRT. This is necessary because free
 // needs to support users patching in custom implementations.
-extern "C" __declspec(noinline)
+__declspec(noinline)
 void __cdecl _free_dbg(void* const block, int const /*block_use*/)
 {
     // TODO
@@ -196,7 +198,7 @@ void __cdecl _free_dbg(void* const block, int const /*block_use*/)
 // Both _calloc_dbg and _calloc_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to calloc
 // with either other function or vice versa.
-extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _calloc_base(
+__declspec(noinline) _CRTRESTRICT void* __cdecl _calloc_base(
     size_t const count,
     size_t const size
 )
@@ -207,7 +209,7 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _calloc_base(
     return malloc(count * size);
 }
 
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
 void* __cdecl calloc(
     _In_ _CRT_GUARDOVERFLOW size_t count,
     _In_ _CRT_GUARDOVERFLOW size_t size
@@ -236,7 +238,7 @@ void* __cdecl calloc(
 // Both _realloc_dbg and _realloc_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to realloc
 // with either other function or vice versa.
-extern "C" __declspec(noinline) _CRTRESTRICT
+__declspec(noinline) _CRTRESTRICT
 void* __cdecl _realloc_base(
     void* const block,
     size_t const size
@@ -277,7 +279,7 @@ void* __cdecl _realloc_base(
     }
 }
 
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
 void* __cdecl realloc(
     void* const block,
     size_t const size
@@ -299,7 +301,7 @@ void* __cdecl realloc(
 // Both _recalloc_dbg and _recalloc_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to _recalloc
 // with either other function or vice versa.
-extern "C" __declspec(noinline) _CRTRESTRICT
+__declspec(noinline) _CRTRESTRICT
 void* __cdecl _recalloc_base(
     void* const block,
     size_t const count,
@@ -312,7 +314,7 @@ void* __cdecl _recalloc_base(
     return _realloc_base(block, count * size);
 }
 
-extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _recalloc(
+__declspec(noinline) _CRTRESTRICT void* __cdecl _recalloc(
     void* const block,
     size_t const count,
     size_t const size
@@ -328,7 +330,7 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _recalloc(
 // _msize_base will have identical COMDATs, and the linker will fold
 // them when calling one from the CRT. This is necessary because _msize
 // needs to support users patching in custom implementations.
-extern "C" __declspec(noinline) size_t __cdecl _msize_base(void* const block)
+__declspec(noinline) size_t __cdecl _msize_base(void* const block)
 {
     // Validation section
     _VALIDATE_RETURN(block != nullptr, EINVAL, static_cast<size_t>(-1));
@@ -344,7 +346,7 @@ extern "C" __declspec(noinline) size_t __cdecl _msize_base(void* const block)
 // Both _msize_dbg and _msize_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to _msize
 // with either other function or vice versa.
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline)
+_CRT_HYBRIDPATCHABLE __declspec(noinline)
 size_t __cdecl _msize(void* const block)
 {
     return _msize_base(block);
@@ -362,7 +364,7 @@ size_t __cdecl _msize(void* const block)
 // Both _expand_dbg and _expand_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to _expand
 // with either other function or vice versa.
-extern "C" __declspec(noinline) void* __cdecl _expand_base(void* const block, size_t const size)
+__declspec(noinline) void* __cdecl _expand_base(void* const block, size_t const size)
 {
     // Validation section
     _VALIDATE_RETURN(block != nullptr, EINVAL, nullptr);
@@ -372,10 +374,11 @@ extern "C" __declspec(noinline) void* __cdecl _expand_base(void* const block, si
     return nullptr;
 }
 
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline)
+_CRT_HYBRIDPATCHABLE __declspec(noinline)
 void* __cdecl _expand(void* const block, size_t const size)
 {
     return _expand_base(block, size);
 }
 
+_CRT_END_C_HEADER
 #endif

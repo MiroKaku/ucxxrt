@@ -29,12 +29,12 @@ static unexpected_handler __cdecl get_unexpected_or_default(
     return ptd->_unexpected ? ptd->_unexpected : &terminate;
 }
 
-extern "C" unexpected_handler __cdecl _get_unexpected() noexcept
+EXTERN_C unexpected_handler __cdecl _get_unexpected() noexcept
 {
     return get_unexpected_or_default(RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))());
 }
 
-extern "C" unexpected_handler __cdecl set_unexpected(
+EXTERN_C unexpected_handler __cdecl set_unexpected(
     unexpected_handler const new_handler
     ) noexcept
 {
@@ -47,7 +47,7 @@ extern "C" unexpected_handler __cdecl set_unexpected(
     return old_handler;
 }
 
-extern "C" void __cdecl unexpected() noexcept(false)
+EXTERN_C void __cdecl unexpected() noexcept(false)
 {
     unexpected_handler const handler = RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_unexpected;
     if (handler)

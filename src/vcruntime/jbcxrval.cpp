@@ -38,7 +38,6 @@ Environment:
 
 #ifndef _AMD64_
 
-EXTERN_C_START
 
 #include "misc\cfg_support.inc"  // To inline _guard_icall_checks_enforced()
 
@@ -59,8 +58,7 @@ EXTERN_C_START
 
 void __GetStackLimits(PULONG_PTR LowLimit, PULONG_PTR HighLimit);
 
-void
-__except_validate_context_record (
+EXTERN_C void __cdecl __except_validate_context_record (
     _In_ PCONTEXT ContextRecord
     )
 
@@ -107,8 +105,7 @@ Return Value:
     }
 }
 
-void
-__except_validate_jump_buffer (
+EXTERN_C void __cdecl __except_validate_jump_buffer (
     _In_ jmp_buf JumpBuffer
     )
 
@@ -164,7 +161,5 @@ Return Value:
 #endif
     }
 }
-
-EXTERN_C_END
 
 #endif

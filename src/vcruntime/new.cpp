@@ -25,8 +25,8 @@
 // Enable the compiler to elide null checks during LTCG
 #pragma comment(linker, "/ThrowingNew")
 
-__declspec(noreturn) void __CRTDECL __scrt_throw_std_bad_alloc();
-__declspec(noreturn) void __CRTDECL __scrt_throw_std_bad_array_new_length();
+[[noreturn]] void __CRTDECL __scrt_throw_std_bad_alloc();
+[[noreturn]] void __CRTDECL __scrt_throw_std_bad_array_new_length();
 
 ////////////////////////////////////
 // new() Fallback Ordering

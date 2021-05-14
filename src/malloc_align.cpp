@@ -32,6 +32,8 @@
 
 #ifdef _KERNEL_MODE
 
+_CRT_BEGIN_C_HEADER
+
 #define IS_2_POW_N(X)   ((X) != 0 && ((X) & ((X) - 1)) == 0)
 #define PTR_SZ          sizeof(void *)
 
@@ -547,12 +549,12 @@ static __forceinline void __cdecl _aligned_free_base(void* const block)
 // ensure each export is separated from each other and that there is
 // enough space in each export to host a patch.
 
-extern "C" __declspec(noinline) void __cdecl _aligned_free(void* const block)
+__declspec(noinline) void __cdecl _aligned_free(void* const block)
 {
     _aligned_free_base(block);
 }
 
-extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_malloc(
+__declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_malloc(
     size_t const size,
     size_t const alignment
 )
@@ -560,7 +562,7 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_malloc(
     return _aligned_malloc_base(size, alignment);
 }
 
-extern "C" __declspec(noinline) size_t __cdecl _aligned_msize(
+__declspec(noinline) size_t __cdecl _aligned_msize(
     void* const block,
     size_t const alignment,
     size_t const offset)
@@ -568,7 +570,7 @@ extern "C" __declspec(noinline) size_t __cdecl _aligned_msize(
     return _aligned_msize_base(block, alignment, offset);
 }
 
-extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_malloc(
+__declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_malloc(
     size_t const size,
     size_t const alignment,
     size_t const offset
@@ -577,7 +579,7 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_mallo
     return _aligned_offset_malloc_base(size, alignment, offset);
 }
 
-extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_realloc(
+__declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_realloc(
     void* const block,
     size_t const size,
     size_t const alignment,
@@ -587,7 +589,7 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_reall
     return _aligned_offset_realloc_base(block, size, alignment, offset);
 }
 
-extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_recalloc(
+__declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_recalloc(
     void* const block,
     size_t const count,
     size_t const size,
@@ -598,7 +600,7 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_offset_recal
     return _aligned_offset_recalloc_base(block, count, size, alignment, offset);
 }
 
-extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_realloc(
+__declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_realloc(
     void* const block,
     size_t const size,
     size_t const alignment
@@ -607,7 +609,7 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_realloc(
     return _aligned_realloc_base(block, size, alignment);
 }
 
-extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_recalloc(
+__declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_recalloc(
     void* const block,
     size_t const count,
     size_t const size,
@@ -616,5 +618,7 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _aligned_recalloc(
 {
     return _aligned_recalloc_base(block, count, size, alignment);
 }
+
+_CRT_END_C_HEADER
 
 #endif

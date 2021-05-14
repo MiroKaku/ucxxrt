@@ -199,9 +199,9 @@ typedef const struct _s_ThrowInfo {
 // compiler (see macro above); since this prototype is known to the FE along with the pre-injected
 // types, it has to match exactly.
 //
-extern "C" __declspec(noreturn) void __stdcall _CxxThrowException(void* pExceptionObject, _ThrowInfo* pThrowInfo);
+[[noreturn]] void __stdcall _CxxThrowException(void* pExceptionObject, _ThrowInfo* pThrowInfo);
 
-extern "C" int __cdecl __CxxExceptionFilter(void* ppExcept, void* pType, int adjectives, void *pBuildObj);
+EXTERN_C int __cdecl __CxxExceptionFilter(void* ppExcept, void* pType, int adjectives, void *pBuildObj);
 
 #ifdef prepifdef
 	prepifdef _MANAGED
@@ -216,7 +216,7 @@ extern "C" int __cdecl __CxxExceptionFilter(void* ppExcept, void* pType, int adj
 // Returns true if the object is really a C++ exception
 // If it is, stores the previous exception in *storage, and saves the current one
 // This is needed to keep track of the current exception object (used for rethrow & destruction)
-extern "C" int __cdecl __CxxRegisterExceptionObject(void *exception, void *storage);
+EXTERN_C int __cdecl __CxxRegisterExceptionObject(void *exception, void *storage);
 
 #ifdef prepifdef
 	prepifdef _MANAGED
@@ -230,7 +230,7 @@ extern "C" int __cdecl __CxxRegisterExceptionObject(void *exception, void *stora
 
 // Returns true if exception is a C++ rethrown exception
 // This is needed, so Unregister can know whether or not to destroy the object
-extern "C" int __cdecl __CxxDetectRethrow(void *exception);
+EXTERN_C int __cdecl __CxxDetectRethrow(void *exception);
 
 #ifdef prepifdef
 	prepifdef _MANAGED
@@ -243,7 +243,7 @@ extern "C" int __cdecl __CxxDetectRethrow(void *exception);
 #endif
 
 // Returns the byte count of stack space required to store the exception info
-extern "C" int __cdecl __CxxQueryExceptionSize(void);
+EXTERN_C int __cdecl __CxxQueryExceptionSize(void);
 
 #ifdef prepifdef
 	prepifdef _MANAGED
@@ -257,7 +257,7 @@ extern "C" int __cdecl __CxxQueryExceptionSize(void);
 
 // Pops the current exception, restoring the previous one from *storage
 // This detects whether or not the exception object needs to be destroyed
-extern "C" void __cdecl __CxxUnregisterExceptionObject(void *storage, int rethrow);
+EXTERN_C void __cdecl __CxxUnregisterExceptionObject(void *storage, int rethrow);
 
 #ifdef prepifdef
 	prepifdef _MANAGED

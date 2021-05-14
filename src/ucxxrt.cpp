@@ -10,5 +10,9 @@
  * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
  */
 
+_CRT_BEGIN_C_HEADER
+
 extern UINT_PTR __security_cookie;
 extern UINT_PTR __security_cookie_complement;
+
+_CRT_END_C_HEADER

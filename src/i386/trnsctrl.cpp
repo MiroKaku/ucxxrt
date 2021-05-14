@@ -187,7 +187,7 @@ END_PRAGMA_OPTIMIZE()
 //
 // This is a backwards-compatibility entry point. All new code must go to __CxxFrameHandler2
 //
-extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler(
+EXTERN_C _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler(
     /*
         EAX=FuncInfo   *pFuncInfo,      // Static information for this frame
     */
@@ -241,7 +241,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
 //                      These function should be separated out if a change makes
 //                                              __CxxFrameHandler3 incompatible with __CxxFrameHandler2
 //
-extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler3(
+EXTERN_C _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler3(
     /*
         EAX=FuncInfo   *pFuncInfo,      // Static information for this frame
     */
@@ -291,7 +291,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
 //
 // __CxxFrameHandler2 - Remove after compiler is updated
 //
-extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler2(
+EXTERN_C _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler2(
     /*
         EAX=FuncInfo   *pFuncInfo,      // Static information for this frame
     */
@@ -338,8 +338,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
     }
 }
 
-extern "C" void
-__except_validate_jump_buffer(
+EXTERN_C void __cdecl __except_validate_jump_buffer(
     _In_ _JUMP_BUFFER * JumpBuffer
 );
 
@@ -349,7 +348,7 @@ __except_validate_jump_buffer(
 //      when setjmp used in same function as C++ EH.
 //
 
-extern "C" DECLSPEC_GUARD_SUPPRESS void __stdcall __CxxLongjmpUnwind(
+EXTERN_C DECLSPEC_GUARD_SUPPRESS void __stdcall __CxxLongjmpUnwind(
     _JUMP_BUFFER * jbuf
 ) {
     __except_validate_jump_buffer(jbuf);
@@ -380,9 +379,9 @@ struct CatchGuardRN {
     int                 CatchDepth;     // How deeply nested are we?
 };
 
-extern "C" EXCEPTION_DISPOSITION __cdecl _CatchGuardHandler(EHExceptionRecord*, CatchGuardRN*, void*, void*);
+EXTERN_C EXCEPTION_DISPOSITION __cdecl _CatchGuardHandler(EHExceptionRecord*, CatchGuardRN*, void*, void*);
 
-__declspec(guard(ignore)) void* _CallCatchBlock2(
+__declspec(guard(ignore)) void* __stdcall _CallCatchBlock2(
     EHRegistrationNode* pRN,            // Dynamic info of function with catch
     FuncInfo* pFuncInfo,                // Static info of function with catch
     void* handlerAddress,               // Code address of handler
@@ -436,7 +435,7 @@ __declspec(guard(ignore)) void* _CallCatchBlock2(
 // Does nothing on an unwind.
 //
 
-extern "C" EXCEPTION_DISPOSITION __cdecl _CatchGuardHandler(
+EXTERN_C EXCEPTION_DISPOSITION __cdecl _CatchGuardHandler(
     EHExceptionRecord * pExcept,        // Information for this exception
     CatchGuardRN * pRN,                 // The special marker frame
     void* pContext,                     // Context info (we don't care what's in it)
@@ -510,7 +509,7 @@ struct TranslatorGuardRN /*: CatchGuardRN */ {
     BOOL                DidUnwind;      // True if this frame was unwound
 };
 
-extern "C" EXCEPTION_DISPOSITION __cdecl _TranslatorGuardHandler(EHExceptionRecord*, TranslatorGuardRN*, void*, void*);
+EXTERN_C EXCEPTION_DISPOSITION __cdecl _TranslatorGuardHandler(EHExceptionRecord*, TranslatorGuardRN*, void*, void*);
 
 #define CSET_SPECIAL ((EHExceptionRecord *)0x123)
 
@@ -521,7 +520,7 @@ BEGIN_PRAGMA_OPTIMIZE_DISABLE("g", DOLPH:3322, "Uninvestigated issue from Visual
 #pragma comment(linker, "/alternatename:__filter_x86_sse2_floating_point_exception=__filter_x86_sse2_floating_point_exception_default")
 #endif
 
-__declspec(guard(ignore)) BOOL _CallSETranslator(
+__declspec(guard(ignore)) BOOL __stdcall _CallSETranslator(
     EHExceptionRecord* pExcept,         // The exception to be translated
     EHRegistrationNode* pRN,            // Dynamic info of function with catch
     void* pContext,                     // Context info (we don't care what's in it)
@@ -651,7 +650,7 @@ END_PRAGMA_OPTIMIZE()
 // On unwind:
 //  Sets the DidUnwind flag in the registration node, and returns.
 //
-extern "C" EXCEPTION_DISPOSITION __cdecl _TranslatorGuardHandler(
+EXTERN_C EXCEPTION_DISPOSITION __cdecl _TranslatorGuardHandler(
     EHExceptionRecord * pExcept,        // Information for this exception
     TranslatorGuardRN * pRN,            // The translator guard frame
     void* pContext,                     // Context info (we don't care what's in it)
@@ -720,10 +719,10 @@ extern "C" EXCEPTION_DISPOSITION __cdecl _TranslatorGuardHandler(
 //
 RENAME_EH_EXTERN(__FrameHandler3)::TryBlockMap::IteratorPair RENAME_EH_EXTERN(__FrameHandler3)::GetRangeOfTrysToCheck(
     RENAME_EH_EXTERN(__FrameHandler3)::TryBlockMap& TryBlockMap,
-    __ehstate_t                                    curState,
+    __ehstate_t curState,
     DispatcherContext* /*pDC*/,
     FuncInfo* pFuncInfo,
-    int                                            CatchDepth
+    int CatchDepth
 ) {
     TryBlockMapEntry* pEntry = FUNC_PTRYBLOCK(*pFuncInfo, 0);
     unsigned start = FUNC_NTRYBLOCKS(*pFuncInfo);
@@ -762,7 +761,7 @@ RENAME_EH_EXTERN(__FrameHandler3)::TryBlockMap::IteratorPair RENAME_EH_EXTERN(__
 // Returns:
 //      Pointer to the frame info (the first input argument).
 //
-extern "C" _VCRTIMP FRAMEINFO * __cdecl _CreateFrameInfo(
+EXTERN_C _VCRTIMP FRAMEINFO * __cdecl _CreateFrameInfo(
     FRAMEINFO * pFrameInfo,
     PVOID       pExceptionObject
 ) {
@@ -778,7 +777,7 @@ extern "C" _VCRTIMP FRAMEINFO * __cdecl _CreateFrameInfo(
 //  inserted by _CreateFrameInfo.  This should be the first frame in the list
 //  (Ideally), but fibers deviate from ideal situation.
 //
-extern "C" _VCRTIMP void __cdecl _FindAndUnlinkFrame(
+EXTERN_C _VCRTIMP void __cdecl _FindAndUnlinkFrame(
     FRAMEINFO * pFrameInfo
 ) {
     if (pFrameInfo == pFrameInfoChain) {

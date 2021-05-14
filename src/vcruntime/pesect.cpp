@@ -25,6 +25,8 @@
 
 #include <vcruntime_internal.h>
 
+EXTERN_C_START
+
 extern IMAGE_DOS_HEADER __ImageBase;
 
 BEGIN_PRAGMA_OPTIMIZE_ENABLE("t", DevDivVSO:162582, "This file is performance-critical and should always be optimized for speed")
@@ -199,3 +201,5 @@ BOOL __cdecl _IsNonwritableInCurrentImage(
         return FALSE;
     }
 }
+
+EXTERN_C_END

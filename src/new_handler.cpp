@@ -27,7 +27,7 @@ static volatile _PNH __acrt_new_handler;
 
 
 // Initializes the new handler to the encoded nullptr value.
-extern "C" void __cdecl __acrt_initialize_new_handler(void* const encoded_null)
+EXTERN_C void __cdecl __acrt_initialize_new_handler(void* const encoded_null)
 {
     __acrt_new_handler = (_PNH)encoded_null;
 }
@@ -67,7 +67,7 @@ _PNH __cdecl _query_new_handler()
 // Calls the currently registered new handler with the provided size.  If the
 // new handler succeeds, this function returns 1.  This function returns 0 on
 // failure.  The new handler may throw std::bad_alloc.
-extern "C" int __cdecl _callnewh(size_t const size)
+EXTERN_C int __cdecl _callnewh(size_t const size)
 {
     _PNH const pnh = _query_new_handler();
 

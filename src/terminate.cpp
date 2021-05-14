@@ -14,7 +14,7 @@
 
 #ifdef _KERNEL_MODE
 
-EXTERN_C_START
+_CRT_BEGIN_C_HEADER
 
 _ACRTIMP __declspec(noreturn) void __cdecl abort(void)
 {
@@ -36,6 +36,6 @@ _ACRTIMP __declspec(noreturn) void __cdecl terminate() throw()
         1);
 }
 
-EXTERN_C_END
+_CRT_END_C_HEADER
 
 #endif

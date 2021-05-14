@@ -21,6 +21,8 @@
 
 #if defined(_DEBUG) and defined(_KERNEL_MODE)
 
+_CRT_BEGIN_C_HEADER
+
 /***
 *int _CrtDbgReport() - primary reporting function
 *
@@ -68,7 +70,7 @@
 *       If something goes wrong, we do not assert, but we return -1.
 *
 *******************************************************************************/
-extern "C" int __cdecl _CrtDbgReport(
+int __cdecl _CrtDbgReport(
     int         const /*report_type*/,
     char const* const /*file_name*/,
     int         const /*line_number*/,
@@ -80,7 +82,7 @@ extern "C" int __cdecl _CrtDbgReport(
     return TRUE;
 }
 
-extern "C" int __cdecl _CrtDbgReportW(
+int __cdecl _CrtDbgReportW(
     int            const /*report_type*/,
     wchar_t const* const /*file_name*/,
     int            const /*line_number*/,
@@ -92,4 +94,5 @@ extern "C" int __cdecl _CrtDbgReportW(
     return TRUE;
 }
 
+_CRT_END_C_HEADER
 #endif

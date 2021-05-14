@@ -36,21 +36,13 @@
 //      Another result of this is that _CRTIMP can't be used here.  Instead, we
 //      synthesize the -export directive below.
 //
-extern "C" __declspec(noreturn) void __stdcall _CxxThrowException(
+[[noreturn]] void __stdcall _CxxThrowException(
     void *pExceptionObject, // The object thrown
     _ThrowInfo *pThrowInfo  // Everything we need to know about it
 ) {
     EHTRACE_FMT1("Throwing object @ 0x%p", pExceptionObject);
     auto pTI = reinterpret_cast<ThrowInfo *>(pThrowInfo);
     ULONG_PTR magicNumber = EH_MAGIC_NUMBER1;
-    if (pTI && (pTI->attributes & TI_IsWinRT)) {
-        // The pointer to the ExceptionInfo structure is stored sizeof(void*) in front of each WinRT Exception Info.
-        WINRTEXCEPTIONINFO **ppWei = *static_cast<WINRTEXCEPTIONINFO ***>(pExceptionObject);
-        --ppWei;
-        const auto pWei = *ppWei;
-        pTI = pWei->throwInfo;
-        pWei->PrepareThrow(ppWei);
-    }
 
 #if _EH_RELATIVE_TYPEINFO
     void *throwImageBase = RtlPcToFileHeader(const_cast<void *>(static_cast<const void *>(pTI)), &throwImageBase);

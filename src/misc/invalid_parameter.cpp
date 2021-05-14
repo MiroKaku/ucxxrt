@@ -26,7 +26,7 @@ _STD_BEGIN
 _CRTIMP2_PURE_IMPORT _Prhand _Raise_handler = nullptr; // pointer to raise handler
 #endif
 
-extern "C" void __cdecl _invalid_parameter_advanced(
+EXTERN_C void __cdecl _invalid_parameter_advanced(
     wchar_t const* const expression,
     wchar_t const* const function_name,
     wchar_t const* const file_name,
@@ -38,7 +38,7 @@ extern "C" void __cdecl _invalid_parameter_advanced(
 }
 
 #ifdef _DEBUG
-extern "C" void __cdecl _invalid_parameter(
+EXTERN_C void __cdecl _invalid_parameter(
     wchar_t const* const expression,
     wchar_t const* const function_name,
     wchar_t const* const file_name,
@@ -49,7 +49,7 @@ extern "C" void __cdecl _invalid_parameter(
 }
 #endif
 
-extern "C" void __cdecl _invalid_parameter_noinfo()
+EXTERN_C void __cdecl _invalid_parameter_noinfo()
 {
     _invalid_parameter_advanced(nullptr, nullptr, nullptr, 0, 0);
 }
@@ -57,7 +57,7 @@ extern "C" void __cdecl _invalid_parameter_noinfo()
 // This is used by inline code in the C++ Standard Library and the SafeInt
 // library.  Because it is __declspec(noreturn), the compiler can better
 // optimize use of the invalid parameter handler for inline code.
-extern "C" __declspec(noreturn) void __cdecl _invalid_parameter_noinfo_noreturn()
+EXTERN_C  [[noreturn]] void __cdecl _invalid_parameter_noinfo_noreturn()
 {
 #ifdef _DEBUG
     _invalid_parameter(nullptr, nullptr, nullptr, 0, 0);
@@ -66,7 +66,7 @@ extern "C" __declspec(noreturn) void __cdecl _invalid_parameter_noinfo_noreturn(
     _invoke_watson(nullptr, nullptr, nullptr, 0, 0);
 }
 
-extern "C" __declspec(noreturn) void __cdecl _invoke_watson(
+EXTERN_C  [[noreturn]] void __cdecl _invoke_watson(
     wchar_t const* const expression,
     wchar_t const* const function_name,
     wchar_t const* const file_name,

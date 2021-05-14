@@ -56,10 +56,7 @@
 *
 *******************************************************************************/
 
-#ifdef __cplusplus
-extern "C"
-#endif
-void __declspec(naked) _EH_prolog2(void)
+EXTERN_C void __declspec(naked) __cdecl _EH_prolog2(void)
 {
     /*
      * We want to generate a frame that is equivalent to
