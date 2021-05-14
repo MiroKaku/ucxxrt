@@ -12,10 +12,13 @@
 
 #include <intrin.h>
 
-#ifdef __cplusplus
-extern"C" {
-#endif
-#if     !defined(__assembler)
+
+#if 0 // Using libcntpr.lib
+
+_CRT_BEGIN_C_HEADER
+
+
+#if !defined(__assembler)
 
 #pragma function(ceil)
 #pragma function(floor)
@@ -31,6 +34,8 @@ _CRTIMP double  __cdecl floor(_In_ double x)
 }
 
 #endif
-#ifdef __cplusplus
-}
+
+
+_CRT_END_C_HEADER
+
 #endif

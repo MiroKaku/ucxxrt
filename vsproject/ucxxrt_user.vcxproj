@@ -22,12 +22,14 @@
     <ClCompile Include="..\src\cpu_disp.cpp" />
     <ClCompile Include="..\src\dbgrpt.cpp" />
     <ClCompile Include="..\src\errno.cpp" />
+    <ClCompile Include="..\src\fltused.cpp" />
     <ClCompile Include="..\src\i386\ehprolg2.cpp" />
     <ClCompile Include="..\src\i386\ehprolg3.cpp" />
     <ClCompile Include="..\src\i386\except.cpp" />
     <ClCompile Include="..\src\i386\trnsctrl.cpp" />
     <ClCompile Include="..\src\malloc.cpp" />
     <ClCompile Include="..\src\malloc_align.cpp" />
+    <ClCompile Include="..\src\math.cpp" />
     <ClCompile Include="..\src\misc\invalid_parameter.cpp" />
     <ClCompile Include="..\src\new_handler.cpp" />
     <ClCompile Include="..\src\new_mode.cpp" />

@@ -80,6 +80,12 @@
       <AdditionalDependencies>ucxxrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  
+  <ItemDefinitionGroup Condition=" ('$(UCRT_KernelMode)'=='true') ">
+    <Link>
+      <AdditionalDependencies>ucxxrt.lib;libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
 
   <Target Name="UCXXRT_PlatformPrepareForBuild">
     <Message Text="

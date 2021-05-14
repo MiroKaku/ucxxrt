@@ -16,6 +16,7 @@
 
 _CRT_BEGIN_C_HEADER
 
+#if 0 // Using libcntpr.lib
 _ACRTIMP __declspec(noreturn) void __cdecl abort(void)
 {
     KeBugCheckEx(
@@ -25,6 +26,7 @@ _ACRTIMP __declspec(noreturn) void __cdecl abort(void)
         EH_MAGIC_NUMBER1,
         0);
 }
+#endif
 
 _ACRTIMP __declspec(noreturn) void __cdecl terminate() throw()
 {

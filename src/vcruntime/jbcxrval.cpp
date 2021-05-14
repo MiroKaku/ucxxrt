@@ -36,6 +36,8 @@ Environment:
 #include <vcruntime_internal.h>
 #include <stdlib.h>
 
+#if 0 // Using libcntpr.lib
+
 #ifndef _AMD64_
 
 
@@ -161,5 +163,7 @@ Return Value:
 #endif
     }
 }
+
+#endif
 
 #endif
