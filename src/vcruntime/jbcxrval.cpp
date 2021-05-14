@@ -36,9 +36,9 @@ Environment:
 #include <vcruntime_internal.h>
 #include <stdlib.h>
 
-#if 0 // Using libcntpr.lib
+// Using libcntpr.lib on kernelmode
 
-#ifndef _AMD64_
+#if !defined(_AMD64_) and !defined(_KERNEL_MODE)
 
 
 #include "misc\cfg_support.inc"  // To inline _guard_icall_checks_enforced()
@@ -163,7 +163,5 @@ Return Value:
 #endif
     }
 }
-
-#endif
 
 #endif
