@@ -251,7 +251,7 @@ _VCRTIMP void __cdecl __DestructExceptionObject(
     /*UNDONE:Is this _SYSCRT specific */
 #pragma prefast(suppress:__WARNING_REDUNDANT_POINTER_TEST, "Current definition of PER_CODE ensures that pExcept cannot be nullptr")
     if (PER_PTHROW(pExcept))  {
-        if (THROW_UNWINDFUNC(*PER_PTHROW(pExcept)) != nullptr) {
+        if (THROW_UNWINDFUNC(*PER_PTHROW(pExcept)) != PMFN()) {
 
             __try {
 

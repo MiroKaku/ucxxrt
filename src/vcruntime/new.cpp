@@ -198,21 +198,6 @@ void* __CRTDECL operator new[](size_t const size, std::align_val_t const al, std
 // void* operator new  (std::size_t count, user-defined-args...);
 // void* operator new[](std::size_t count, user-defined-args...);
 
-// global
-namespace ucxxrt
-{
-    extern ULONG        DefaultPoolTag;
-    extern POOL_TYPE    DefaultPoolType;
-    extern ULONG        DefaultMdlProtection;
-}
-
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
-void* __cdecl _malloc_pool_tag(
-    _In_ _CRT_GUARDOVERFLOW size_t _Size,
-    _In_ int _Pool,
-    _In_ unsigned long _Tag
-);
-
 // new_scalar_pool_tag
 _NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(size_t size, POOL_TYPE pool, ULONG tag)
 {

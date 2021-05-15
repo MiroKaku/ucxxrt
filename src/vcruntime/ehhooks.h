@@ -79,7 +79,7 @@ RtlUnwind(
 );
 
 #if defined(_M_AMD64) || defined(_M_ARM64) || defined(_M_ARM)
-EXTERN_C NTSYSAPI PRUNTIME_FUNCTION NTAPI
+EXTERN_C NTSYSAPI PIMAGE_RUNTIME_FUNCTION_ENTRY NTAPI
 RtlLookupFunctionEntry(
     _In_ ULONG_PTR ControlPc,
     _Out_ PULONG_PTR ImageBase,
@@ -103,7 +103,7 @@ RtlVirtualUnwind(
     _In_ DWORD HandlerType,
     _In_ ULONG_PTR ImageBase,
     _In_ ULONG_PTR ControlPc,
-    _In_ PRUNTIME_FUNCTION FunctionEntry,
+    _In_ PIMAGE_RUNTIME_FUNCTION_ENTRY FunctionEntry,
     _Inout_ PCONTEXT ContextRecord,
     _Out_ PVOID* HandlerData,
     _Out_ PULONG_PTR EstablisherFrame,

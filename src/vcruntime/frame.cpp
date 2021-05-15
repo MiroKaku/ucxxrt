@@ -1348,10 +1348,7 @@ static void CatchIt(
 
 static void __RethrowException(EHExceptionRecord *pThisException)
 {
-    RaiseException( pThisException->ExceptionCode,
-                    pThisException->ExceptionFlags,
-                    pThisException->NumberParameters,
-                    (PULONG_PTR)&(pThisException->params) );
+    RtlRaiseException((PEXCEPTION_RECORD)pThisException);
 }
 
 #if _VCRT_BUILD_FH4

@@ -145,6 +145,18 @@
     <ClCompile Include="..\src\math.cpp">
       <Filter>ucxxrt</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\x64\gshandlereh.cpp">
+      <Filter>ucxxrt\x64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\x64\gshandlereh4.cpp">
+      <Filter>ucxxrt\x64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\x64\except.cpp">
+      <Filter>ucxxrt\x64</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\risctrnsctrl.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ucxxrt.h" />
@@ -221,6 +233,12 @@
     </MASM>
     <MASM Include="..\src\i386\ehprolog.asm">
       <Filter>ucxxrt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\x64\handlers.asm">
+      <Filter>ucxxrt\x64</Filter>
+    </MASM>
+    <MASM Include="..\src\x64\notify.asm">
+      <Filter>ucxxrt\x64</Filter>
     </MASM>
   </ItemGroup>
 </Project>

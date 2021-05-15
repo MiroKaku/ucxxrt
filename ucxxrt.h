@@ -26,7 +26,26 @@
 #define _VCRTIMP _CRTIMP
 #endif
 
+
 #include <cstdint>
+#include <inc/malloc.h>
+
+
+namespace ucxxrt
+{
+#if (_MSVC_LANG < 201704L) && (__cplusplus < 201704L)
+    constexpr char    __Version[] = u8"2.0.0.40";
+#else
+    constexpr char8_t __Version[] = u8"2.0.0.40";
+#endif
+
+#ifdef _KERNEL_MODE
+    extern ULONG        DefaultPoolTag;
+    extern POOL_TYPE    DefaultPoolType;
+    extern ULONG        DefaultMdlProtection;
+#endif
+}
+
 
 #ifndef _ByteSwap16
 #define _ByteSwap16(x) (                            \

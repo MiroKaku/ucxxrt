@@ -14,6 +14,7 @@
 #include <ehassert.h>
 #include <ehhooks.h>
 
+void __GetStackLimits(PULONG_PTR LowLimit, PULONG_PTR HighLimit);
 
  /*End of Exception List*/
 #define EXCEPTION_CHAIN_END ((PEXCEPTION_REGISTRATION_RECORD)-1)
@@ -23,22 +24,12 @@ typedef struct _DISPATCHER_CONTEXT
     PEXCEPTION_REGISTRATION_RECORD RegistrationPointer;
 } DISPATCHER_CONTEXT, * PDISPATCHER_CONTEXT;
 
-void __GetStackLimits(PULONG_PTR LowLimit, PULONG_PTR HighLimit)
-{
-#ifdef _KERNEL_MODE
-    IoGetStackLimits(LowLimit, HighLimit);
-#else
-    * LowLimit = (ULONG_PTR)((NT_TIB*)NtCurrentTeb())->StackLimit;
-    *HighLimit = (ULONG_PTR)((NT_TIB*)NtCurrentTeb())->StackBase;
-#endif
-}
-
 PEXCEPTION_REGISTRATION_RECORD __GetExceptionList()
 {
     return (PEXCEPTION_REGISTRATION_RECORD)__readfsdword(0);
 }
 
-[[noreturn]] void __stdcall __RaiseException(
+[[noreturn]] static void __stdcall __RaiseException(
     _In_ PEXCEPTION_RECORD ExceptionRecord,
     _In_ PCONTEXT /*ContextRecord*/
 ) {

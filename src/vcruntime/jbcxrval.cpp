@@ -36,9 +36,19 @@ Environment:
 #include <vcruntime_internal.h>
 #include <stdlib.h>
 
-// Using libcntpr.lib on kernelmode
+void __GetStackLimits(PULONG_PTR LowLimit, PULONG_PTR HighLimit)
+{
+#ifdef _KERNEL_MODE
+    IoGetStackLimits(LowLimit, HighLimit);
+#else
+    * LowLimit = (ULONG_PTR)((NT_TIB*)NtCurrentTeb())->StackLimit;
+    *HighLimit = (ULONG_PTR)((NT_TIB*)NtCurrentTeb())->StackBase;
+#endif
+}
 
-#if !defined(_AMD64_) and !defined(_KERNEL_MODE)
+// Using libcntpr.lib on kernelmodeX86
+
+#if defined(_AMD64_)
 
 
 #include "misc\cfg_support.inc"  // To inline _guard_icall_checks_enforced()
@@ -57,8 +67,6 @@ Environment:
 #endif
 
 #define CONTEXT_TO_STACK_POINTER(Context) JUMP_BUFFER_TO_STACK_POINTER(Context)
-
-void __GetStackLimits(PULONG_PTR LowLimit, PULONG_PTR HighLimit);
 
 EXTERN_C void __cdecl __except_validate_context_record (
     _In_ PCONTEXT ContextRecord

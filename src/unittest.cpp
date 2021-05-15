@@ -152,7 +152,7 @@ void Test$HashMap()
 {
     auto Rand = std::mt19937_64(::rand());
     auto Map = std::unordered_map<uint32_t, std::string>();
-    for (auto i = 0u; i < 100; ++i)
+    for (auto i = 0u; i < 10; ++i)
     {
         Map[i] = std::to_string(Rand());
     }
