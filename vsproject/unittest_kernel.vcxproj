@@ -144,22 +144,23 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
-    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
+    <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>

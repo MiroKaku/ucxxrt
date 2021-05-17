@@ -1416,7 +1416,7 @@ void * RENAME_EH_EXTERN(__FrameHandler4)::CxxCallCatchBlock(
 #endif
                 0x100);
 
-            intptr_t continuationIndex = reinterpret_cast<intptr_t>(continuationAddress);
+            auto continuationIndex = reinterpret_cast<size_t>(continuationAddress);
             if (continuationIndex < MAX_CONT_ADDRESSES)
             {
                 _VCRT_VERIFY(continuationAddresses[continuationIndex] != 0);
