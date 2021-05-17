@@ -164,6 +164,49 @@ void Test$HashMap()
     }
 }
 
+template<typename T>
+class Test$InitializerListObject
+{
+    using iterator               = typename std::vector<T>::iterator;
+    using const_iterator         = typename std::vector<T>::const_iterator;
+    using reverse_iterator       = typename std::vector<T>::reverse_iterator;
+    using const_reverse_iterator = typename std::vector<T>::const_reverse_iterator;
+
+    std::vector<T> _vec;
+
+public:
+    Test$InitializerListObject(std::initializer_list<T> x)
+        : _vec(x)
+    {}
+
+    [[nodiscard]] const_iterator begin() const noexcept {
+        return _vec.begin();
+    }
+
+    [[nodiscard]] iterator end() noexcept {
+        return _vec.end();
+    }
+
+    [[nodiscard]] const_iterator cbegin() const noexcept {
+        return _vec.cbegin();
+    }
+
+    [[nodiscard]] const_iterator cend() const noexcept {
+        return _vec.cend();
+    }
+};
+
+void Test$InitializerList()
+{
+    auto v = Test$InitializerListObject{ 0, 1, 2, 3, 4 };
+
+    int x = 0;
+    for (const auto i : v)
+    {
+        ASSERT(i == x++);
+    }
+}
+
 #ifdef _KERNEL_MODE
 EXTERN_C NTSTATUS DriverMain(PDRIVER_OBJECT aDriverObject, PUNICODE_STRING /*aRegistry*/)
 #else
@@ -175,6 +218,7 @@ EXTERN_C int main()
     TEST(Test$ThrowObject);
     TEST(Test$ThrowUnknow);
     TEST(Test$HashMap);
+    TEST(Test$InitializerList);
 
     for (const auto& Test : TestVec)
     {
