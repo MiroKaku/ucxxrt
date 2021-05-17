@@ -97,8 +97,7 @@ RtlUnwindEx(
 );
 
 EXTERN_C NTSYSAPI
-PEXCEPTION_ROUTINE
-NTAPI
+PEXCEPTION_ROUTINE NTAPI
 RtlVirtualUnwind(
     _In_ DWORD HandlerType,
     _In_ ULONG_PTR ImageBase,
@@ -192,19 +191,19 @@ EXTERN_C void* __cdecl _CallSettingFrame(
 #define EXCEPTION_NONCONTINUABLE_EXCEPTION STATUS_NONCONTINUABLE_EXCEPTION
 #endif
 
-[[noreturn]] void __stdcall __CxxRaiseException(
+EXTERN_C  [[noreturn]] void __cdecl __CxxRaiseException(
     _In_ DWORD dwExceptionCode,
     _In_ DWORD dwExceptionFlags,
     _In_ DWORD nNumberOfArguments,
     _In_reads_opt_(nNumberOfArguments) CONST ULONG_PTR* lpArguments
 );
 
-[[noreturn]] void __stdcall __CxxDispatchException(
+EXTERN_C  [[noreturn]] void __cdecl __CxxDispatchException(
     _In_ PEXCEPTION_RECORD ExceptionRecord,
     _In_ PCONTEXT ContextRecord
 );
 
-EXCEPTION_DISPOSITION __stdcall __CxxExecuteHandlerForException(
+EXTERN_C EXCEPTION_DISPOSITION __cdecl __CxxExecuteHandlerForException(
     PEXCEPTION_RECORD ExceptionRecord,
     PVOID EstablisherFrame,
     PCONTEXT Context,

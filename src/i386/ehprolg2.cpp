@@ -19,6 +19,8 @@
 *       EH prologue helper function for an aligned stack.
 ****/
 
+#ifdef _X86_
+
 #pragma warning(disable:4733)           // ignore unsafe FS:0 modifications
 #define bnd repne
 /***
@@ -130,3 +132,5 @@ EXTERN_C void __declspec(naked) __cdecl _EH_prolog2(void)
     bnd ret                       ; adds 0xF2(BND) prefix to preserve bounds
     }
 }
+
+#endif

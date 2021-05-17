@@ -48,7 +48,7 @@ EXTERN_C void __cdecl __std_exception_copy(
     to->_DoFree = true;
 }
 
-void __cdecl __std_exception_destroy(
+EXTERN_C void __cdecl __std_exception_destroy(
     __std_exception_data* const data
     )
 {

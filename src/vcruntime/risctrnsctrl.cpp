@@ -25,12 +25,12 @@
 
 #define _ImageBase        (RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_ImageBase)
 
-extern "C" uintptr_t __cdecl _GetImageBase()
+EXTERN_C uintptr_t __cdecl _GetImageBase()
 {
     return _ImageBase;
 }
 
-extern "C" void __cdecl _SetImageBase(uintptr_t ImageBaseToRestore)
+EXTERN_C void __cdecl _SetImageBase(uintptr_t ImageBaseToRestore)
 {
     _ImageBase = ImageBaseToRestore;
 }
@@ -41,12 +41,12 @@ extern "C" void __cdecl _SetImageBase(uintptr_t ImageBaseToRestore)
 
 #define _ThrowImageBase   (RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_ThrowImageBase)
 
-extern "C" uintptr_t __cdecl _GetThrowImageBase()
+EXTERN_C uintptr_t __cdecl _GetThrowImageBase()
 {
     return _ThrowImageBase;
 }
 
-extern "C" void __cdecl _SetThrowImageBase(uintptr_t NewThrowImageBase)
+EXTERN_C void __cdecl _SetThrowImageBase(uintptr_t NewThrowImageBase)
 {
     _ThrowImageBase = NewThrowImageBase;
 }
@@ -202,7 +202,7 @@ bool RENAME_EH_EXTERN(__FrameHandler3)::ExecutionInCatch(
     )
 {
     __ehstate_t curState = StateFromControlPc(pFuncInfo, pDC);
-    return CatchTryBlock(pFuncInfo, curState)? TRUE : FALSE;
+    return CatchTryBlock(pFuncInfo, curState)? true : false;
 }
 
 // The name of this function is rather misleading. This function won't really unwind
@@ -263,7 +263,7 @@ void RENAME_EH_EXTERN(__FrameHandler3)::FrameUnwindToEmptyState(
 //                      These functions should be separated out if a change makes
 //                                              __CxxFrameHandler3 incompatible with __CxxFrameHandler2
 //
-extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl RENAME_EH_EXTERN_HYBRID(__CxxFrameHandler3)(
+EXTERN_C DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl RENAME_EH_EXTERN_HYBRID(__CxxFrameHandler3)(
     EHExceptionRecord  *pExcept,         // Information for this exception
     EHRegistrationNode RN,               // Dynamic information for this frame
     CONTEXT            *pContext,        // Context info
@@ -283,7 +283,7 @@ extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl RENAME_EH_EXTER
 }
 
 #if _VCRT_BUILD_FH4
-extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl RENAME_EH_EXTERN_HYBRID(__CxxFrameHandler4)(
+EXTERN_C DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl RENAME_EH_EXTERN_HYBRID(__CxxFrameHandler4)(
     EHExceptionRecord  *pExcept,         // Information for this exception
     EHRegistrationNode RN,               // Dynamic information for this frame
     CONTEXT            *pContext,        // Context info
@@ -311,7 +311,7 @@ extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl RENAME_EH_EXTER
 //
 // __CxxFrameHandler2 - Remove after compiler is updated
 //
-extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler2(
+EXTERN_C DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler2(
     EHExceptionRecord  *pExcept,         // Information for this exception
     EHRegistrationNode RN,               // Dynamic information for this frame
     CONTEXT            *pContext,        // Context info
@@ -321,7 +321,7 @@ extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandl
     return __CxxFrameHandler3(pExcept, RN, pContext, pDC);
 }
 
-extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler(
+EXTERN_C DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl __CxxFrameHandler(
     EHExceptionRecord  *pExcept,         // Information for this exception
     EHRegistrationNode RN,               // Dynamic information for this frame
     CONTEXT            *pContext,        // Context info
@@ -565,7 +565,7 @@ RENAME_EH_EXTERN(__FrameHandler3)::TryBlockMap::IteratorPair RENAME_EH_EXTERN(__
     return TryBlockMap::IteratorPair(iterStart, iterEnd);
 }
 
-extern "C" FRAMEINFO * __cdecl RENAME_EH_EXTERN(_CreateFrameInfo)(
+EXTERN_C FRAMEINFO * __cdecl RENAME_EH_EXTERN(_CreateFrameInfo)(
     FRAMEINFO * pFrameInfo,
     PVOID       pExceptionObject
 ) {
@@ -582,7 +582,7 @@ extern "C" FRAMEINFO * __cdecl RENAME_EH_EXTERN(_CreateFrameInfo)(
 //  but the code will look for a nested frame and pop all frames, just in
 //  case.
 //
-extern "C" void __cdecl RENAME_EH_EXTERN(_FindAndUnlinkFrame)(
+EXTERN_C void __cdecl RENAME_EH_EXTERN(_FindAndUnlinkFrame)(
     FRAMEINFO * pFrameInfo
 ) {
     _VCRT_VERIFY(pFrameInfo == pFrameInfoChain);

@@ -36,6 +36,7 @@ Environment:
 #include <vcruntime_internal.h>
 #include <stdlib.h>
 
+
 void __GetStackLimits(PULONG_PTR LowLimit, PULONG_PTR HighLimit)
 {
 #ifdef _KERNEL_MODE
@@ -46,9 +47,9 @@ void __GetStackLimits(PULONG_PTR LowLimit, PULONG_PTR HighLimit)
 #endif
 }
 
-// Using libcntpr.lib on kernelmodeX86
 
-#if defined(_AMD64_)
+// Using libcntpr.lib on X86 KernelMode
+#if defined(_AMD64_) or !defined(_KERNEL_MODE)
 
 
 #include "misc\cfg_support.inc"  // To inline _guard_icall_checks_enforced()

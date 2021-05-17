@@ -43,6 +43,8 @@
 *       _EH_epilog3_catch_GS
 ****/
 
+#ifdef _X86_
+
 #include <vcruntime_internal.h>
 
 /*
@@ -616,3 +618,5 @@ _EH_epilog3_catch_GS(void)
 }
 
 EXTERN_C_END
+
+#endif

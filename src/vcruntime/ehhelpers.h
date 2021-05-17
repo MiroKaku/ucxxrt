@@ -18,7 +18,6 @@
 
 #include <ehdata4.h>
 
-EXTERN_C_START
 
 #if defined(_M_X64) || defined(_M_ARM_NT) || defined(_M_ARM64) || defined(_CHPE_X86_ARM64_EH_)
 
@@ -35,48 +34,46 @@ EXTERN_C_START
 // V4 and later managed exception code
 #define MANAGED_EXCEPTION_CODE_V4  0XE0434352
 
-void __cdecl __except_validate_context_record(
+EXTERN_C void __cdecl __except_validate_context_record(
     _In_ PCONTEXT ContextRecord
     );
 
-_VCRTIMP void * __AdjustPointer(
+EXTERN_C _VCRTIMP void * __cdecl __AdjustPointer(
     void *,
     const PMD&
 );
 
-_VCRTIMP void * __GetPlatformExceptionInfo(
+EXTERN_C _VCRTIMP void * __cdecl __GetPlatformExceptionInfo(
     int *
 );
 
-_VCRTIMP int __cdecl __FrameUnwindFilter(
+EXTERN_C _VCRTIMP int __cdecl __FrameUnwindFilter(
     EXCEPTION_POINTERS *
 );
 
-_VCRTIMP void __cdecl __DestructExceptionObject(
+EXTERN_C _VCRTIMP void __cdecl __DestructExceptionObject(
     EHExceptionRecord *,
     BOOLEAN
 );
 
-_VCRTIMP void __cdecl RENAME_EH_EXTERN(__BuildCatchObject)(
+EXTERN_C _VCRTIMP void __cdecl RENAME_EH_EXTERN(__BuildCatchObject)(
     EHExceptionRecord *,
     void *,
     HandlerType *,
     CatchableType *
 );
 
-_VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch4)(
+EXTERN_C _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch4)(
     FH4::HandlerType4 *,
     CatchableType *,
     ThrowInfo *
     );
 
-_VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch)(
+EXTERN_C _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch)(
     HandlerType *,
     CatchableType *,
     ThrowInfo *
 );
-
-EXTERN_C_END
 
 //
 // Prototype for the internal handler

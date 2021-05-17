@@ -21,6 +21,8 @@
 *       _CxxFrameHandler, the entry point for the frame handler
 ****/
 
+#ifdef _X86_
+
 #include <eh.h>
 #include <ehassert.h>
 #include <ehdata4.h>
@@ -799,3 +801,5 @@ EXTERN_C _VCRTIMP void __cdecl _FindAndUnlinkFrame(
     // Should never be reached.
     abort();
 }
+
+#endif

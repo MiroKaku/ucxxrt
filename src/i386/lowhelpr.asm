@@ -24,7 +24,7 @@
     title lowhelpr.asm
 
 .xlist
-    include vcruntime.inc
+    include cruntime.inc
     include exsup.inc
 .list
 

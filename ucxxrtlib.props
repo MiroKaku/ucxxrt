@@ -11,7 +11,7 @@
   <!-- Basic Config -->
   <PropertyGroup Label="Globals">
     <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
-    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
   </PropertyGroup>
 
   <ItemDefinitionGroup Label="Globals">
@@ -19,7 +19,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;$(SolutionDir)src\vcruntime\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <ObjectFileName>$(IntDir)%(RelativeDir)%(FileName).obj</ObjectFileName>
+      <ObjectFileName>$(IntDir)anyname\%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <PostBuildEvent>

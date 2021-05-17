@@ -24,9 +24,7 @@
 #include <undname.h>
 
 
-EXTERN_C_START
-
-int __cdecl __std_type_info_compare(
+EXTERN_C int __cdecl __std_type_info_compare(
     __std_type_info_data const* const lhs,
     __std_type_info_data const* const rhs
     )
@@ -39,7 +37,7 @@ int __cdecl __std_type_info_compare(
     return strcmp(lhs->_DecoratedName + 1, rhs->_DecoratedName + 1);
 }
 
-size_t __cdecl __std_type_info_hash(
+EXTERN_C size_t __cdecl __std_type_info_hash(
     __std_type_info_data const* const data
     )
 {
@@ -73,7 +71,7 @@ size_t __cdecl __std_type_info_hash(
 }
 
 #if 0
-char const* __cdecl __std_type_info_name(
+EXTERN_C char const* __cdecl __std_type_info_name(
     __std_type_info_data* const data,
     __type_info_node*     const root_node
     )
@@ -146,7 +144,7 @@ char const* __cdecl __std_type_info_name(
 
 // This function is called during module unload to clean up all of the undecorated
 // name strings that were allocated by calls to name().
-void __cdecl __std_type_info_destroy_list(
+EXTERN_C void __cdecl __std_type_info_destroy_list(
     __type_info_node* const root_node
     )
 {
@@ -158,5 +156,3 @@ void __cdecl __std_type_info_destroy_list(
         current_node = next_node;
     }
 }
-
-EXTERN_C_END

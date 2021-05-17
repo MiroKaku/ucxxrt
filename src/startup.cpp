@@ -101,7 +101,7 @@ int __cdecl _initterm_e(_PIFV* const first, _PIFV* const last)
 
 extern "C++" struct onexit_entry
 {
-    onexit_entry* _next = nullptr;
+    onexit_entry*   _next = nullptr;
     _PVFV           _destructor = nullptr;
 
     onexit_entry(onexit_entry* next, _PVFV destructor)

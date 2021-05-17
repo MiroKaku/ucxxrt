@@ -36,7 +36,7 @@
 //      Another result of this is that _CRTIMP can't be used here.  Instead, we
 //      synthesize the -export directive below.
 //
-[[noreturn]] void __stdcall _CxxThrowException(
+EXTERN_C [[noreturn]] void __stdcall _CxxThrowException(
     void *pExceptionObject, // The object thrown
     _ThrowInfo *pThrowInfo  // Everything we need to know about it
 ) {

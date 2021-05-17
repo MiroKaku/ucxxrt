@@ -34,7 +34,6 @@
 
 #include "ehhelpers.h"
 
-EXTERN_C_START
 
 // If we call DestructExceptionObject directly from C_Specific_Handler/
 // _except_handler3, then this obj file will be pulled in by the linker
@@ -43,7 +42,7 @@ EXTERN_C_START
 // default. If C++ exceptions are present, this file will be pulled in naturally
 // and _pDestructExceptionObject will point to __DestructExceptionObject.
 
-void (__cdecl * const _pDestructExceptionObject)(EHExceptionRecord *,BOOLEAN)
+EXTERN_C void (__cdecl * const _pDestructExceptionObject)(EHExceptionRecord *,BOOLEAN)
     = &__DestructExceptionObject;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +56,7 @@ void (__cdecl * const _pDestructExceptionObject)(EHExceptionRecord *,BOOLEAN)
 // Side-effects:
 //     NONE.
 
-_VCRTIMP void *__AdjustPointer(
+EXTERN_C _VCRTIMP void * __cdecl __AdjustPointer(
     void *pThis,                        // Address point of exception object
     const PMD& pmd                      // Generalized pointer-to-member
                                         //   descriptor
@@ -87,7 +86,7 @@ _VCRTIMP void *__AdjustPointer(
 //
 // Side-effects:
 //     NONE.
-_VCRTIMP void * __GetPlatformExceptionInfo(
+EXTERN_C _VCRTIMP void * __cdecl __GetPlatformExceptionInfo(
     int *pIsBadAlloc
 ) {
     *pIsBadAlloc = 0;
@@ -127,17 +126,17 @@ _VCRTIMP void * __GetPlatformExceptionInfo(
 // Don't define these "locally" for satellite DLL build, the satellite
 // needs to call these from the base vcruntime to infer the location of the PTD
 #if !defined _VCRT_SAT_1
-void** __cdecl __current_exception()
+EXTERN_C void** __cdecl __current_exception()
 {
     return &RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curexception;
 }
 
-void** __cdecl __current_exception_context()
+EXTERN_C void** __cdecl __current_exception_context()
 {
     return &RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curcontext;
 }
 
-int* __cdecl __processing_throw()
+EXTERN_C int* __cdecl __processing_throw()
 {
     return &RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_ProcessingThrow;
 }
@@ -149,7 +148,7 @@ int* __cdecl __processing_throw()
 //   unwind.
 //
 
-_VCRTIMP int __cdecl __FrameUnwindFilter(
+EXTERN_C _VCRTIMP int __cdecl __FrameUnwindFilter(
     EXCEPTION_POINTERS *pExPtrs
 ) {
     EHExceptionRecord *pExcept = (EHExceptionRecord *)pExPtrs->ExceptionRecord;
@@ -234,7 +233,7 @@ static DWORD __stdcall _FilterSetCurrentException(EXCEPTION_POINTERS* pointers, 
     return EXCEPTION_CONTINUE_SEARCH;
 }
 
-_VCRTIMP void __cdecl __DestructExceptionObject(
+EXTERN_C _VCRTIMP void __cdecl __DestructExceptionObject(
     EHExceptionRecord *pExcept,         // The original exception record
     BOOLEAN fThrowNotAllowed            // TRUE if destructor not allowed to
                                         //   throw
@@ -284,7 +283,7 @@ _VCRTIMP void __cdecl __DestructExceptionObject(
 // Returns:
 //      TRUE if exception object not found and should be destroyed.
 //
-BOOL __cdecl _IsExceptionObjectToBeDestroyed(
+EXTERN_C BOOL __cdecl _IsExceptionObjectToBeDestroyed(
     PVOID pExceptionObject
 ) {
     FRAMEINFO * pFrameInfo;
@@ -301,7 +300,7 @@ BOOL __cdecl _IsExceptionObjectToBeDestroyed(
 // _is_exception_typeof - checks if the thrown exception is the type, the caller
 // has passed in.
 //
-_VCRTIMP int __cdecl _is_exception_typeof(const type_info & type, struct _EXCEPTION_POINTERS * ep)
+EXTERN_C _VCRTIMP int __cdecl _is_exception_typeof(const type_info & type, struct _EXCEPTION_POINTERS * ep)
 {
     _VCRT_VERIFY(ep);
 
@@ -341,5 +340,3 @@ _VCRTIMP int __cdecl _is_exception_typeof(const type_info & type, struct _EXCEPT
 
     return 0;
 }
-
-EXTERN_C_END

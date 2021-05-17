@@ -10,6 +10,8 @@
  * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
  */
 
+#ifdef _X86_
+
 #include <intrin.h>
 #include <ehassert.h>
 #include <ehhooks.h>
@@ -37,7 +39,7 @@ PEXCEPTION_REGISTRATION_RECORD __GetExceptionList()
     RtlRaiseException(ExceptionRecord);
 }
 
-[[noreturn]] void __stdcall __CxxRaiseException(
+EXTERN_C [[noreturn]] void __cdecl __CxxRaiseException(
     _In_ DWORD dwExceptionCode,
     _In_ DWORD dwExceptionFlags,
     _In_ DWORD nNumberOfArguments,
@@ -86,7 +88,7 @@ PEXCEPTION_REGISTRATION_RECORD __GetExceptionList()
     __CxxDispatchException(&ExceptionRecord, &Context);
 }
 
-[[noreturn]] void __stdcall __CxxDispatchException(
+EXTERN_C [[noreturn]] void __cdecl __CxxDispatchException(
     _In_ PEXCEPTION_RECORD ExceptionRecord,
     _In_ PCONTEXT ContextRecord
 ) {
@@ -203,7 +205,7 @@ PEXCEPTION_REGISTRATION_RECORD __GetExceptionList()
     }
 }
 
-EXCEPTION_DISPOSITION __stdcall __CxxExecuteHandlerForException(
+EXTERN_C EXCEPTION_DISPOSITION __cdecl __CxxExecuteHandlerForException(
     PEXCEPTION_RECORD ExceptionRecord,
     PVOID EstablisherFrame,
     PCONTEXT Context,
@@ -212,3 +214,5 @@ EXCEPTION_DISPOSITION __stdcall __CxxExecuteHandlerForException(
 ) {
     return ExceptionHandler(ExceptionRecord, EstablisherFrame, Context, DispatcherContext);
 }
+
+#endif

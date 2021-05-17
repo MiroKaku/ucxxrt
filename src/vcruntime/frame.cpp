@@ -216,7 +216,7 @@ static BOOLEAN Is_bad_exception_allowed(ESTypeList *pExceptionSpec);
 //
 // This describes the most recently handled exception, in case of a rethrow:
 //
-#define _pCurrentFuncInfo       (*((ESTypeList **)&(RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curexcspec)))
+#define _pCurrentFuncInfo (*((ESTypeList **)&(RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_curexcspec)))
 
 inline ESTypeList* RENAME_EH_EXTERN(__FrameHandler3)::getESTypes(FuncInfo* pFuncInfo)
 {
@@ -980,7 +980,7 @@ int TypeMatchHelper(
 //
 // Returns:
 //     TRUE if the catch can catch using this throw conversion, FALSE otherwise.
-extern "C" _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch)(
+EXTERN_C _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch)(
     HandlerType   *pCatch,      // Type of the 'catch' clause
     CatchableType *pCatchable,  // Type conversion under consideration
     ThrowInfo     *pThrow       // General information about the thrown
@@ -1867,7 +1867,7 @@ static int BuildCatchObjectHelperInternal(
 
 #pragma warning(pop)
 
-extern "C" _VCRTIMP int __cdecl RENAME_EH_EXTERN(__BuildCatchObjectHelper)(
+EXTERN_C _VCRTIMP int __cdecl RENAME_EH_EXTERN(__BuildCatchObjectHelper)(
     EHExceptionRecord *pExcept,         // Original exception thrown
     void *pRN,                          // This is a pointer to the object
                                         // that we want to build while doing
@@ -1974,7 +1974,7 @@ static void BuildCatchObjectInternal(
     }
 }
 
-extern "C" _VCRTIMP void __cdecl RENAME_EH_EXTERN(__BuildCatchObject)(
+EXTERN_C _VCRTIMP void __cdecl RENAME_EH_EXTERN(__BuildCatchObject)(
     EHExceptionRecord *pExcept,         // Original exception thrown
     void *pRN,                          // This is a pointer to the object
                                         // that we want to build while doing

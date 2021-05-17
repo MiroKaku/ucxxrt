@@ -22,20 +22,21 @@
 
 // Disable /GL: gshandlereh4.cpp -> Properties -> C/C++ -> Optimization -> Whole Program Optimization: NO
 
+#ifdef _AMD64_
 
 #include <ehdata.h>
 #include <vcruntime_internal.h>
 
 typedef struct _GS_HANDLER_DATA *PGS_HANDLER_DATA;
 
-extern "C" void
+EXTERN_C void __cdecl
 __GSHandlerCheckCommon (
     IN PVOID EstablisherFrame,
     IN PDISPATCHER_CONTEXT DispatcherContext,
     IN PGS_HANDLER_DATA GSHandlerData
     );
 
-extern "C" EXCEPTION_DISPOSITION
+EXTERN_C EXCEPTION_DISPOSITION __cdecl
 __CxxFrameHandler4 (
     IN PEXCEPTION_RECORD ExceptionRecord,
     IN PVOID EstablisherFrame,
@@ -43,7 +44,7 @@ __CxxFrameHandler4 (
     IN OUT PDISPATCHER_CONTEXT DispatcherContext
 );
 
-extern "C" EXCEPTION_DISPOSITION
+EXTERN_C EXCEPTION_DISPOSITION __cdecl
 __GSHandlerCheck_EH4(
     IN PEXCEPTION_RECORD ExceptionRecord,
     IN PVOID EstablisherFrame,
@@ -99,3 +100,5 @@ __GSHandlerCheck_EH4(
 
     return Disposition;
 }
+
+#endif

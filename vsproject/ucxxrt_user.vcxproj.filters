@@ -208,9 +208,6 @@
     <None Include="..\src\i386\exsup.inc">
       <Filter>ucxxrt\i386</Filter>
     </None>
-    <None Include="..\src\i386\vcruntime.inc">
-      <Filter>ucxxrt\i386</Filter>
-    </None>
     <None Include="..\src\misc\cfg_support.inc">
       <Filter>ucxxrt\misc</Filter>
     </None>
