@@ -157,6 +157,21 @@
     <ClCompile Include="..\src\vcruntime\risctrnsctrl.cpp">
       <Filter>ucxxrt\vcruntime</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehvccctr.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehvcccvb.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehvecctr.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehveccvb.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\ehvecdtr.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ucxxrt.h" />

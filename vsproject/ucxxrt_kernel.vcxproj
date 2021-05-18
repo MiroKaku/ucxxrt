@@ -69,6 +69,11 @@
     <ClCompile Include="..\src\vcruntime\delete.cpp" />
     <ClCompile Include="..\src\vcruntime\ehhelpers.cpp" />
     <ClCompile Include="..\src\vcruntime\ehstate.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehvccctr.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehvcccvb.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehvecctr.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehveccvb.cpp" />
+    <ClCompile Include="..\src\vcruntime\ehvecdtr.cpp" />
     <ClCompile Include="..\src\vcruntime\frame.cpp" />
     <ClCompile Include="..\src\vcruntime\jbcxrval.cpp" />
     <ClCompile Include="..\src\vcruntime\new.cpp" />

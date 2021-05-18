@@ -203,6 +203,16 @@ void Test$InitializerList()
     }
 }
 
+std::unordered_map<std::string, ULONG_PTR> Test$StaticObjectInitializer =
+{
+    { "1", 1 },
+    { "2", 2 },
+    { "3", 3 },
+    { "4", 4 },
+    { "5", 5 },
+};
+
+
 #ifdef _KERNEL_MODE
 EXTERN_C NTSTATUS DriverMain(PDRIVER_OBJECT aDriverObject, PUNICODE_STRING /*aRegistry*/)
 #else
