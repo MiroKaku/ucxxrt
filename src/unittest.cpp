@@ -1,10 +1,6 @@
 #ifdef __KERNEL_MODE
-#define _KERNEL_MODE __KERNEL_MODE
-#endif
-
-#ifdef _KERNEL_MODE
-#include <wdm.h>
 #include <ntddk.h>
+#include <wdm.h>
 #else
 #include <windows.h>
 #include <assert.h>
