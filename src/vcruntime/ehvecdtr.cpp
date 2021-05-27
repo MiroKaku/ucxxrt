@@ -1,3 +1,15 @@
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      ehvecdtr.cpp
+ * DATA:      2021/05/27
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 /***
 *ehvecdtr.cpp - EH-aware version of destructor iterator helper function
 *

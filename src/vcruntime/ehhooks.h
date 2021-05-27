@@ -42,6 +42,9 @@
 
 #define RENAME_EH_EXTERN(x) x
 
+#define pFrameInfoChain   (*((FRAMEINFO **)         &(RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_pFrameInfoChain)))
+#define __pSETranslator   (_se_translator_function&)((RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))())->_translator)
+
 
 enum : size_t
 {

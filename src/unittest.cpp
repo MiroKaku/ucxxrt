@@ -13,6 +13,8 @@
 #include <vector>
 #include <functional>
 #include <unordered_map>
+#include <stdexcept>
+
 
 #ifdef _KERNEL_MODE
 #define LOG(_0, _1, ...) DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, __VA_ARGS__)
@@ -199,7 +201,7 @@ void Test$InitializerList()
     int x = 0;
     for (const auto i : v)
     {
-        ASSERT(i == x++);
+        ASSERT(i == x); ++x;
     }
 }
 

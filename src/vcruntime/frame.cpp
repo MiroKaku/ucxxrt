@@ -56,7 +56,6 @@ using namespace FH4;
 #pragma warning(disable: 4702) // unreachable code
 
 #define cxxReThrow  (RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()->_cxxReThrow)
-#define __pSETranslator   (_se_translator_function) ((RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))())->_translator)
 
 
 ////////////////////////////////////////////////////////////////////////////////
