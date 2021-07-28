@@ -40,7 +40,7 @@ static int __cdecl invoke_main(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Regi
 }
 
 static PDRIVER_UNLOAD __DriverUnload = nullptr;
-VOID DriverUnload(PDRIVER_OBJECT DriverObject)
+static VOID DriverUnload(PDRIVER_OBJECT DriverObject)
 {
     if (__DriverUnload)
     {
