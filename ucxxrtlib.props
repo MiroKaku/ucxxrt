@@ -3,14 +3,38 @@
 
   <!--
   作者：MiroKaku
-  修改日期：07/07/2020
+  修改日期：05/03/2021
 
-  ucxxrt.lib 的内核配置属性文件
+  编译 ucxxrt.lib 的属性文件
   -->
 
+  <!-- Basic Config -->
+  <PropertyGroup Label="Globals">
+    <OutDir>$(SolutionDir)lib\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
+    <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup Label="Globals">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)src\;$(SolutionDir)src\vcruntime\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile>ucxxrt.inl</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ObjectFileName>$(IntDir)anyname\%(RelativeDir)%(FileName).obj</ObjectFileName>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command>mkdir "$(SolutionDir)ucxxrt" | copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.props" "$(SolutionDir)ucxxrt\" &amp;&amp; copy /Y "$(SolutionDir)ucxxrt.h" "$(SolutionDir)ucxxrt\" &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)inc" "$(SolutionDir)ucxxrt\inc\"  &amp;&amp; xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup Label="Globals">
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+
+  <!-- ucxxrt Config -->
   <PropertyGroup>
     <UCRT_KernelMode>false</UCRT_KernelMode>
-    <UCRT_KernelMode Condition=" ('$(PlatformToolset)'=='WindowsKernelModeDriver10.0') ">true</UCRT_KernelMode>
+    <UCRT_KernelMode Condition=" ('$(PlatformToolset.TrimEnd(`0123456789.`))' == 'WindowsKernelModeDriver') ">true</UCRT_KernelMode>
   </PropertyGroup>
 
   <PropertyGroup Condition=" ('$(UCRT_KernelMode)'=='true') ">
@@ -22,7 +46,7 @@
 
   <ItemDefinitionGroup Condition=" ('$(UCRT_KernelMode)'=='true') ">
     <ClCompile>
-      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;_HAS_EXCEPTIONS=1;_ITERATOR_DEBUG_LEVEL=0;__KERNEL_MODE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
       <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>

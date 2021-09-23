@@ -1,7 +1,7 @@
 /*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      ucxxrt.h
- * DATA:      2020/02/05
+ * DATA:      2021/05/03
  *
  * PURPOSE:   Universal C++ RunTime
  *
@@ -12,29 +12,10 @@
 
 #pragma once
 
-// If you use float-point please open _HAS_FLOATPOINT
-// and link libcntpr.lib
-//   1. Open the project's Property Pages dialog box.
-//   2. Choose the Input property page in the Linker folder.
-//   3. Modify the Additional Dependencies property to add the libcntpr.lib file.
-#define _HAS_FLOATPOINT 1
-
-#if __has_include(<wdm.h>)
+#ifdef __KERNEL_MODE
 #   ifndef  _KERNEL_MODE
-#       error _KERNEL_MODE must be defined before all header files.
+#       define  _KERNEL_MODE __KERNEL_MODE
 #   endif
-#endif
-
-#ifndef _CRT_BEGIN_C_HEADER
-#define _CRT_BEGIN_C_HEADER            \
-        __pragma(pack(push, _CRT_PACKING)) \
-        extern "C" {
-#endif // !_CRT_BEGIN_C_HEADER
-
-#ifndef _CRT_END_C_HEADER
-#define _CRT_END_C_HEADER \
-        }                     \
-        __pragma(pack(pop))
 #endif
 
 #ifndef _CRTIMP
@@ -45,46 +26,26 @@
 #define _VCRTIMP _CRTIMP
 #endif
 
-#ifndef _HAS_NODISCARD
-#ifndef __has_cpp_attribute
-#define _HAS_NODISCARD 0
-#elif __has_cpp_attribute(nodiscard) >= 201603L // TRANSITION, VSO#939899 (need toolset update)
-#define _HAS_NODISCARD 1
-#else
-#define _HAS_NODISCARD 0
-#endif
-#endif // _HAS_NODISCARD
 
-#if _HAS_NODISCARD
-    #define _NODISCARD [[nodiscard]]
-#else // ^^^ CAN HAZ [[nodiscard]] / NO CAN HAZ [[nodiscard]] vvv
-    #define _NODISCARD
-#endif // _HAS_NODISCARD
-
-
-#include "include/stdint.h"
-#include "include/new.h"
-#include "include/typeinfo.h"
+#include <cstdint>
+#include <inc/malloc.h>
 
 
 namespace ucxxrt
 {
 #if (_MSVC_LANG < 201704L) && (__cplusplus < 201704L)
-    constexpr char    __Version[] = u8"0.0.0.3";
+    constexpr char    __Version[] = u8"2.0.0.40";
 #else
-    constexpr char8_t __Version[] = u8"0.0.0.3";
+    constexpr char8_t __Version[] = u8"2.0.0.40";
 #endif
 
-#if __has_include(<wdm.h>)
+#ifdef _KERNEL_MODE
     extern ULONG        DefaultPoolTag;
     extern POOL_TYPE    DefaultPoolType;
     extern ULONG        DefaultMdlProtection;
 #endif
 }
 
-
-namespace ucxxrt
-{
 
 #ifndef _ByteSwap16
 #define _ByteSwap16(x) (                            \
@@ -114,5 +75,3 @@ namespace ucxxrt
     ((uint64_t(x) & uint64_t(0xFF <<  0)) << 56) |  \
 )
 #endif
-
-}

@@ -1,7 +1,7 @@
 /*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      ucxxrt.inl
- * DATA:      2020/02/05
+ * DATA:      2021/05/03
  *
  * PURPOSE:   Universal C++ RunTime
  *
@@ -12,6 +12,7 @@
 
 #pragma once
 
+#define WINBASEAPI
 
 #if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_) && !defined(_ARM_) && !defined(_ARM64_) && defined(_M_IX86)
 #define _X86_
@@ -32,25 +33,53 @@
 #define _ARM64_
 #endif
 
-#define _DISABLE_DEPRECATE_STATIC_CPPLIB
-#define _STATIC_CPPLIB
+#if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_) && !defined(_ARM_) && !defined(_ARM64_) && defined(_M_M68K)
+#define _68K_
+#endif
+
+#if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_) && !defined(_ARM_) && !defined(_ARM64_) && defined(_M_MPPC)
+#define _MPPC_
+#endif
+
+#if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_M_IX86) && !defined(_AMD64_) && !defined(_ARM_) && !defined(_ARM64_) && defined(_M_IA64)
+#if !defined(_IA64_)
+#define _IA64_
+#endif /* !_IA64_ */
+#endif
+
+#ifndef _MAC
+#if defined(_68K_) || defined(_MPPC_)
+#define _MAC
+#endif
+#endif
+
+
 #define _CRTIMP
 #define _VCRTIMP _CRTIMP
 
 
-#if __has_include(<wdm.h>)
+#ifdef __KERNEL_MODE
 #   ifndef  _KERNEL_MODE
-#       define  _KERNEL_MODE 1
+#       define _KERNEL_MODE __KERNEL_MODE
+#   endif
+#   ifndef  NTOS_KERNEL_RUNTIME
+#       define NTOS_KERNEL_RUNTIME __KERNEL_MODE
 #   endif
 
 #   include <ntddk.h>
 #   include <wdm.h>
+#   include <ntimage.h>
 #else
 #   include <Windows.h>
+#   pragma comment(lib, "ntdll.lib")
 #endif
 
-#include <stddef.h>
-#include <stdlib.h>
+#include <corecrt.h>
+
+#define _VCRT_BUILD
+
+#include <cstddef>
+#include <cstdlib>
 #include <minwindef.h>
 
 #include "ucxxrt.h"
