@@ -15,8 +15,8 @@ It gives you the same experience as user-mode application development in C++ whe
 
 Before ucxxrt was born,in order to use C++ on kernel-mode drivers, I use  ([KTL](https://github.com/MeeSong/KTL)、ustd、...).  
 
-But there are several problems，like it isn't support C++ exception and it cost much time on implementing new features which provided by the latest ISO.  
-So ucxxrt was born.  
+But there are several problems，like it isn't support C++ exception and it cost much time on implementing new features which provided by the latest ISO,then ucxxrt was born.  
+
 
 ### 1.1 Principle  
 
