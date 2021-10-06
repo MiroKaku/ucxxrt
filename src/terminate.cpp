@@ -16,8 +16,9 @@
 
 _CRT_BEGIN_C_HEADER
 
-#if 0 // Using libcntpr.lib
-_ACRTIMP __declspec(noreturn) void __cdecl abort(void)
+#if WDK_NTDDI_VERSION >= 0x0A00000A /*NTDDI_WIN10_FE*/
+_ACRTIMP __declspec(noreturn)
+void __cdecl abort(void)
 {
     KeBugCheckEx(
         KMODE_EXCEPTION_NOT_HANDLED,
@@ -28,7 +29,8 @@ _ACRTIMP __declspec(noreturn) void __cdecl abort(void)
 }
 #endif
 
-_ACRTIMP __declspec(noreturn) void __cdecl terminate() throw()
+_ACRTIMP __declspec(noreturn)
+void __cdecl terminate() throw()
 {
     KeBugCheckEx(
         KMODE_EXCEPTION_NOT_HANDLED,

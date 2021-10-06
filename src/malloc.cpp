@@ -94,7 +94,7 @@ void* __cdecl _malloc_base(size_t const size)
     }
 }
 
-_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+__declspec(noinline) _CRTRESTRICT _CRT_HYBRIDPATCHABLE
 void* __cdecl malloc(
     _In_ _CRT_GUARDOVERFLOW size_t size
 )
@@ -118,7 +118,7 @@ void __cdecl _free_base(void* const block)
     }
 }
 
-_CRT_HYBRIDPATCHABLE __declspec(noinline)
+__declspec(noinline) _CRT_HYBRIDPATCHABLE
 void __cdecl free(
     _Pre_maybenull_ _Post_invalid_ void* block
 )
@@ -126,7 +126,7 @@ void __cdecl free(
     return _free_base(block);
 }
 
-_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+__declspec(noinline) _CRTRESTRICT _CRT_HYBRIDPATCHABLE
 void* __cdecl _malloc_pool_tag(
     _In_ _CRT_GUARDOVERFLOW size_t _Size,
     _In_ int _Pool,
@@ -139,7 +139,7 @@ void* __cdecl _malloc_pool_tag(
     return ExAllocatePoolWithTag((POOL_TYPE)_Pool, _Size, _Tag);
 }
 
-_CRT_HYBRIDPATCHABLE __declspec(noinline)
+__declspec(noinline) _CRT_HYBRIDPATCHABLE
 void __cdecl _free_pool_tag(
     _Pre_maybenull_ _Post_invalid_ void* _Block,
     _In_ int /*_Pool*/,
@@ -198,7 +198,8 @@ void __cdecl _free_dbg(void* const block, int const /*block_use*/)
 // Both _calloc_dbg and _calloc_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to calloc
 // with either other function or vice versa.
-__declspec(noinline) _CRTRESTRICT void* __cdecl _calloc_base(
+__declspec(noinline) _CRTRESTRICT
+void* __cdecl _calloc_base(
     size_t const count,
     size_t const size
 )
@@ -209,7 +210,7 @@ __declspec(noinline) _CRTRESTRICT void* __cdecl _calloc_base(
     return malloc(count * size);
 }
 
-_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+__declspec(noinline) _CRTRESTRICT _CRT_HYBRIDPATCHABLE
 void* __cdecl calloc(
     _In_ _CRT_GUARDOVERFLOW size_t count,
     _In_ _CRT_GUARDOVERFLOW size_t size
@@ -279,7 +280,7 @@ void* __cdecl _realloc_base(
     }
 }
 
-_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+__declspec(noinline) _CRTRESTRICT _CRT_HYBRIDPATCHABLE
 void* __cdecl realloc(
     void* const block,
     size_t const size
@@ -314,7 +315,8 @@ void* __cdecl _recalloc_base(
     return _realloc_base(block, count * size);
 }
 
-__declspec(noinline) _CRTRESTRICT void* __cdecl _recalloc(
+__declspec(noinline) _CRTRESTRICT
+void* __cdecl _recalloc(
     void* const block,
     size_t const count,
     size_t const size
@@ -330,7 +332,8 @@ __declspec(noinline) _CRTRESTRICT void* __cdecl _recalloc(
 // _msize_base will have identical COMDATs, and the linker will fold
 // them when calling one from the CRT. This is necessary because _msize
 // needs to support users patching in custom implementations.
-__declspec(noinline) size_t __cdecl _msize_base(void* const block)
+__declspec(noinline)
+size_t __cdecl _msize_base(void* const block) _CRT_NOEXCEPT
 {
     // Validation section
     _VALIDATE_RETURN(block != nullptr, EINVAL, static_cast<size_t>(-1));
@@ -346,7 +349,7 @@ __declspec(noinline) size_t __cdecl _msize_base(void* const block)
 // Both _msize_dbg and _msize_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to _msize
 // with either other function or vice versa.
-_CRT_HYBRIDPATCHABLE __declspec(noinline)
+__declspec(noinline) _CRT_HYBRIDPATCHABLE
 size_t __cdecl _msize(void* const block)
 {
     return _msize_base(block);
@@ -364,7 +367,8 @@ size_t __cdecl _msize(void* const block)
 // Both _expand_dbg and _expand_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to _expand
 // with either other function or vice versa.
-__declspec(noinline) void* __cdecl _expand_base(void* const block, size_t const size)
+__declspec(noinline)
+void* __cdecl _expand_base(void* const block, size_t const size)
 {
     // Validation section
     _VALIDATE_RETURN(block != nullptr, EINVAL, nullptr);
@@ -374,7 +378,7 @@ __declspec(noinline) void* __cdecl _expand_base(void* const block, size_t const 
     return nullptr;
 }
 
-_CRT_HYBRIDPATCHABLE __declspec(noinline)
+__declspec(noinline) _CRT_HYBRIDPATCHABLE
 void* __cdecl _expand(void* const block, size_t const size)
 {
     return _expand_base(block, size);

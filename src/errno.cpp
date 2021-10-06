@@ -131,8 +131,7 @@ int __cdecl __acrt_errno_from_os_error(unsigned long const oserrno)
     }
 }
 
-
-#if _CRT_NTDDI_MIN < 0x06000000
+#if WDK_NTDDI_VERSION < 0x0A00000A /*NTDDI_WIN10_FE*/
 // These safely set and get the value of the calling thread's errno
 errno_t __cdecl _set_errno(_In_ int const value)
 {

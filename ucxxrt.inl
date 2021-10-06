@@ -57,7 +57,6 @@
 #define _CRTIMP
 #define _VCRTIMP _CRTIMP
 
-
 #ifdef __KERNEL_MODE
 #   ifndef  _KERNEL_MODE
 #       define _KERNEL_MODE __KERNEL_MODE
@@ -77,6 +76,12 @@
 #include <corecrt.h>
 
 #define _VCRT_BUILD
+
+#if WDK_NTDDI_VERSION < 0x0A00000A /*NTDDI_WIN10_FE*/
+#    ifndef _CRT_NOEXCEPT
+#        define _CRT_NOEXCEPT
+#    endif
+#endif
 
 #include <cstddef>
 #include <cstdlib>

@@ -93,7 +93,8 @@
   UCXXRT Path      : $(UCRT_Root)
   Platform         : $(PlatformShortName)
   Configuration    : $(Configuration)
-  Platform Version : $(VCToolsVersion)
+  Tools Version    : $(VCToolsVersion)
+  Platform Version : $(TargetPlatformVersion)
   Kernel Mode      : $(UCRT_KernelMode)
   " Importance="high" />
   </Target>
