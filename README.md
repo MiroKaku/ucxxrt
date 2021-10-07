@@ -32,7 +32,7 @@ Kernel-mode：
 - [x] support STL (not fully).  
 - [x] support static objects.  
 
-[List of features that are not supported at this time](#5-暂不支持的特性列表)
+[List of features that are not supported at this time↓](#5-List-of-features-that-are-not-supported-at-this-time)
 
 ## 2. Compile
 
@@ -46,11 +46,11 @@ IDE：Visual Studio 2019 or higher
 1. Copy `ucxxrt/ucxxrt` forder to you project directory.  
 2. Add the property sheet `ucxxrt.props` to yor project.  
 
-See project`unittest` for more Infomation.  
+See project [unittest](https://github.com/MiroKaku/ucxxrt/blob/master/src/unittest.cpp) for more Infomation.  
 
 > kernel-mode：Rename `DriverEntry` to `DriverMain`  
 
-![usage](./readme/use.zh-cn.gif)
+![usage](./readme/use.gif)
 
 ## 4. Reference and Acknowledgement
 

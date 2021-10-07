@@ -38,9 +38,9 @@ IDE：Visual Studio 2019 或更高版本
 
 ## 3. 怎样使用
 
-项目中的 `unittest` 可作为示例参考。
+项目中的 [unittest](https://github.com/MiroKaku/ucxxrt/blob/master/src/unittest.cpp) 可作为示例参考。
 
-1. 将编译生成的 `ucxxrt/ucxxrt` 文件夹复制到自己项目中
+1. 将编译生成的 [`unittest`](https://github.com/MiroKaku/ucxxrt/blob/master/src/unittest.cpp) 文件夹复制到自己项目中
 2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
 
 > 内核模式：`DriverEntry` 改为 `DriverMain`
