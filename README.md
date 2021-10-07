@@ -46,9 +46,9 @@ IDE：Visual Studio 2019 or higher
 1. Copy `ucxxrt/ucxxrt` forder to you project directory.  
 2. Add the property sheet `ucxxrt.props` to yor project.  
 
-See project [unittest](https://github.com/MiroKaku/ucxxrt/blob/master/src/unittest.cpp) for more Infomation.  
-
 > kernel-mode：Rename `DriverEntry` to `DriverMain`  
+
+> See project [unittest](https://github.com/MiroKaku/ucxxrt/blob/master/src/unittest.cpp) for more Infomation.  
 
 ![usage](./readme/use.gif)
 
