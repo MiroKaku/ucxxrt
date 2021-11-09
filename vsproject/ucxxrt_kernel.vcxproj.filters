@@ -217,6 +217,9 @@
     <ClInclude Include="..\src\vcruntime\trnsctrl.h">
       <Filter>ucxxrt\vcruntime</Filter>
     </ClInclude>
+    <ClInclude Include="..\inc\new_user.h">
+      <Filter>ucxxrt\inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ucxxrt.inl" />

@@ -29,6 +29,7 @@
 
 #include <cstdint>
 #include <inc/malloc.h>
+#include <inc/new_user.h>
 
 
 namespace ucxxrt

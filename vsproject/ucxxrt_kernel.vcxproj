@@ -142,6 +142,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\malloc.h" />
+    <ClInclude Include="..\inc\new_user.h" />
     <ClInclude Include="..\src\vcruntime\ehassert.h" />
     <ClInclude Include="..\src\vcruntime\ehdata.h" />
     <ClInclude Include="..\src\vcruntime\ehdata4.h" />
