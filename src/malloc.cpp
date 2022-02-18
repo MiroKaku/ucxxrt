@@ -78,6 +78,7 @@ void* __cdecl _malloc_base(size_t const size)
 
     for (;;)
     {
+#       pragma warning(suppress: 4996)
         void* const block = ExAllocatePoolWithTag(ucxxrt::DefaultPoolType, actual_size, ucxxrt::DefaultPoolTag);
         if (block)
             return block;
@@ -136,6 +137,7 @@ void* __cdecl _malloc_pool_tag(
     if (_Size == 0)
         _Size = 1;
 
+#   pragma warning(suppress: 4996)
     return ExAllocatePoolWithTag((POOL_TYPE)_Pool, _Size, _Tag);
 }
 
@@ -261,6 +263,7 @@ void* __cdecl _realloc_base(
 
     for (;;)
     {
+#       pragma warning(suppress: 4996)
         void* const new_block = ExAllocatePoolWithTag(ucxxrt::DefaultPoolType, size, ucxxrt::DefaultPoolTag);
         if (new_block)
         {
