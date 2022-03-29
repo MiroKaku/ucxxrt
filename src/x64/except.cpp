@@ -20,7 +20,8 @@
 [[noreturn]] static void __RaiseException(
     _In_ PEXCEPTION_RECORD ExceptionRecord,
     _In_ PCONTEXT /*ContextRecord*/
-) {
+)
+{
     RtlRaiseException(ExceptionRecord);
 }
 

@@ -55,8 +55,6 @@ enum : size_t
 #endif
 };
 
-
-#ifdef _KERNEL_MODE
 EXTERN_C NTSYSAPI VOID NTAPI
 RtlRaiseException(
     _In_ PEXCEPTION_RECORD ExceptionRecord
@@ -66,11 +64,6 @@ EXTERN_C NTSYSAPI PVOID NTAPI
 RtlPcToFileHeader(
     _In_ PVOID PcValue,
     _Out_ PVOID* BaseOfImage
-);
-
-EXTERN_C NTSYSAPI VOID NTAPI
-RtlCaptureContext(
-    _Out_ PCONTEXT ContextRecord
 );
 
 EXTERN_C NTSYSAPI VOID NTAPI 
@@ -113,10 +106,7 @@ RtlVirtualUnwind(
 );
 #endif
 
-#endif
-
 #if _EH_RELATIVE_FUNCINFO
-
 EXTERN_C uintptr_t __cdecl _GetImageBase();
 
 EXTERN_C void __cdecl _SetImageBase(uintptr_t ImageBaseToRestore);
@@ -127,7 +117,6 @@ EXTERN_C uintptr_t __cdecl _GetThrowImageBase();
 
 EXTERN_C void __cdecl _SetThrowImageBase(uintptr_t NewThrowImageBase);
 #endif
-
 
 EXTERN_C _VCRTIMP FRAMEINFO * __cdecl _CreateFrameInfo(
 	FRAMEINFO * pFrameInfo,
@@ -194,14 +183,14 @@ EXTERN_C void* __cdecl _CallSettingFrame(
 #define EXCEPTION_NONCONTINUABLE_EXCEPTION STATUS_NONCONTINUABLE_EXCEPTION
 #endif
 
-EXTERN_C  [[noreturn]] void __cdecl __CxxRaiseException(
+EXTERN_C [[noreturn]] void __cdecl __CxxRaiseException(
     _In_ DWORD dwExceptionCode,
     _In_ DWORD dwExceptionFlags,
     _In_ DWORD nNumberOfArguments,
     _In_reads_opt_(nNumberOfArguments) CONST ULONG_PTR* lpArguments
 );
 
-EXTERN_C  [[noreturn]] void __cdecl __CxxDispatchException(
+EXTERN_C [[noreturn]] void __cdecl __CxxDispatchException(
     _In_ PEXCEPTION_RECORD ExceptionRecord,
     _In_ PCONTEXT ContextRecord
 );

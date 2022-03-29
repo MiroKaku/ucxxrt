@@ -20,8 +20,6 @@
 #include <vcruntime_new.h>
 #include <internal_shared.h>
 
-#ifdef _KERNEL_MODE
-
 // Enable the compiler to elide null checks during LTCG
 #pragma comment(linker, "/ThrowingNew")
 
@@ -377,5 +375,3 @@ void* __CRTDECL operator new[](
 }
 
 #endif // !_DEBUG
-
-#endif

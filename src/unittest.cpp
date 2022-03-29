@@ -1,11 +1,3 @@
-#ifdef __KERNEL_MODE
-#include <ntddk.h>
-#include <wdm.h>
-#else
-#include <windows.h>
-#include <assert.h>
-#endif
-
 #include <ucxxrt.h>
 
 #include <string>
@@ -15,12 +7,7 @@
 #include <unordered_map>
 #include <stdexcept>
 
-
-#ifdef _KERNEL_MODE
-#define LOG(_0, _1, ...) DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, __VA_ARGS__)
-#else
-#define LOG(_0, _1, ...) printf(__VA_ARGS__)
-#endif
+#define LOG(Format, ...) DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[ucxxrt] " __FUNCTION__ ": " Format "\n", __VA_ARGS__)
 
 static std::vector<std::function<void()>> TestVec;
 #define TEST(f) TestVec.emplace_back(f)
@@ -37,12 +24,12 @@ public:
     Test$StaticObject()
         : _Data(new ULONG[1]{ 1 })
     {
-        LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Static Object: " __FUNCTION__ "\n");
+        LOG("has called.");
     }
 
     ~Test$StaticObject()
     {
-        LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Static Object: " __FUNCTION__ "\n");
+        LOG("has called.");
 
         ASSERT(_Data[0] == 1);
         delete[] _Data;
@@ -74,19 +61,19 @@ void Test$ThrowInt()
             }
             catch (int& e)
             {
-                LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %d\n", e);
+                LOG("catch Exception: %d", e);
             }
         }
         catch (std::string& e)
         {
             ASSERT(false);
-            LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %s\n", e.c_str());
+            LOG("catch Exception: %s", e.c_str());
         }
     }
     catch (...)
     {
         ASSERT(false);
-        LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: ...\n");
+        LOG("catch Exception: ...");
     }
 }
 
@@ -103,18 +90,18 @@ void Test$ThrowObject()
             catch (int& e)
             {
                 ASSERT(false);
-                LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %d\n", e);
+                LOG("catch Exception: %d", e);
             }
         }
         catch (std::string& e)
         {
-            LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %s\n", e.c_str());
+            LOG("catch Exception: %s", e.c_str());
         }
     }
     catch (...)
     {
         ASSERT(false);
-        LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: ...\n");
+        LOG("catch Exception: ...");
     }
 }
 
@@ -131,25 +118,28 @@ void Test$ThrowUnknow()
             catch (int& e)
             {
                 ASSERT(false);
-                LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %d\n", e);
+                LOG("catch Exception: %d", e);
             }
         }
         catch (std::string& e)
         {
             ASSERT(false);
-            LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: %s\n", e.c_str());
+            LOG("catch Exception: %s", e.c_str());
         }
     }
     catch (...)
     {
-        LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Catch Exception: ...\n");
+        LOG("catch Exception: ...");
     }
 }
 
 void Test$HashMap()
 {
-    auto Rand = std::mt19937_64(::rand());
-    auto Map = std::unordered_map<uint32_t, std::string>();
+    auto Sand = LARGE_INTEGER();
+    KeQueryTickCount(&Sand);
+
+    auto Rand = std::mt19937_64(Sand.QuadPart);
+    auto Map  = std::unordered_map<uint32_t, std::string>();
     for (auto i = 0u; i < 10; ++i)
     {
         Map[i] = std::to_string(Rand());
@@ -157,8 +147,7 @@ void Test$HashMap()
 
     for (const auto& Item : Map)
     {
-        LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL,
-            "map[%ld] = %s\n", Item.first, Item.second.c_str());
+        LOG("map[%ld] = %s", Item.first, Item.second.c_str());
     }
 }
 
@@ -214,13 +203,10 @@ std::unordered_map<std::string, ULONG_PTR> Test$StaticObjectInitializer =
     { "5", 5 },
 };
 
-
-#ifdef _KERNEL_MODE
 EXTERN_C NTSTATUS DriverMain(PDRIVER_OBJECT aDriverObject, PUNICODE_STRING /*aRegistry*/)
-#else
-EXTERN_C int main()
-#endif
 {
+    LOG("entry.");
+
     TEST(Test$Float2Int);
     TEST(Test$ThrowInt);
     TEST(Test$ThrowObject);
@@ -233,12 +219,10 @@ EXTERN_C int main()
         Test();
     }
 
-#ifdef _KERNEL_MODE
     aDriverObject->DriverUnload = [](PDRIVER_OBJECT)
     {
-        LOG(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "Exit ucxxrt-test.\n");
+        LOG("exit.");
     };
-#endif
 
     return 0l;
 }

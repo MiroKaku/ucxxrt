@@ -175,6 +175,9 @@
     <ClCompile Include="..\src\i386\ehprolg3a.cpp">
       <Filter>ucxxrt\i386</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\stdio.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ucxxrt.h" />

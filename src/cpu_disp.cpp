@@ -136,11 +136,7 @@ unsigned int __favor         = 0;
 
 BOOLEAN __stdcall __IsProcessorFeaturePresent(_In_ ULONG ProcessorFeature)
 {
-#ifdef _KERNEL_MODE
     return (BOOLEAN)ExIsProcessorFeaturePresent(ProcessorFeature);
-#else
-    return (BOOLEAN)IsProcessorFeaturePresent(ProcessorFeature);
-#endif
 }
 
 #ifndef _M_IX86

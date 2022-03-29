@@ -567,7 +567,6 @@ typedef struct _xDISPATCHER_CONTEXT {
     ULONG ScopeIndex;
 } DispatcherContext;					// changed the case of the name to conform to EH conventions
 
-#ifdef _KERNEL_MODE
 //
 // Define unwind information flags.
 //
@@ -720,8 +719,6 @@ typedef struct _KNONVOLATILE_CONTEXT_POINTERS {
 
 } KNONVOLATILE_CONTEXT_POINTERS, * PKNONVOLATILE_CONTEXT_POINTERS;
 #pragma warning(pop)
-
-#endif // _KERNEL_MODE
 
 //
 // On P7 we don't have a registration node, just a pointer to the stack frame base

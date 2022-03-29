@@ -26,7 +26,6 @@
 
 #include <ehdata.h>
 
-
 typedef struct _GS_HANDLER_DATA *PGS_HANDLER_DATA;
 
 EXTERN_C void __cdecl

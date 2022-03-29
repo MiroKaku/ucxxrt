@@ -13,8 +13,6 @@
 #include <corecrt_startup.h>
 #include <vcruntime_internal.h>
 
-#ifdef _KERNEL_MODE
-
 _CRT_BEGIN_C_HEADER
 
 int  __cdecl _do_onexit();
@@ -29,10 +27,7 @@ void __cdecl __acrt_initialize_new_handler(_In_opt_ void* encoded_null);
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-NTSTATUS DriverMain(
-    _In_ PDRIVER_OBJECT     DriverObject,
-    _In_ PUNICODE_STRING    Registry
-);
+DRIVER_INITIALIZE DriverMain;
 
 static int __cdecl invoke_main(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Registry)
 {
@@ -42,7 +37,7 @@ static int __cdecl invoke_main(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Regi
 static PDRIVER_UNLOAD __DriverUnload = nullptr;
 static VOID DriverUnload(PDRIVER_OBJECT DriverObject)
 {
-    if (__DriverUnload)
+    if (__DriverUnload && __DriverUnload != &DriverUnload)
     {
         __DriverUnload(DriverObject);
     }
@@ -60,6 +55,9 @@ static VOID DriverUnload(PDRIVER_OBJECT DriverObject)
 NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Registry)
 {
     long main_result = STATUS_UNSUCCESSFUL;
+
+    // Nx
+    ExInitializeDriverRuntime(DrvRtPoolNxOptIn);
 
     // do feature initializions
     __isa_available_init();
@@ -114,5 +112,3 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Registry)
 }
 
 _CRT_END_C_HEADER
-
-#endif

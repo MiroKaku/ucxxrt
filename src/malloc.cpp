@@ -30,13 +30,11 @@
 #include <malloc.h>
 #include <new.h>
 
-#ifdef _KERNEL_MODE
-
  // global
 namespace ucxxrt
 {
     ULONG       DefaultPoolTag       = _ByteSwap32('ucrt');
-    POOL_TYPE   DefaultPoolType      = POOL_TYPE::NonPagedPoolNx;
+    POOL_TYPE   DefaultPoolType      = NonPagedPoolNx;
     ULONG       DefaultMdlProtection = MdlMappingNoExecute;
 }
 
@@ -55,7 +53,7 @@ void __cdecl __initialize_memory()
     if ((ver_info.dwMajorVersion < 6) ||
         (ver_info.dwMajorVersion == 6 && ver_info.dwMinorVersion < 2))
     {
-        ucxxrt::DefaultPoolType = POOL_TYPE::NonPagedPool;
+        ucxxrt::DefaultPoolType = NonPagedPool;
         ucxxrt::DefaultMdlProtection = 0;
     }
 }
@@ -341,7 +339,7 @@ size_t __cdecl _msize_base(void* const block) _CRT_NOEXCEPT
     // Validation section
     _VALIDATE_RETURN(block != nullptr, EINVAL, static_cast<size_t>(-1));
 
-    // TODO
+    //!! TODO
     return 0;
 }
 
@@ -377,7 +375,7 @@ void* __cdecl _expand_base(void* const block, size_t const size)
     _VALIDATE_RETURN(block != nullptr, EINVAL, nullptr);
     _VALIDATE_RETURN_NOEXC(size <= _HEAP_MAXREQ, ENOMEM, nullptr);
 
-    // TODO
+    //!! TODO
     return nullptr;
 }
 
@@ -388,4 +386,3 @@ void* __cdecl _expand(void* const block, size_t const size)
 }
 
 _CRT_END_C_HEADER
-#endif

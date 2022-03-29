@@ -86,6 +86,7 @@
     <ClCompile Include="..\src\new_handler.cpp" />
     <ClCompile Include="..\src\new_mode.cpp" />
     <ClCompile Include="..\src\startup.cpp" />
+    <ClCompile Include="..\src\stdio.cpp" />
     <ClCompile Include="..\src\stl\xthrow.cpp" />
     <ClCompile Include="..\src\sys_main.cpp" />
     <ClCompile Include="..\src\terminate.cpp" />
@@ -375,6 +376,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile />
+    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile />

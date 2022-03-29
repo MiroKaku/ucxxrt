@@ -15,7 +15,7 @@ Signature   = "$WINDOWS NT$"
 Class       = AntiVirus
 ClassGuid   = {b1d1a169-c54f-4379-81db-bee7d88d7454}
 Provider    = %ManufacturerName%
-CatalogFile = %DriverName%.cat
+CatalogFile = ucxxrt.cat
 DriverVer   =
 PnpLockdown = 1
 
@@ -41,27 +41,27 @@ DefaultDestDir      = 12
 ; Each filename entry must specify the exact name of a file on the source disk. 
 ;     You cannot use a %strkey% token to specify the file name.
 [SourceDisksFiles]
-unittest.sys        = 1,,
+ucxxrt.test.sys        = 1,,
 
 [SourceDisksFiles.x86]
-unittest.sys        = 1,,
+ucxxrt.test.sys        = 1,,
 
 [SourceDisksFiles.amd64]
-unittest.sys        = 1,,
+ucxxrt.test.sys        = 1,,
 
 
 ; Copyfiles MSDN:
 ;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-copyfiles-directive
 [Install.Copyfiles.NTx86]
-%DriverName%.sys,%DriverName%.sys,,0x00004022 ; COPYFLG_NOSKIP | COPYFLG_NO_VERSION_DIALOG | COPYFLG_IN_USE_RENAME
+ucxxrt.sys,ucxxrt.test.sys,,0x00004002 ; COPYFLG_NOSKIP | COPYFLG_IN_USE_RENAME
 
 [Install.Copyfiles.NTamd64]
-%DriverName%.sys,%DriverName%.sys,,0x00004022
+ucxxrt.sys,ucxxrt.test.sys,,0x00004002
 
 ; Delfiles MSDN:
 ;     https://docs.microsoft.com/en-us/windows-hardware/drivers/install/inf-delfiles-directive
 [Install.Delfiles]
-%DriverName%.sys
+ucxxrt.sys
 
 
 ;-------------------------------------------------------------------------
@@ -110,7 +110,7 @@ DelService = %ServiceName%,0x200
 [InstallService]
 DisplayName    = %ServiceName%
 Description    = %ServiceDesc%
-ServiceBinary  = %12%\%DriverName%.sys
+ServiceBinary  = %12%\ucxxrt.sys
 ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
 StartType      = 3                  ; 0 = SERVICE_BOOT_START
                                     ; 1 = SERVICE_SYSTEM_START
@@ -127,7 +127,6 @@ ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
 
 [Strings]
 ManufacturerName        = "MiroKaku"
-DriverName              = "unittest"
 ServiceName             = "ucxxrt"
 ServiceDesc             = "ucxxrt Legacy Driver"
 DiskId                  = "ucxxrt Device Installation Disk"

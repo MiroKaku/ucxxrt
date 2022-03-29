@@ -32,11 +32,7 @@ static __vcrt_ptd_ext __vcrt_ptd_data[0x4000];
 
 ULONG_PTR __GetCurrentThreadId()
 {
-#ifdef _KERNEL_MODE
     return (ULONG_PTR)PsGetCurrentThreadId();
-#else
-    return (ULONG_PTR)GetCurrentThreadId();
-#endif
 }
 
 RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))()

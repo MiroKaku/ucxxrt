@@ -3,23 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kernel_mode", "kernel_mode", "{83A5D206-7E3A-4A9B-820A-7BB522551B2C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt", "vsproject\ucxxrt.vcxproj", "{8D969184-788F-48AA-BF18-2898FC167C91}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "user_mode", "user_mode", "{0A541ACA-9261-4339-8C73-F458D6DF0EEF}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt", "vsproject\ucxxrt_kernel.vcxproj", "{8D969184-788F-48AA-BF18-2898FC167C91}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unittest", "vsproject\unittest_kernel.vcxproj", "{408FB99E-F703-491E-836B-5FA24B3C819E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{8D969184-788F-48AA-BF18-2898FC167C91} = {8D969184-788F-48AA-BF18-2898FC167C91}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt", "vsproject\ucxxrt_user.vcxproj", "{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unittest", "vsproject\unittest_user.vcxproj", "{385B4891-A30A-46E3-92A8-5B3FEA8862C0}"
-	ProjectSection(ProjectDependencies) = postProject
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896} = {6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt.text", "vsproject\ucxxrt.test.vcxproj", "{408FB99E-F703-491E-836B-5FA24B3C819E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,39 +67,9 @@ Global
 		{408FB99E-F703-491E-836B-5FA24B3C819E}.Release|x86.ActiveCfg = Release|Win32
 		{408FB99E-F703-491E-836B-5FA24B3C819E}.Release|x86.Build.0 = Release|Win32
 		{408FB99E-F703-491E-836B-5FA24B3C819E}.Release|x86.Deploy.0 = Release|Win32
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Debug|ARM.ActiveCfg = Debug|Win32
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Debug|ARM64.ActiveCfg = Debug|Win32
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Debug|x64.ActiveCfg = Debug|x64
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Debug|x64.Build.0 = Debug|x64
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Debug|x86.ActiveCfg = Debug|Win32
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Debug|x86.Build.0 = Debug|Win32
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Release|ARM.ActiveCfg = Release|Win32
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Release|ARM64.ActiveCfg = Release|Win32
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Release|x64.ActiveCfg = Release|x64
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Release|x64.Build.0 = Release|x64
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Release|x86.ActiveCfg = Release|Win32
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896}.Release|x86.Build.0 = Release|Win32
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Debug|ARM.ActiveCfg = Debug|Win32
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Debug|ARM64.ActiveCfg = Debug|Win32
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Debug|x64.ActiveCfg = Debug|x64
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Debug|x64.Build.0 = Debug|x64
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Debug|x86.ActiveCfg = Debug|Win32
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Debug|x86.Build.0 = Debug|Win32
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Release|ARM.ActiveCfg = Release|Win32
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Release|ARM64.ActiveCfg = Release|Win32
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Release|x64.ActiveCfg = Release|x64
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Release|x64.Build.0 = Release|x64
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Release|x86.ActiveCfg = Release|Win32
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{8D969184-788F-48AA-BF18-2898FC167C91} = {83A5D206-7E3A-4A9B-820A-7BB522551B2C}
-		{408FB99E-F703-491E-836B-5FA24B3C819E} = {83A5D206-7E3A-4A9B-820A-7BB522551B2C}
-		{6DED0D07-80C5-4FAD-B9BE-6C632D3FA896} = {0A541ACA-9261-4339-8C73-F458D6DF0EEF}
-		{385B4891-A30A-46E3-92A8-5B3FEA8862C0} = {0A541ACA-9261-4339-8C73-F458D6DF0EEF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F0A67025-B884-49C6-AE00-F58FC438D817}

@@ -12,6 +12,19 @@
 
 #pragma once
 
+ // Warnings which disabled for compiling
+#if _MSC_VER >= 1200
+#pragma warning(push)
+// nonstandard extension used : nameless struct/union
+#pragma warning(disable:4201)
+// 'struct_name' : structure was padded due to __declspec(align())
+#pragma warning(disable:4324)
+// 'enumeration': a forward declaration of an unscoped enumeration must have an
+// underlying type (int assumed)
+#pragma warning(disable:4471)
+#endif
+
+
 #define WINBASEAPI
 
 #if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_) && !defined(_ARM_) && !defined(_ARM64_) && defined(_M_IX86)
@@ -53,26 +66,24 @@
 #endif
 #endif
 
-
 #define _CRTIMP
 #define _VCRTIMP _CRTIMP
 
-#ifdef __KERNEL_MODE
-#   ifndef  _KERNEL_MODE
-#       define _KERNEL_MODE __KERNEL_MODE
-#   endif
-#   ifndef  NTOS_KERNEL_RUNTIME
-#       define NTOS_KERNEL_RUNTIME __KERNEL_MODE
-#   endif
-
-#   include <ntddk.h>
-#   include <wdm.h>
-#   include <ntimage.h>
-#else
-#   include <Windows.h>
-#   pragma comment(lib, "ntdll.lib")
+#ifndef  _KERNEL_MODE
+#   define _KERNEL_MODE __KERNEL_MODE
+#endif
+#ifndef  NTOS_KERNEL_RUNTIME
+#   define NTOS_KERNEL_RUNTIME __KERNEL_MODE
 #endif
 
+#ifdef DBG
+#  ifndef _DEBUG
+#    define _DEBUG DBG
+#  endif
+#endif
+
+#include <fltKernel.h>
+#include <ntimage.h>
 #include <corecrt.h>
 
 #define _VCRT_BUILD
@@ -85,6 +96,12 @@
 
 #include <cstddef>
 #include <cstdlib>
+#include <cstdint>
 #include <minwindef.h>
 
 #include "ucxxrt.h"
+
+
+#if _MSC_VER >= 1200
+#pragma warning(pop)
+#endif

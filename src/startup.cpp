@@ -16,8 +16,6 @@
 
 #include <internal_shared.h>
 
-#ifdef _KERNEL_MODE
-
 _CRT_BEGIN_C_HEADER
 
  // Need to put the following marker variables into the .CRT section.
@@ -175,5 +173,3 @@ int __cdecl _do_quick_onexit()
 }
 
 _CRT_END_C_HEADER
-
-#endif

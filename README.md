@@ -8,6 +8,8 @@
 
 * [简体中文](ReadMe.zh-cn.md)
 
+> UserMode support will be removed starting 03/29/2022. The last version to support UserMode is [e2f159f8f](https://github.com/MiroKaku/ucxxrt/tree/e2f159f8f04a829359e3a057b70457121485b4dc), UserMode please use [VC-LTL5](https://github.com/Chuyu-Team/VC-LTL5)
+
 ## 1. About
 
 ucxxrt is a open source rutime library which based on MSVC.The highlight of this project is that it can be used in kernel-mode drivers.  
@@ -95,7 +97,7 @@ IDE：Visual Studio 2019 or higher
 1. Copy `ucxxrt/ucxxrt` forder to you project directory.  
 2. Add the property sheet `ucxxrt.props` to yor project.  
 
-> !! kernel-mode：Rename `DriverEntry` to `DriverMain`  
+> !! note：Rename `DriverEntry` to `DriverMain`  
 
 ![usage](./readme/use.gif)
 

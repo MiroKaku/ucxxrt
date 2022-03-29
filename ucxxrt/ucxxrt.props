@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" InitialTargets="UCXXRT_PlatformPrepareForBuild">
+
+  <!--
+  作者：MiroKaku
+  修改日期：05/03/2021
+
+  ucxxrt 自动化加载配置，建议你将此文件单独复制到你的工程再使用，该文件能自动识别当前环境是否存在 ucxxrt，并且自动应用。
+
+  使用方法：
+    1. 在属性管理器选择所有配置，然后右键选择“添加现有属性表”。
+    2. 务必保证所有依赖的静态库也均用 ucxxrt 重新编译。
+
+  ucxxrt 默认搜索顺序
+    1. ucxxrt.props 所在目录，即 $(MSBuildThisFileDirectory)
+    2. 当前项目根目录，即 $(ProjectDir)ucxxrt
+    3. 前解决方案根目录，即 $(SolutionDir)ucxxrt
+    4. 当前项目父目录，即 $(ProjectDir)..\ucxxrt
+    5. 当前解决方案父目录，即 $(SolutionDir)..\ucxxrt
+
+  把 ucxxrt 放在其中一个位置即可，ucxxrt 就能被自动引用。
+
+  如果你对默认搜索顺序不满，你可以修改此文件。你也可以直接指定$(UCRT_Root)宏更加任性的去加载 ucxxrt。
+  -->
+
+  <PropertyGroup>
+    <!-- props 文件根目录存在 ucxxrt？-->
+    <UCRT_Root Condition=" ('$(UCRT_Root)'=='') And (Exists('$(MSBuildThisFileDirectory)ucxxrt.h')) ">$(MSBuildThisFileDirectory)</UCRT_Root>
+
+    <!-- 当前项目根目录存在 ucxxrt？-->
+    <UCRT_Root Condition=" ('$(UCRT_Root)'=='') And (Exists('$(ProjectDir)ucxxrt\ucxxrt.h')) ">$(ProjectDir)ucxxrt</UCRT_Root>
+
+    <!-- 当前解决方案根目录存在 ucxxrt？-->
+    <UCRT_Root Condition=" ('$(UCRT_Root)'=='') And ('$(SolutionDir)'!='') And (Exists('$(SolutionDir)ucxxrt\ucxxrt.h')) ">$(SolutionDir)ucxxrt</UCRT_Root>
+
+    <!-- 当前项目父目录存在 ucxxrt？-->
+    <UCRT_Root Condition=" ('$(UCRT_Root)'=='') And (Exists('$(ProjectDir)..\ucxxrt\ucxxrt.h')) ">$(ProjectDir)..\ucxxrt</UCRT_Root>
+
+    <!-- 当前解决方案父目录存在 ucxxrt？-->
+    <UCRT_Root Condition=" ('$(UCRT_Root)'=='') And ('$(SolutionDir)'!='') And (Exists('$(SolutionDir)..\ucxxrt\ucxxrt.h')) ">$(SolutionDir)..\ucxxrt</UCRT_Root>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UCRT_KernelMode>false</UCRT_KernelMode>
+    <UCRT_KernelMode Condition=" ('$(PlatformToolset.TrimEnd(`0123456789.`))' == 'WindowsKernelModeDriver') ">true</UCRT_KernelMode>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <UCRT_Include>$(UCRT_Root)</UCRT_Include>
+    <UCRT_Library>$(UCRT_Root)\lib\$(PlatformShortName)\$(Configuration)</UCRT_Library>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <IncludePath>$(UCRT_Include);$(IncludePath)</IncludePath>
+    <LibraryPath>$(UCRT_Library);$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" ('$(UCRT_KernelMode)'=='true') ">
+    <!-- Enable Kernel C++ Support -->
+    <DisableKernelFlag>true</DisableKernelFlag>
+    <!-- Include STL -->
+    <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  
+  <ItemDefinitionGroup Condition=" ('$(UCRT_KernelMode)'=='true') ">
+    <ClCompile>
+      <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;_HAS_EXCEPTIONS=1;_ITERATOR_DEBUG_LEVEL=0;__KERNEL_MODE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <AdditionalOptions>/Zc:threadSafeInit- %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <!-- C++ Exception Mode, /EHsc -->
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>ucxxrt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <Target Name="UCXXRT_PlatformPrepareForBuild">
+    <Message Text="
+  **************************************************
+  *         Universal C++ RunTime (UCXXRT)         *
+  **************************************************
+  
+  UCXXRT Path      : $(UCRT_Root)
+  Platform         : $(PlatformShortName)
+  Configuration    : $(Configuration)
+  Tools Version    : $(VCToolsVersion)
+  Platform Version : $(TargetPlatformVersion)
+  Kernel Mode      : $(UCRT_KernelMode)
+  " Importance="high" />
+  </Target>
+</Project>

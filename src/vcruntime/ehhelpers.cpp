@@ -25,12 +25,7 @@
 #include <trnsctrl.h>   // Routines to handle transfer of control (trnsctrl.asm)
 #include <vcruntime_exception.h>
 #include <vcruntime_typeinfo.h>
-
-#ifdef _KERNEL_MODE
 #include <Unknown.h>
-#else
-#include <Unknwn.h>
-#endif
 
 #include "ehhelpers.h"
 

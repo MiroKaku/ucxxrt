@@ -12,7 +12,6 @@
 
 #include <intrin.h>
 
-
 #if 0 // Using libcntpr.lib
 
 _CRT_BEGIN_C_HEADER

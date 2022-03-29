@@ -12,11 +12,10 @@
 
 #include <ehdata_values.h>
 
-#ifdef _KERNEL_MODE
-
 _CRT_BEGIN_C_HEADER
 
-#if WDK_NTDDI_VERSION >= 0x0A00000A /*NTDDI_WIN10_FE*/
+#if (WDK_NTDDI_VERSION >= 0x0A00000A /*NTDDI_WIN10_FE*/)
+
 _ACRTIMP __declspec(noreturn)
 void __cdecl abort(void)
 {
@@ -27,7 +26,8 @@ void __cdecl abort(void)
         EH_MAGIC_NUMBER1,
         0);
 }
-#endif
+
+#endif // WDK_NTDDI_VERSION >= NTDDI_WIN10_FE
 
 _ACRTIMP __declspec(noreturn)
 void __cdecl terminate() throw()
@@ -41,5 +41,3 @@ void __cdecl terminate() throw()
 }
 
 _CRT_END_C_HEADER
-
-#endif

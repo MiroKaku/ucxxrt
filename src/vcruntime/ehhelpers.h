@@ -26,10 +26,10 @@
 #endif
 
 // Pre-V4 managed exception code
-#define MANAGED_EXCEPTION_CODE  0XE0434F4D
+#define MANAGED_EXCEPTION_CODE      0XE0434F4D
 
 // V4 and later managed exception code
-#define MANAGED_EXCEPTION_CODE_V4  0XE0434352
+#define MANAGED_EXCEPTION_CODE_V4   0XE0434352
 
 EXTERN_C void __cdecl __except_validate_context_record(
     _In_ PCONTEXT ContextRecord
@@ -90,9 +90,9 @@ EXCEPTION_DISPOSITION __InternalCxxFrameHandler(
 #if _EH_RELATIVE_TYPEINFO
 
 #undef THROW_COUNT
-#define THROW_COUNT(ti)         THROW_COUNT_IB(ti, _GetThrowImageBase())
+#define THROW_COUNT(ti)     THROW_COUNT_IB(ti, _GetThrowImageBase())
 #undef THROW_CTLIST
-#define THROW_CTLIST(ti)        THROW_CTLIST_IB(ti, _GetThrowImageBase())
+#define THROW_CTLIST(ti)    THROW_CTLIST_IB(ti, _GetThrowImageBase())
 
 #endif // _EH_RELATIVE_TYPEINFO
 

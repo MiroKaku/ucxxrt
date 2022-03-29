@@ -202,15 +202,10 @@ extern "C++"
 #if defined _VCRT_SAT_1
 #define RENAME_BASE_PTD(x) 
 #else
-#define RENAME_BASE_PTD(x) x
+#define RENAME_BASE_PTD(x)  x
 #endif
 
-#if defined _KERNEL_MODE
-#define RENAME_UCXXRT(x) x
-#else
-#define RENAME_UCXXRT_(x)  x##_ucxxrt
-#define RENAME_UCXXRT(x) RENAME_UCXXRT_(x)
-#endif
+#define RENAME_UCXXRT(x)    x
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
@@ -269,11 +264,6 @@ RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_BASE_PTD(__vcrt_getptd)(void);
 RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_BASE_PTD(__vcrt_getptd_noinit)(void);
 #endif
 
-#if not defined _KERNEL_MODE
-RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd))(void);
-RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd_noexit))(void);
-RENAME_BASE_PTD(__vcrt_ptd)* __cdecl RENAME_UCXXRT(RENAME_BASE_PTD(__vcrt_getptd_noinit))(void);
-#endif
 
 // These functions are defined differently for satellite DLL compilation to get the PTD
 // from the base vcruntime DLL.
@@ -282,11 +272,9 @@ __vcrt_ptd* __cdecl __vcrt_getptd_noexit(void);
 __vcrt_ptd* __cdecl __vcrt_getptd_noinit(void);
 
 
-
 BOOL __cdecl _ValidateImageBase(PBYTE pImageBase);
 PIMAGE_SECTION_HEADER __cdecl _FindPESection(PBYTE pImageBase, DWORD_PTR rva);
 BOOL __cdecl _IsNonwritableInCurrentImage(void const* pTarget);
-
 
 
 // Type info stuff

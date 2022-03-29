@@ -39,18 +39,11 @@ Environment:
 
 void __GetStackLimits(PULONG_PTR LowLimit, PULONG_PTR HighLimit)
 {
-#ifdef _KERNEL_MODE
     IoGetStackLimits(LowLimit, HighLimit);
-#else
-    * LowLimit = (ULONG_PTR)((NT_TIB*)NtCurrentTeb())->StackLimit;
-    *HighLimit = (ULONG_PTR)((NT_TIB*)NtCurrentTeb())->StackBase;
-#endif
 }
 
-
 // Using libcntpr.lib on X86 KernelMode
-#if defined(_AMD64_) or !defined(_KERNEL_MODE)
-
+#if defined(_AMD64_)
 
 #include "misc\cfg_support.inc"  // To inline _guard_icall_checks_enforced()
 
@@ -173,4 +166,4 @@ Return Value:
     }
 }
 
-#endif
+#endif // _AMD64_
