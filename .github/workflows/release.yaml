@@ -29,13 +29,13 @@ jobs:
         shell: cmd
         run: call .\.github\workflows\build.bat
 
-      #- name: Build Artifact
-      #  shell: cmd
-      #  run: 7z a -tzip ucxxrt.zip ucxxrt\
+      - name: Build Artifact
+        shell: cmd
+        run: 7z a -tzip ucxxrt.zip ucxxrt\
 
       - name: Release a Build Artifact
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          files: ucxxrt\*
+          files: ucxxrt.zip
