@@ -1,14 +1,13 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI-Release
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - "v*"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -34,9 +33,9 @@ jobs:
       #  shell: cmd
       #  run: 7z a -tzip ucxxrt.zip ucxxrt\
 
-      - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3
+      - name: Release a Build Artifact
+        uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
-          name: ucxxrt
-          path: ucxxrt\
-          if-no-files-found: error
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: ucxxrt\*

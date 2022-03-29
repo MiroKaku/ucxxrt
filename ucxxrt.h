@@ -57,9 +57,9 @@
 namespace ucxxrt
 {
 #if (_MSVC_LANG < 201704L) && (__cplusplus < 201704L)
-    constexpr char    __Version[] = u8"2.1.0.40";
+    constexpr char    __Version[] = u8"2.1.1";
 #else
-    constexpr char8_t __Version[] = u8"2.1.0.40";
+    constexpr char8_t __Version[] = u8"2.1.1";
 #endif
 
 #ifdef _KERNEL_MODE
