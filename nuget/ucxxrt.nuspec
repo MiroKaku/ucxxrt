@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
+  <metadata minClientVersion="2.5">
+    <id>ucxxrt</id>
+    <version>$version$</version>
+    <title>Universal C++ RunTime (UCXXRT)</title>
+    <authors>MiroKaku (MeeSong)</authors>
+    <owners>MiroKaku (MeeSong)</owners>
+    <developmentDependency>true</developmentDependency>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <license type="file">lib\native\LICENSE</license>
+    <readme>lib\native\README.md</readme>
+    <projectUrl>https://github.com/MiroKaku/ucxxrt</projectUrl>
+    <description>The Universal C++ RunTime library, supporting kernel-mode C++ exception-handler and STL.</description>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <copyright>Copyright© MiroKaku</copyright>
+    <language>en-US</language>
+    <tags>ucxxrt wdk driver kernel</tags>
+    <repository type="git" url="https://github.com/MiroKaku/ucxxrt.git" branch="master" commit="$commit$" />
+    <dependencies>
+      <dependency id="YY.NuGet.Import.Helper" version="1.0.0.4" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="ucxxrt.props" target="build\ucxxrt.props" />
+    <file src="..\ucxxrt\**" target="lib\native" exclude="**\*.lastcodeanalysissucceeded;"/>
+  </files>
+</package>
