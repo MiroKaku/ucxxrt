@@ -94,10 +94,18 @@ IDE：Visual Studio 2019 or higher
 
 ## 3. How to use
 
-1. Copy `ucxxrt/ucxxrt` forder to you project directory.  
-2. Add the property sheet `ucxxrt.props` to yor project.  
+**First, rename `DriverEntry` to `DriverMain`。**
 
-> !! note：Rename `DriverEntry` to `DriverMain`  
+### 3.1 Option 1（NuGet）
+> Publishing to nuget.org requires a signing certificate, no money.
+
+~~Right click on the project and select "Manage NuGet Packages", then search for `ucxxrt` and choose the version that suits you, and finally click "Install".~~
+
+### 3.2 Option 2
+
+1. Download the latest package from [release](https://github.com/MiroKaku/ucxxrt/releases) and unzip it.
+
+2. Add the property sheet `ucxxrt.props` to yor project.
 
 ![usage](./readme/use.gif)
 

@@ -92,10 +92,17 @@ IDE：Visual Studio 2019 或更高版本
 
 ## 3. 怎样使用
 
-1. 将编译生成的 `unittest` 文件夹复制到自己项目中
-2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
+**首先 `DriverEntry` 需要改为 `DriverMain`。**
 
-> !! 注意：`DriverEntry` 需要改为 `DriverMain`
+### 3.1 方法一（NuGet）
+> 发布到 nuget.org 需要签名证书，没钱。
+
+~~右键单击该项目并选择“管理 NuGet 包”，然后搜索`ucxxrt`并选择适合你的版本，最后单击“安装”。~~
+
+### 3.2 方法二
+
+ 1. 从 [release](https://github.com/MiroKaku/ucxxrt/releases) 下载最新包并解压。
+ 2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
 
 ![使用方法](./readme/use.zh-cn.gif)
 
