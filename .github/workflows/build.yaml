@@ -85,4 +85,4 @@ jobs:
           prerelease: false
           files: |
             ucxxrt.zip
-            nuget\*.nupkg
+            *.nupkg
