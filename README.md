@@ -85,21 +85,30 @@ void Test$HashMap()
 }
 ```
 
-## 2. Compile
+## 2. How to use
+
+**First, rename `DriverEntry` to `DriverMain`。**
+
+### 2.1 Option 1 (recommend)
+
+Right click on the project and select "Manage NuGet Packages", then search for `ucxxrt` and choose the version that suits you, and finally click "Install".
+
+![nuget](./readme/nuget.png)
+
+### 2.2 Option 2
+
+1. Download the latest package from [release](https://github.com/MiroKaku/ucxxrt/releases) and unzip it.
+
+2. Add the property sheet `ucxxrt.props` to yor project.
+
+![usage](./readme/use.gif)
+
+## 3. How to compile
 
 IDE：Visual Studio 2019 or higher
 
 * `git clone https://github.com/MiroKaku/ucxxrt.git`
-* Open `ucxxrt.sln` and compile
-
-## 3. How to use
-
-1. Copy `ucxxrt/ucxxrt` forder to you project directory.  
-2. Add the property sheet `ucxxrt.props` to yor project.  
-
-> !! note：Rename `DriverEntry` to `DriverMain`  
-
-![usage](./readme/use.gif)
+* Open `ucxxrt.sln` and compile.
 
 ## 4. Reference and Acknowledgement
 

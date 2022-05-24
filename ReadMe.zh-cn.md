@@ -83,21 +83,29 @@ void Test$HashMap()
 }
 ```
 
-## 2. 编译
+## 2. 怎样使用
+
+**首先 `DriverEntry` 需要改为 `DriverMain`。**
+
+### 2.1 方法一（推荐）
+
+右键单击该项目并选择“管理 NuGet 包”，然后搜索`ucxxrt`并选择适合你的版本，最后单击“安装”。
+
+![nuget](./readme/nuget.png)
+
+### 2.2 方法二
+
+ 1. 从 [release](https://github.com/MiroKaku/ucxxrt/releases) 下载最新包并解压。
+ 2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
+
+![使用方法](./readme/use.zh-cn.gif)
+
+## 3. 怎样编译
 
 IDE：Visual Studio 2019 或更高版本
 
 * `git clone https://github.com/MiroKaku/ucxxrt.git`
-* 打开 `ucxxrt.sln` 进行编译
-
-## 3. 怎样使用
-
-1. 将编译生成的 `unittest` 文件夹复制到自己项目中
-2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
-
-> !! 注意：`DriverEntry` 需要改为 `DriverMain`
-
-![使用方法](./readme/use.zh-cn.gif)
+* 打开 `ucxxrt.sln` 进行编译。
 
 ## 4. 引用参考和感谢
 
