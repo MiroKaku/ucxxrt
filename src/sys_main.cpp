@@ -18,6 +18,7 @@ _CRT_BEGIN_C_HEADER
 int  __cdecl _do_onexit();
 int  __cdecl _do_quick_onexit();
 
+void __cdecl __sysruntime_init();
 void __cdecl __initialize_memory();
 void __cdecl __acrt_initialize_new_handler(_In_opt_ void* encoded_null);
 
@@ -61,6 +62,9 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT DriverObject, PUNICODE_STRING Registry)
 
     // do feature initializions
     __isa_available_init();
+
+    // do sysruntime initializions
+    __sysruntime_init();
 
     // do memory initializions
     __initialize_memory();

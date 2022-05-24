@@ -82,8 +82,7 @@
 #  endif
 #endif
 
-#include <fltKernel.h>
-#include <ntimage.h>
+#include <veil/veil.h>
 #include <corecrt.h>
 
 #define _VCRT_BUILD
@@ -97,7 +96,6 @@
 #include <cstddef>
 #include <cstdlib>
 #include <cstdint>
-#include <minwindef.h>
 
 #include "ucxxrt.h"
 

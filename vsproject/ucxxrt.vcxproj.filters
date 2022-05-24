@@ -178,6 +178,21 @@
     <ClCompile Include="..\src\stdio.cpp">
       <Filter>ucxxrt</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\stl\syserror.cpp">
+      <Filter>ucxxrt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\stl\syserror_import_lib.cpp">
+      <Filter>ucxxrt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\vcruntime\winapi_thunks.cpp">
+      <Filter>ucxxrt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\message.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\sys_runtime.cpp">
+      <Filter>ucxxrt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ucxxrt.h" />
@@ -222,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="..\inc\new_user.h">
       <Filter>ucxxrt\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\vcruntime\winapi_thunks.h">
+      <Filter>ucxxrt\vcruntime</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

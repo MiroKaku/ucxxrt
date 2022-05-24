@@ -62,9 +62,9 @@
 //
 typedef struct PMD
 {
-    int	mdisp;  // Offset of intended data within base
-    int	pdisp;  // Displacement to virtual base pointer
-    int	vdisp;  // Index within vbTable to offset of base
+    int mdisp;  // Offset of intended data within base
+    int pdisp;  // Displacement to virtual base pointer
+    int vdisp;  // Index within vbTable to offset of base
     } PMD;
 
 //
@@ -100,7 +100,7 @@ typedef struct TypeDescriptor
 #if defined(_WIN64) || defined(_RTTI) || defined(BUILDING_C1XX_FORCEINCLUDE)
     const void *    pVFTable;   // Field overloaded by RTTI
 #else
-    unsigned long	hash;       // Hash value computed from type's decorated name
+    unsigned long   hash;       // Hash value computed from type's decorated name
 #endif
     void *          spare;      // reserved, possible for RTTI
     char            name[];     // The decorated name of the type; 0 terminated.
@@ -134,7 +134,7 @@ typedef struct TypeDescriptor
 // CatchableType - description of a type that can be caught.
 //
 // Note:  although isSimpleType can be part of ThrowInfo, it is more
-//		  convenient for the run-time to have it here.
+//        convenient for the run-time to have it here.
 //
 typedef const struct _s_CatchableType {
     unsigned int        properties;         // Catchable Type properties (Bit field)
@@ -206,11 +206,11 @@ EXTERN_C int __cdecl __CxxExceptionFilter(void* ppExcept, void* pType, int adjec
 #ifdef prepifdef
     prepifdef _MANAGED
     int __clrcall ___CxxExceptionFilter(void* ppExcept, void* pType, int adjectives, void *pBuildObj);
-    prependif	// _MANAGED
+    prependif   // _MANAGED
 #else
     #ifdef _MANAGED
     int __clrcall ___CxxExceptionFilter(void* ppExcept, void* pType, int adjectives, void *pBuildObj);
-    #endif		// _MANAGED
+    #endif      // _MANAGED
 #endif
 
 // Returns true if the object is really a C++ exception

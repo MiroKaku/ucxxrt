@@ -6,8 +6,9 @@
 #include <functional>
 #include <unordered_map>
 #include <stdexcept>
+#include <system_error>
 
-#define LOG(Format, ...) DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[ucxxrt] " __FUNCTION__ ": " Format "\n", __VA_ARGS__)
+#define LOG(Format, ...) DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[ucxxrt] [" __FUNCTION__ ":%u]: " Format "\n", __LINE__, __VA_ARGS__)
 
 static std::vector<std::function<void()>> TestVec;
 #define TEST(f) TestVec.emplace_back(f)
@@ -21,13 +22,13 @@ class Test$StaticObject
 
 public:
 
-    Test$StaticObject()
+    Test$StaticObject() noexcept
         : _Data(new ULONG[1]{ 1 })
     {
         LOG("has called.");
     }
 
-    ~Test$StaticObject()
+    ~Test$StaticObject() noexcept
     {
         LOG("has called.");
 
@@ -61,19 +62,19 @@ void Test$ThrowInt()
             }
             catch (int& e)
             {
-                LOG("catch Exception: %d", e);
+                LOG("catch exception: %d", e);
             }
         }
         catch (std::string& e)
         {
             ASSERT(false);
-            LOG("catch Exception: %s", e.c_str());
+            LOG("catch exception: %s", e.c_str());
         }
     }
     catch (...)
     {
         ASSERT(false);
-        LOG("catch Exception: ...");
+        LOG("catch exception: ...");
     }
 }
 
@@ -90,18 +91,18 @@ void Test$ThrowObject()
             catch (int& e)
             {
                 ASSERT(false);
-                LOG("catch Exception: %d", e);
+                LOG("catch exception: %d", e);
             }
         }
         catch (std::string& e)
         {
-            LOG("catch Exception: %s", e.c_str());
+            LOG("catch exception: %s", e.c_str());
         }
     }
     catch (...)
     {
         ASSERT(false);
-        LOG("catch Exception: ...");
+        LOG("catch exception: ...");
     }
 }
 
@@ -118,18 +119,18 @@ void Test$ThrowUnknow()
             catch (int& e)
             {
                 ASSERT(false);
-                LOG("catch Exception: %d", e);
+                LOG("catch exception: %d", e);
             }
         }
         catch (std::string& e)
         {
             ASSERT(false);
-            LOG("catch Exception: %s", e.c_str());
+            LOG("catch exception: %s", e.c_str());
         }
     }
     catch (...)
     {
-        LOG("catch Exception: ...");
+        LOG("catch exception: ...");
     }
 }
 
@@ -203,6 +204,12 @@ std::unordered_map<std::string, ULONG_PTR> Test$StaticObjectInitializer =
     { "5", 5 },
 };
 
+void Test$ErrorCode()
+{
+    std::error_code code(STATUS_INVALID_PARAMETER, std::system_category());
+    LOG("%s", code.message().c_str());
+}
+
 EXTERN_C NTSTATUS DriverMain(PDRIVER_OBJECT aDriverObject, PUNICODE_STRING /*aRegistry*/)
 {
     LOG("entry.");
@@ -213,6 +220,7 @@ EXTERN_C NTSTATUS DriverMain(PDRIVER_OBJECT aDriverObject, PUNICODE_STRING /*aRe
     TEST(Test$ThrowUnknow);
     TEST(Test$HashMap);
     TEST(Test$InitializerList);
+    TEST(Test$ErrorCode);
 
     for (const auto& Test : TestVec)
     {

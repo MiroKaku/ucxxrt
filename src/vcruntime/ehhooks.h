@@ -55,57 +55,6 @@ enum : size_t
 #endif
 };
 
-EXTERN_C NTSYSAPI VOID NTAPI
-RtlRaiseException(
-    _In_ PEXCEPTION_RECORD ExceptionRecord
-);
-
-EXTERN_C NTSYSAPI PVOID NTAPI
-RtlPcToFileHeader(
-    _In_ PVOID PcValue,
-    _Out_ PVOID* BaseOfImage
-);
-
-EXTERN_C NTSYSAPI VOID NTAPI 
-RtlUnwind(
-    PVOID             TargetFrame,
-    PVOID             TargetIp,
-    PEXCEPTION_RECORD ExceptionRecord,
-    PVOID             ReturnValue
-);
-
-#if defined(_M_AMD64) || defined(_M_ARM64) || defined(_M_ARM)
-EXTERN_C NTSYSAPI PIMAGE_RUNTIME_FUNCTION_ENTRY NTAPI
-RtlLookupFunctionEntry(
-    _In_ ULONG_PTR ControlPc,
-    _Out_ PULONG_PTR ImageBase,
-    _Inout_opt_ PUNWIND_HISTORY_TABLE HistoryTable
-);
-
-EXTERN_C NTSYSAPI VOID NTAPI
-RtlUnwindEx(
-    _In_opt_ PVOID TargetFrame,
-    _In_opt_ PVOID TargetIp,
-    _In_opt_ PEXCEPTION_RECORD ExceptionRecord,
-    _In_ PVOID ReturnValue,
-    _In_ PCONTEXT ContextRecord,
-    _In_opt_ PUNWIND_HISTORY_TABLE HistoryTable
-);
-
-EXTERN_C NTSYSAPI
-PEXCEPTION_ROUTINE NTAPI
-RtlVirtualUnwind(
-    _In_ DWORD HandlerType,
-    _In_ ULONG_PTR ImageBase,
-    _In_ ULONG_PTR ControlPc,
-    _In_ PIMAGE_RUNTIME_FUNCTION_ENTRY FunctionEntry,
-    _Inout_ PCONTEXT ContextRecord,
-    _Out_ PVOID* HandlerData,
-    _Out_ PULONG_PTR EstablisherFrame,
-    _Inout_opt_ PKNONVOLATILE_CONTEXT_POINTERS ContextPointers
-);
-#endif
-
 #if _EH_RELATIVE_FUNCINFO
 EXTERN_C uintptr_t __cdecl _GetImageBase();
 
@@ -119,17 +68,17 @@ EXTERN_C void __cdecl _SetThrowImageBase(uintptr_t NewThrowImageBase);
 #endif
 
 EXTERN_C _VCRTIMP FRAMEINFO * __cdecl _CreateFrameInfo(
-	FRAMEINFO * pFrameInfo,
-	PVOID       pExceptionObject
+    FRAMEINFO * pFrameInfo,
+    PVOID       pExceptionObject
 );
 
 EXTERN_C _VCRTIMP void __cdecl _FindAndUnlinkFrame(
-	FRAMEINFO * pFrameInfo
+    FRAMEINFO * pFrameInfo
 );
 
 
 EXTERN_C _VCRTIMP BOOL __cdecl _IsExceptionObjectToBeDestroyed(
-	PVOID pExceptionObject
+    PVOID pExceptionObject
 );
 
 #ifdef _EH_RELATIVE_FUNCINFO
@@ -147,28 +96,28 @@ BOOL _CallSETranslator(
 
 #if defined(_M_X64)
 EXTERN_C void* __cdecl _CallSettingFrame(
-	void*               handler,
-	EHRegistrationNode* pEstablisher,
-	ULONG               NLG_CODE
+    void*               handler,
+    EHRegistrationNode* pEstablisher,
+    ULONG               NLG_CODE
     );
 
 EXTERN_C void* __cdecl _CallSettingFrameEncoded(
-	void*               handler,
-	EHRegistrationNode  pEstablisher,
-	void*               object,
-	ULONG               NLG_CODE
+    void*               handler,
+    EHRegistrationNode  pEstablisher,
+    void*               object,
+    ULONG               NLG_CODE
     );
 
 EXTERN_C void* __cdecl _CallSettingFrame_LookupContinuationIndex(
     void*               handler,
     EHRegistrationNode  *pEstablisher,
     ULONG               NLG_CODE
-	);
+    );
 
 EXTERN_C void* __cdecl _CallSettingFrame_NotifyContinuationAddr(
     void*               handler,
     EHRegistrationNode  *pEstablisher
-	);
+    );
 
 #elif defined(_M_ARM_NT) || defined(_M_ARM64) || defined(_CHPE_X86_ARM64_EH_)
 EXTERN_C void* __cdecl _CallSettingFrame(
@@ -176,7 +125,7 @@ EXTERN_C void* __cdecl _CallSettingFrame(
     EHRegistrationNode* pRN,
     PULONG              pNonVolatiles,
     ULONG               NLG_CODE
-	);
+    );
 #endif
 
 #ifndef EXCEPTION_NONCONTINUABLE_EXCEPTION

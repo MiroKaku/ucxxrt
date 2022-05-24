@@ -13,11 +13,11 @@
 ;***
 ;exsup.asm
 ;
-;	Copyright (c) 1993-2001, Microsoft Corporation. All rights reserved.
+;   Copyright (c) 1993-2001, Microsoft Corporation. All rights reserved.
 ;
 ;Purpose:
-;	Exception handling for i386.  This file contains those routines
-;	common to both C8.0 and C9.0.
+;   Exception handling for i386.  This file contains those routines
+;   common to both C8.0 and C9.0.
 ;
 ;*******************************************************************************
 

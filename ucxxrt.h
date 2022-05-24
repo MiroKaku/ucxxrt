@@ -56,19 +56,14 @@
 
 namespace ucxxrt
 {
-#if (_MSVC_LANG < 201704L) && (__cplusplus < 201704L)
-    constexpr char    __Version[] = u8"2.1.1";
-#else
-    constexpr char8_t __Version[] = u8"2.1.1";
-#endif
-
 #ifdef _KERNEL_MODE
     extern ULONG        DefaultPoolTag;
     extern POOL_TYPE    DefaultPoolType;
     extern ULONG        DefaultMdlProtection;
+
+    extern PVOID        PsSystemDllBase;
 #endif
 }
-
 
 #ifndef _ByteSwap16
 #define _ByteSwap16(x) (                            \

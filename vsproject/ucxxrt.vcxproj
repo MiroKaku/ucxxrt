@@ -82,13 +82,17 @@
     <ClCompile Include="..\src\malloc.cpp" />
     <ClCompile Include="..\src\malloc_align.cpp" />
     <ClCompile Include="..\src\math.cpp" />
+    <ClCompile Include="..\src\message.cpp" />
     <ClCompile Include="..\src\misc\invalid_parameter.cpp" />
     <ClCompile Include="..\src\new_handler.cpp" />
     <ClCompile Include="..\src\new_mode.cpp" />
     <ClCompile Include="..\src\startup.cpp" />
     <ClCompile Include="..\src\stdio.cpp" />
+    <ClCompile Include="..\src\stl\syserror.cpp" />
+    <ClCompile Include="..\src\stl\syserror_import_lib.cpp" />
     <ClCompile Include="..\src\stl\xthrow.cpp" />
     <ClCompile Include="..\src\sys_main.cpp" />
+    <ClCompile Include="..\src\sys_runtime.cpp" />
     <ClCompile Include="..\src\terminate.cpp" />
     <ClCompile Include="..\src\ucxxrt.cpp" />
     <ClCompile Include="..\src\vcruntime\delete.cpp" />
@@ -115,6 +119,7 @@
     <ClCompile Include="..\src\vcruntime\uncaught_exceptions.cpp" />
     <ClCompile Include="..\src\vcruntime\unexpected.cpp" />
     <ClCompile Include="..\src\vcruntime\utility.cpp" />
+    <ClCompile Include="..\src\vcruntime\winapi_thunks.cpp" />
     <ClCompile Include="..\src\vcruntime\x86_exception_filter.cpp" />
     <ClCompile Include="..\src\x64\except.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -156,6 +161,7 @@
     <ClInclude Include="..\src\vcruntime\internal_shared.h" />
     <ClInclude Include="..\src\vcruntime\trnsctrl.h" />
     <ClInclude Include="..\src\vcruntime\vcruntime_internal.h" />
+    <ClInclude Include="..\src\vcruntime\winapi_thunks.h" />
     <ClInclude Include="..\ucxxrt.h" />
   </ItemGroup>
   <ItemGroup>

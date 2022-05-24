@@ -131,7 +131,7 @@ int __cdecl __acrt_errno_from_os_error(unsigned long const oserrno)
     }
 }
 
-#if WDK_NTDDI_VERSION < 0x0A00000A /*NTDDI_WIN10_FE*/
+#if (WDK_NTDDI_VERSION < 0x0A00000A /*NTDDI_WIN10_FE*/)
 // These safely set and get the value of the calling thread's errno
 errno_t __cdecl _set_errno(_In_ int const value)
 {
@@ -147,6 +147,7 @@ errno_t __cdecl _get_errno(_Out_ int* const result)
     *result = errno;
     return 0;
 }
+#endif // (WDK_NTDDI_VERSION < 0x0A00000A /*NTDDI_WIN10_FE*/)
 
 // These safely set and get the value of the calling thread's doserrno
 errno_t __cdecl _set_doserrno(_In_ unsigned long const value)
@@ -163,7 +164,6 @@ errno_t __cdecl _get_doserrno(_Out_ unsigned long* const result)
     *result = _doserrno;
     return 0;
 }
-#endif
 
 
 // These return pointers to the calling thread's errno and doserrno values,
