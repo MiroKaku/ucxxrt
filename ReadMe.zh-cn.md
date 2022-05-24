@@ -5,8 +5,9 @@
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 ![Windows](https://img.shields.io/badge/Windows-7+-orange.svg)
 ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2019-purple.svg)
+![nuget](https://img.shields.io/nuget/v/ucxxrt)
 
-* [English](README.md)
+* [English](https://github.com/MiroKaku/ucxxrt/blob/master/README.md)
 
 > 03/29/2022 开始移除了 UserMode 支持。最后支持 UserMode 的版本为 [e2f159f8f](https://github.com/MiroKaku/ucxxrt/tree/e2f159f8f04a829359e3a057b70457121485b4dc), UserMode 请使用 [VC-LTL5](https://github.com/Chuyu-Team/VC-LTL5)
 
@@ -91,14 +92,14 @@ void Test$HashMap()
 
 右键单击该项目并选择“管理 NuGet 包”，然后搜索`ucxxrt`并选择适合你的版本，最后单击“安装”。
 
-![nuget](./readme/nuget.png)
+![nuget](https://github.com/MiroKaku/ucxxrt/blob/master/readme/nuget.png?raw=true)
 
 ### 2.2 方法二
 
  1. 从 [release](https://github.com/MiroKaku/ucxxrt/releases) 下载最新包并解压。
  2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
 
-![使用方法](./readme/use.zh-cn.gif)
+![使用方法](https://github.com/MiroKaku/ucxxrt/blob/master/readme/use.zh-cn.gif?raw=true)
 
 ## 3. 怎样编译
 

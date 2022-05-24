@@ -5,8 +5,9 @@
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 ![Windows](https://img.shields.io/badge/Windows-7+-orange.svg)
 ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2019-purple.svg)
+![nuget](https://img.shields.io/nuget/v/ucxxrt)
 
-* [简体中文](ReadMe.zh-cn.md)
+* [简体中文](https://github.com/MiroKaku/ucxxrt/blob/master/ReadMe.zh-cn.md)
 
 > UserMode support will be removed starting 03/29/2022. The last version to support UserMode is [e2f159f8f](https://github.com/MiroKaku/ucxxrt/tree/e2f159f8f04a829359e3a057b70457121485b4dc), UserMode please use [VC-LTL5](https://github.com/Chuyu-Team/VC-LTL5)
 
@@ -93,7 +94,7 @@ void Test$HashMap()
 
 Right click on the project and select "Manage NuGet Packages", then search for `ucxxrt` and choose the version that suits you, and finally click "Install".
 
-![nuget](./readme/nuget.png)
+![nuget](https://github.com/MiroKaku/ucxxrt/blob/master/readme/nuget.png?raw=true)
 
 ### 2.2 Option 2
 
@@ -101,7 +102,7 @@ Right click on the project and select "Manage NuGet Packages", then search for `
 
 2. Add the property sheet `ucxxrt.props` to yor project.
 
-![usage](./readme/use.gif)
+![usage](https://github.com/MiroKaku/ucxxrt/blob/master/readme/use.gif?raw=true)
 
 ## 3. How to compile
 
