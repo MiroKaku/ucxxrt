@@ -79,7 +79,6 @@ jobs:
 
       - name: publish a version
         if: contains(github.ref, 'tags/')
-        working-directory: ${{github.workspace}}
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
