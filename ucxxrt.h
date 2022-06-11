@@ -1,7 +1,7 @@
 /*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      ucxxrt.h
- * DATA:      2020/02/05
+ * DATA:      2021/05/03
  *
  * PURPOSE:   Universal C++ RunTime
  *
@@ -12,29 +12,25 @@
 
 #pragma once
 
-// If you use float-point please open _HAS_FLOATPOINT
-// and link libcntpr.lib
-//   1. Open the project's Property Pages dialog box.
-//   2. Choose the Input property page in the Linker folder.
-//   3. Modify the Additional Dependencies property to add the libcntpr.lib file.
-#define _HAS_FLOATPOINT 1
-
-#if __has_include(<wdm.h>)
-#   ifndef  _KERNEL_MODE
-#       error _KERNEL_MODE must be defined before all header files.
-#   endif
+ // Warnings which disabled for compiling
+#if _MSC_VER >= 1200
+#pragma warning(push)
+// nonstandard extension used : nameless struct/union
+#pragma warning(disable:4201)
+// 'struct_name' : structure was padded due to __declspec(align())
+#pragma warning(disable:4324)
+// 'enumeration': a forward declaration of an unscoped enumeration must have an
+// underlying type (int assumed)
+#pragma warning(disable:4471)
 #endif
 
-#ifndef _CRT_BEGIN_C_HEADER
-#define _CRT_BEGIN_C_HEADER            \
-        __pragma(pack(push, _CRT_PACKING)) \
-        extern "C" {
-#endif // !_CRT_BEGIN_C_HEADER
 
-#ifndef _CRT_END_C_HEADER
-#define _CRT_END_C_HEADER \
-        }                     \
-        __pragma(pack(pop))
+#ifdef __KERNEL_MODE
+#   ifndef  _KERNEL_MODE
+#       define  _KERNEL_MODE __KERNEL_MODE
+#   endif
+#else
+#   error not support usermode.
 #endif
 
 #ifndef _CRTIMP
@@ -45,46 +41,29 @@
 #define _VCRTIMP _CRTIMP
 #endif
 
-#ifndef _HAS_NODISCARD
-#ifndef __has_cpp_attribute
-#define _HAS_NODISCARD 0
-#elif __has_cpp_attribute(nodiscard) >= 201603L // TRANSITION, VSO#939899 (need toolset update)
-#define _HAS_NODISCARD 1
-#else
-#define _HAS_NODISCARD 0
+#ifdef DBG
+#  ifndef _DEBUG
+#    define _DEBUG DBG
+#  endif
 #endif
-#endif // _HAS_NODISCARD
 
-#if _HAS_NODISCARD
-    #define _NODISCARD [[nodiscard]]
-#else // ^^^ CAN HAZ [[nodiscard]] / NO CAN HAZ [[nodiscard]] vvv
-    #define _NODISCARD
-#endif // _HAS_NODISCARD
+#include <fltKernel.h>
+#include <inc/malloc.h>
+#include <inc/new_user.h>
 
-
-#include "include/stdint.h"
-#include "include/new.h"
-#include "include/typeinfo.h"
+#include <cstdint>
 
 
 namespace ucxxrt
 {
-#if (_MSVC_LANG < 201704L) && (__cplusplus < 201704L)
-    constexpr char    __Version[] = u8"0.0.0.3";
-#else
-    constexpr char8_t __Version[] = u8"0.0.0.3";
-#endif
-
-#if __has_include(<wdm.h>)
+#ifdef _KERNEL_MODE
     extern ULONG        DefaultPoolTag;
     extern POOL_TYPE    DefaultPoolType;
     extern ULONG        DefaultMdlProtection;
+
+    extern PVOID        PsSystemDllBase;
 #endif
 }
-
-
-namespace ucxxrt
-{
 
 #ifndef _ByteSwap16
 #define _ByteSwap16(x) (                            \
@@ -115,4 +94,7 @@ namespace ucxxrt
 )
 #endif
 
-}
+
+#if _MSC_VER >= 1200
+#pragma warning(pop)
+#endif

@@ -1,405 +1,377 @@
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-// 
-// CoreSTL
-// 
-// Copyright (C) MeeSong. All rights reserved.
-// 	    Author : MeeSong 
-//	    Email  : meesong@live.cn
-// 	    Github : https://github.com/meesong
-//      License: GNU Library General Public License(LGPL) - Version 3
-// 
-// This file is part of Idea
-// 
-// Idea is free software; you can redistribute it and/or modify
-// it under the terms of the GNU Library General Public License as published
-// by the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      new.cpp
+ * DATA:      2021/05/08
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 //
-// Idea is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU Library General Public License for more details.
+// Copyright (c) Microsoft Corporation. All rights reserved.
 //
-// You should have received a copy of the GNU Library General Public License
-// along with Idea.  If not, see <http://www.gnu.org/licenses/>.
+// Defines the operator new.
 //
-// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-#include "include/new.h"
+#include <stdlib.h>
+#include <vcruntime_new.h>
+#include <internal_shared.h>
 
+// Enable the compiler to elide null checks during LTCG
+#pragma comment(linker, "/ThrowingNew")
 
-#if __has_include(<wdm.h>)
+[[noreturn]] void __CRTDECL __scrt_throw_std_bad_alloc();
+[[noreturn]] void __CRTDECL __scrt_throw_std_bad_array_new_length();
 
+////////////////////////////////////
+// new() Fallback Ordering
+//
+// +----------+
+// |new_scalar<---------------+
+// +----^-----+               |
+//      |                     |
+// +----+-------------+  +----+----+
+// |new_scalar_nothrow|  |new_array|
+// +------------------+  +----^----+
+//                            |
+//               +------------+----+
+//               |new_array_nothrow|
+//               +-----------------+
 
-// global
-namespace ucxxrt
+_CRT_SECURITYCRITICAL_ATTRIBUTE
+void* __CRTDECL operator new(size_t const size)
 {
-    ULONG       DefaultPoolTag          = _ByteSwap32('ucrt');
-    POOL_TYPE   DefaultPoolType         = POOL_TYPE::NonPagedPoolNx;
-    ULONG       DefaultMdlProtection    = MdlMappingNoExecute;
-}
-
-namespace std
-{
-    [[noreturn]] void __cdecl _Xbad_alloc();
-}
-
-using namespace ucxxrt;
-
-// replaceable allocation functions
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
-    size_t count
-    )
-{
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, count, DefaultPoolTag))
-        return ptr;
-
-    std::_Xbad_alloc();
-}
-
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
-    size_t count
-    )
-{
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, count, DefaultPoolTag))
-        return ptr;
-
-    std::_Xbad_alloc();
-}
-
-
-// replaceable usual deallocation functions
-void __CRTDECL operator delete(
-    void* ptr
-    ) noexcept
-{
-    if (ptr)
+    for (;;)
     {
-        ExFreePool(ptr);
+        if (void* const block = malloc(size))
+        {
+            return block;
+        }
+
+        if (_callnewh(size) == 0)
+        {
+            if (size == SIZE_MAX)
+            {
+                __scrt_throw_std_bad_array_new_length();
+            }
+            else
+            {
+                __scrt_throw_std_bad_alloc();
+            }
+        }
+
+        // The new handler was successful; try to allocate again...
     }
 }
 
-void __CRTDECL operator delete[](
-    void* ptr
-    ) noexcept
+// new_scalar_nothrow
+void* __CRTDECL operator new(size_t const size, std::nothrow_t const&) noexcept
 {
-    if (ptr)
+    try
     {
-        ExFreePool(ptr);
+        return operator new(size);
+    }
+    catch (...)
+    {
+        return nullptr;
     }
 }
 
-void __CRTDECL operator delete(
-    void* ptr,
-    size_t /*count*/
-    ) noexcept
+// new_array
+void* __CRTDECL operator new[](size_t const size)
 {
-    if (ptr)
+    return operator new(size);
+}
+
+// new_array_nothrow
+void* __CRTDECL operator new[](size_t const size, std::nothrow_t const&) noexcept
+{
+    try
     {
-        ExFreePool(ptr);
+        return operator new[](size);
+    }
+    catch (...)
+    {
+        return nullptr;
     }
 }
 
-void __CRTDECL operator delete[](
-    void* ptr,
-    size_t /*count*/
-    ) noexcept
+////////////////////////////////////////////////
+// Aligned new() Fallback Ordering
+//
+// +----------------+
+// |new_scalar_align<--------------+
+// +----^-----------+              |
+//      |                          |
+// +----+-------------------+  +---+-----------+
+// |new_scalar_align_nothrow|  |new_array_align|
+// +------------------------+  +---^-----------+
+//                                 |
+//                     +-----------+-----------+
+//                     |new_array_align_nothrow|
+//                     +-----------------------+
+//
+
+_CRT_SECURITYCRITICAL_ATTRIBUTE
+void* __CRTDECL operator new(size_t const size, std::align_val_t const al)
 {
-    if (ptr)
+    for (;;)
     {
-        ExFreePool(ptr);
+        if (void* const block = _aligned_malloc(size, static_cast<size_t>(al)))
+        {
+            return block;
+        }
+
+        if (_callnewh(size) == 0)
+        {
+            if (size == SIZE_MAX)
+            {
+                __scrt_throw_std_bad_array_new_length();
+            }
+            else
+            {
+                __scrt_throw_std_bad_alloc();
+            }
+        }
+
+        // The new handler was successful; try to allocate again...
     }
 }
 
-
-// replaceable non-throwing allocation functions
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
-    size_t count,
-    std::nothrow_t const&
-    ) noexcept
+// new_scalar_align_nothrow
+void* __CRTDECL operator new(size_t const size, std::align_val_t const al, std::nothrow_t const&) noexcept
 {
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, count, DefaultPoolTag))
-        return ptr;
-
-    return nullptr;
-}
-
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
-    size_t count,
-    std::nothrow_t const&
-    ) noexcept
-{
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(DefaultPoolType, count, DefaultPoolTag))
-        return ptr;
-
-    return nullptr;
-}
-
-
-// replaceable placement deallocation functions
-void __CRTDECL operator delete(
-    void* ptr,
-    std::nothrow_t const&
-    ) noexcept
-{
-    if (ptr)
+    try
     {
-        ExFreePool(ptr);
+        return operator new(size, al);
+    }
+    catch (...)
+    {
+        return nullptr;
     }
 }
 
-void __CRTDECL operator delete[](
-    void* ptr,
-    std::nothrow_t const&
-    ) noexcept
+// new_array_align
+void* __CRTDECL operator new[](size_t const size, std::align_val_t const al)
 {
-    if (ptr)
+    return operator new(size, al);
+}
+
+// new_array_align_nothrow
+void* __CRTDECL operator new[](size_t const size, std::align_val_t const al, std::nothrow_t const&) noexcept
+{
+    try
     {
-        ExFreePool(ptr);
+        return operator new[](size, al);
+    }
+    catch (...)
+    {
+        return nullptr;
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+// Pool new() Fallback Ordering
+//
+// +-------------------+
+// |new_scalar_pool_tag<----+---------------------+-----------------------------+
+// +--^----------------+    |                     |                             |
+//    |                     |                     |                             |
+// +--+---------------+  +--+------------+  +--+--------------------+  +--+------------------------+
+// |new_array_pool_tag|  |new_scalar_pool|  |new_scalar_pool_nothrow|  |new_scalar_pool_tag_nothrow|
+// +--^-----^-----^---+  +---------------+  +-----------------------+  +---------------------------+
+//    |     |     |
+//    |     |     +----------------------------------+
+//    |     |                                        |
+//    |     +---------------+                        |
+//    |                     |                        |
+// +--+-----------+  +------+---------------+  +--+-----------------------+
+// |new_array_pool|  |new_array_pool_nothrow|  |new_array_pool_tag_nothrow|
+// +--------------+  +----------------------+  +--------------------------+
 
 // user-defined placement allocation functions
 // void* operator new  (std::size_t count, user-defined-args...);
 // void* operator new[](std::size_t count, user-defined-args...);
 
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
-    size_t count,
-    POOL_TYPE pool
-    )
+// new_scalar_pool_tag
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(size_t size, POOL_TYPE pool, ULONG tag)
 {
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(pool, count, DefaultPoolTag))
-        return ptr;
-
-    std::_Xbad_alloc();
-}
-
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
-    size_t count,
-    POOL_TYPE pool
-    )
-{
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(pool, count, DefaultPoolTag))
-        return ptr;
-
-    std::_Xbad_alloc();
-}
-
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
-    size_t count,
-    POOL_TYPE pool,
-    ULONG tag
-    )
-{
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(pool, count, tag))
-        return ptr;
-
-    std::_Xbad_alloc();
-}
-
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
-    size_t count,
-    POOL_TYPE pool,
-    ULONG tag
-    )
-{
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(pool, count, tag))
-        return ptr;
-
-    std::_Xbad_alloc();
-}
-
-
-// user-defined placement deallocation functions
-// void operator delete  (void* ptr, args...);
-// void operator delete[](void* ptr, args...);
-
-void __CRTDECL operator delete(
-    void* ptr,
-    POOL_TYPE /*pool*/
-    ) noexcept
-{
-    if (ptr)
+    for (;;)
     {
-        ExFreePool(ptr);
+        if (void* const block = _malloc_pool_tag(size, pool, tag))
+        {
+            return block;
+        }
+
+        if (_callnewh(size) == 0)
+        {
+            if (size == SIZE_MAX)
+            {
+                __scrt_throw_std_bad_array_new_length();
+            }
+            else
+            {
+                __scrt_throw_std_bad_alloc();
+            }
+        }
+
+        // The new handler was successful; try to allocate again...
     }
 }
 
-void __CRTDECL operator delete[](
-    void* ptr,
-    POOL_TYPE /*pool*/
-    ) noexcept
+// new_scalar_pool
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(size_t size, POOL_TYPE pool)
 {
-    if (ptr)
+    return operator new(size, pool, ucxxrt::DefaultPoolTag);
+}
+
+// new_scalar_pool_nothrow
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(size_t size, POOL_TYPE pool, std::nothrow_t const&) noexcept
+{
+    try
     {
-        ExFreePool(ptr);
+        return operator new(size, pool, ucxxrt::DefaultPoolTag);
+    }
+    catch (...)
+    {
+        return nullptr;
     }
 }
 
-void __CRTDECL operator delete(
-    void* ptr,
-    POOL_TYPE /*pool*/,
-    ULONG tag
-    ) noexcept
+// new_scalar_pool_tag_nothrow
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(size_t size, POOL_TYPE pool, ULONG tag, std::nothrow_t const&) noexcept
 {
-    if (ptr)
+    try
     {
-        ExFreePoolWithTag(ptr, tag);
+        return operator new(size, pool, tag);
+    }
+    catch (...)
+    {
+        return nullptr;
     }
 }
 
-void __CRTDECL operator delete[](
-    void* ptr,
-    POOL_TYPE /*pool*/,
-    ULONG tag
-    ) noexcept
+// new_array_pool_tag
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](size_t size, POOL_TYPE pool, ULONG tag)
 {
-    if (ptr)
+    return operator new(size, pool, tag);
+}
+
+// new_array_pool
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](size_t size, POOL_TYPE pool)
+{
+    return operator new[](size, pool, ucxxrt::DefaultPoolTag);
+}
+
+// new_array_pool_nothrow
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](size_t size, POOL_TYPE pool, std::nothrow_t const&) noexcept
+{
+    try
     {
-        ExFreePoolWithTag(ptr, tag);
+        return operator new[](size, pool, ucxxrt::DefaultPoolTag);
+    }
+    catch (...)
+    {
+        return nullptr;
     }
 }
 
+// new_array_pool_tag_nothrow
+_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](size_t size, POOL_TYPE pool, ULONG tag, std::nothrow_t const&) noexcept
+{
+    try
+    {
+        return operator new[](size, pool, tag);
+    }
+    catch (...)
+    {
+        return nullptr;
+    }
+}
 
-// user-defined non-throwing placement allocation functions
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
-    size_t count,
-    POOL_TYPE pool,
-    std::nothrow_t const&
+//////////////////////////////////////////////////////////////////////////////////
+// new_debug() Fallback Ordering
+//
+// +----------------+    +---------------+
+// |new_scalar_debug<----|new_array_debug|
+// +--^-------------+    +---------------+
+//
+
+#ifdef _DEBUG
+
+_CRT_SECURITYCRITICAL_ATTRIBUTE
+void* __CRTDECL operator new(
+    size_t const size,
+    int const    block_use,
+    char const*  file_name,
+    int const    line_number
     )
 {
-    if (count == 0)
-        count = 1;
+    for (;;)
+    {
+        if (void* const block = _malloc_dbg(size, block_use, file_name, line_number))
+        {
+            return block;
+        }
 
-    if (auto ptr = ExAllocatePoolWithTag(pool, count, DefaultPoolTag))
-        return ptr;
-
-    return nullptr;
+        if (_callnewh(size) == 0)
+        {
+            if (size == SIZE_MAX)
+            {
+                __scrt_throw_std_bad_array_new_length();
+            }
+            else
+            {
+                __scrt_throw_std_bad_alloc();
+            }
+        }
+    }
 }
 
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
-    size_t count,
-    POOL_TYPE pool,
-    std::nothrow_t const&
+_CRT_SECURITYCRITICAL_ATTRIBUTE
+void* __CRTDECL operator new[](
+    size_t const size,
+    int const    block_use,
+    char const*  file_name,
+    int const    line_number
     )
 {
-    if (count == 0)
-        count = 1;
-
-    if (auto ptr = ExAllocatePoolWithTag(pool, count, DefaultPoolTag))
-        return ptr;
-
-    return nullptr;
+    return operator new(size, block_use, file_name, line_number);
 }
 
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new(
-    size_t count,
-    POOL_TYPE pool,
-    ULONG tag,
-    std::nothrow_t const&
+#else // ^^^ _DEBUG ^^^ // vvv !_DEBUG vvv //
+
+_CRT_SECURITYCRITICAL_ATTRIBUTE
+void* __CRTDECL operator new(
+    size_t const size,
+    int const    block_use,
+    char const* file_name,
+    int const    line_number
     )
 {
-    if (count == 0)
-        count = 1;
+    UNREFERENCED_PARAMETER(block_use);
+    UNREFERENCED_PARAMETER(file_name);
+    UNREFERENCED_PARAMETER(line_number);
 
-    if (auto ptr = ExAllocatePoolWithTag(pool, count, tag))
-        return ptr;
-
-    return nullptr;
+    return operator new(size);
 }
 
-_NODISCARD _VCRT_ALLOCATOR void* __CRTDECL operator new[](
-    size_t count,
-    POOL_TYPE pool,
-    ULONG tag,
-    std::nothrow_t const&
+_CRT_SECURITYCRITICAL_ATTRIBUTE
+void* __CRTDECL operator new[](
+    size_t const size,
+    int const    block_use,
+    char const* file_name,
+    int const    line_number
     )
 {
-    if (count == 0)
-        count = 1;
+    UNREFERENCED_PARAMETER(block_use);
+    UNREFERENCED_PARAMETER(file_name);
+    UNREFERENCED_PARAMETER(line_number);
 
-    if (auto ptr = ExAllocatePoolWithTag(pool, count, tag))
-        return ptr;
-
-    return nullptr;
+    return operator new[](size);
 }
 
-
-// user-defined non-throwing placement deallocation functions
-void __CRTDECL operator delete(
-    void* ptr,
-    POOL_TYPE /*pool*/,
-    std::nothrow_t const&
-    ) noexcept
-{
-    if (ptr)
-    {
-        ExFreePool(ptr);
-    }
-}
-
-void __CRTDECL operator delete[](
-    void* ptr,
-    POOL_TYPE /*pool*/,
-    std::nothrow_t const&
-    ) noexcept
-{
-    if (ptr)
-    {
-        ExFreePool(ptr);
-    }
-}
-
-void __CRTDECL operator delete(
-    void* ptr,
-    POOL_TYPE /*pool*/,
-    ULONG tag,
-    std::nothrow_t const&
-    ) noexcept
-{
-    if (ptr)
-    {
-        ExFreePoolWithTag(ptr, tag);
-    }
-}
-
-void __CRTDECL operator delete[](
-    void* ptr,
-    POOL_TYPE /*pool*/,
-    ULONG tag,
-    std::nothrow_t const&
-    ) noexcept
-{
-    if (ptr)
-    {
-        ExFreePoolWithTag(ptr, tag);
-    }
-}
-
-
-#endif
+#endif // !_DEBUG

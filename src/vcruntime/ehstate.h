@@ -1,7 +1,7 @@
 /*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      ehstate.h
- * DATA:      2020/02/08
+ * DATA:      2021/05/14
  *
  * PURPOSE:   Universal C++ RunTime
  *
@@ -9,5 +9,9 @@
  *
  * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
  */
+
+ //
+ // Copyright (c) Microsoft Corporation. All Rights reserved.
+ //
 
 #pragma once
