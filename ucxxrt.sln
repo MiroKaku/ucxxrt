@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt", "vsproject\ucxxrt.vcxproj", "{8D969184-788F-48AA-BF18-2898FC167C91}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt", "msvc\ucxxrt.vcxproj", "{8D969184-788F-48AA-BF18-2898FC167C91}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt.text", "vsproject\ucxxrt.test.vcxproj", "{408FB99E-F703-491E-836B-5FA24B3C819E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ucxxrt.test", "msvc\ucxxrt.test.vcxproj", "{408FB99E-F703-491E-836B-5FA24B3C819E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
