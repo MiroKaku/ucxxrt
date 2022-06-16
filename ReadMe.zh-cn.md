@@ -25,9 +25,9 @@ ucxxrt 是一个基于微软的 MSVC 修改的开源运行时库，最大的亮�
 
 ### 1.2 特性
 
-内核模式：
+- [x] 支持 x86、x64、ARM（实验性）、ARM64（实验性）
 - [x] 支持 new/delete
-- [x] 支持 C++ 异常 (/EHsc)
+- [x] 支持 C++ 异常 (/EHa、/EHsc)
 - [x] 支持 SAFESEH、GS (Buffer Security Check)
 - [x] 支持 STL (部分)
 - [x] 支持 静态对象

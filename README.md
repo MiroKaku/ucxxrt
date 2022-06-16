@@ -27,9 +27,9 @@ But there are several problems，like it isn't support C++ exception and it cost
 
 ### 1.2 Features
 
-Kernel-mode：
+- [x] support x86, x64, ARM(experimental), ARM64(experimental).
 - [x] support new/delete operators.  
-- [x] support C++ exception (/EHsc).  
+- [x] support C++ exception (/EHa, /EHsc).  
 - [x] support SAFESEH、GS (Buffer Security Check).  
 - [x] support STL (not fully).  
 - [x] support static objects.  
