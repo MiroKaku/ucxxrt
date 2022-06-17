@@ -103,7 +103,7 @@ void Test$HashMap()
 
 ## 3. 怎样编译
 
-IDE：Visual Studio 2019 或更高版本
+IDE：Visual Studio 2019 或更高版本 (编译 ARM/ARM64 需要 Visual Studio 2022)
 
 * `git clone https://github.com/MiroKaku/ucxxrt.git`
 * 打开 `ucxxrt.sln` 进行编译。

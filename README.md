@@ -106,7 +106,7 @@ Right click on the project and select "Manage NuGet Packages", then search for `
 
 ## 3. How to compile
 
-IDE：Visual Studio 2019 or higher
+IDE：Visual Studio 2019 or higher (Compiling for ARM/ARM64 requires Visual Studio 2022)
 
 * `git clone https://github.com/MiroKaku/ucxxrt.git`
 * Open `ucxxrt.sln` and compile.
