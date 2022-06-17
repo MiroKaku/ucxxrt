@@ -48,8 +48,8 @@
 #endif
 
 #include <fltKernel.h>
-#include <inc/malloc_tag.h>
-#include <inc/new_tag.h>
+#include <inc/new_km.h>
+#include <inc/malloc_km.h>
 
 #include <cstdint>
 

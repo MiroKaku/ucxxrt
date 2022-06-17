@@ -686,6 +686,21 @@
     <ClCompile Include="..\src\crt\vcruntime\user.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\ucrt\heap\malloc_km.cpp">
+      <Filter>ucxxrt\ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ucrt\heap\free_km.cpp">
+      <Filter>ucxxrt\ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ucrt\heap\calloc_km.cpp">
+      <Filter>ucxxrt\ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\vcruntime\delete_km.cpp">
+      <Filter>ucxxrt\crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\vcruntime\new_km.cpp">
+      <Filter>ucxxrt\crt\vcruntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <MARMASM Include="..\src\crt\arm\chkstk.asm">
