@@ -780,5 +780,17 @@
     <MASM Include="..\src\crt\x64\handlers.asm">
       <Filter>ucxxrt\crt\x64</Filter>
     </MASM>
+    <MASM Include="..\src\crt\i386\exsup4.asm">
+      <Filter>ucxxrt\crt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\crt\i386\exsup.asm">
+      <Filter>ucxxrt\crt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\crt\i386\exsup2.asm">
+      <Filter>ucxxrt\crt\i386</Filter>
+    </MASM>
+    <MASM Include="..\src\crt\i386\exsup3.asm">
+      <Filter>ucxxrt\crt\i386</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

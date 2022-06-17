@@ -94,7 +94,7 @@
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_prolog3_align(
     unsigned long LocalAllocation,
     unsigned long Alignment
@@ -272,7 +272,7 @@ _EH_prolog3_align(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_prolog3_catch_align(
     unsigned long LocalAllocation,
     unsigned long Alignment
@@ -457,7 +457,7 @@ _EH_prolog3_catch_align(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_prolog3_GS_align(
     unsigned long LocalAllocation,
     unsigned long Alignment
@@ -649,7 +649,7 @@ _EH_prolog3_GS_align(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_prolog3_catch_GS_align(
     unsigned long LocalAllocation,
     unsigned long Alignment
@@ -811,7 +811,7 @@ _EH_prolog3_catch_GS_align(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_epilog3_align(
     void
     )
@@ -862,7 +862,7 @@ _EH_epilog3_align(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_epilog3_GS_align(
     void
     )

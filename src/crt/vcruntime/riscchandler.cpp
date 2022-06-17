@@ -18,14 +18,14 @@ Abstract:
 
 #ifndef DISABLE_NLG
 
-extern "C" VOID
+extern "C" VOID _cdecl
 _NLG_Notify (
     IN PVOID uoffDestination,
     IN PVOID uoffFramePointer,
     IN ULONG dwCode
     );
 
-extern "C" VOID
+extern "C" VOID _cdecl
 __NLG_Return2 (
     VOID
     );

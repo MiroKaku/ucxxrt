@@ -84,7 +84,7 @@
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_prolog3(
     unsigned long LocalAllocation
     )
@@ -200,7 +200,7 @@ _EH_prolog3(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_prolog3_catch(
     unsigned long LocalAllocation
     )
@@ -319,7 +319,7 @@ _EH_prolog3_catch(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_prolog3_GS(
     unsigned long LocalAllocation
     )
@@ -441,7 +441,7 @@ _EH_prolog3_GS(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_prolog3_catch_GS(
     unsigned long LocalAllocation
     )
@@ -537,7 +537,7 @@ _EH_prolog3_catch_GS(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_epilog3(
     void
     )
@@ -581,7 +581,7 @@ _EH_epilog3(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_epilog3_GS(
     void
     )
@@ -618,7 +618,7 @@ _EH_epilog3_GS(
 #ifdef __cplusplus
 extern "C"
 #endif
-extern void __declspec(naked)
+extern void __declspec(naked) __cdecl
 _EH_epilog3_catch_GS(
     void
     )

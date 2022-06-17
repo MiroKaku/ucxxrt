@@ -153,41 +153,49 @@
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
+    <ApiValidator_Enable>false</ApiValidator_Enable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
+    <ApiValidator_Enable>false</ApiValidator_Enable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
+    <ApiValidator_Enable>false</ApiValidator_Enable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(PlatformShortName).$(Configuration.ToLower())\</IntDir>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
+    <ApiValidator_Enable>false</ApiValidator_Enable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <ApiValidator_Enable>false</ApiValidator_Enable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <ApiValidator_Enable>false</ApiValidator_Enable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <ApiValidator_Enable>false</ApiValidator_Enable>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <DebuggerFlavor>DbgengKernelDebugger</DebuggerFlavor>
     <OutDir>$(SolutionDir)bin\$(PlatformShortName)\$(Configuration.ToLower())\</OutDir>
     <IntDir>$(SolutionDIr).vs\$(ProjectName)\$(Platform).$(Configuration)\</IntDir>
+    <ApiValidator_Enable>false</ApiValidator_Enable>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Link />
