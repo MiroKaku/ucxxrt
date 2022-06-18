@@ -9,7 +9,6 @@
 *******************************************************************************/
 
 #include <corecrt_internal.h>
-#include <signal.h>
 #include <stdlib.h>
 
 #ifdef _DEBUG
@@ -43,8 +42,7 @@ extern "C" unsigned int __abort_behavior = _INIT_ABORT_BEHAVIOR;
 *
 *******************************************************************************/
 
-#if (WDK_NTDDI_VERSION >= NTDDI_WIN10_FE)
-extern "C" void __cdecl abort()
+extern "C" void __cdecl _abort_default()
 {
 #ifdef _DEBUG
     if (__abort_behavior & _WRITE_ABORT_MSG)
@@ -60,7 +58,6 @@ extern "C" void __cdecl abort()
 
     __fastfail(FAST_FAIL_FATAL_APP_EXIT);
 }
-#endif // WDK_NTDDI_VERSION >= NTDDI_WIN10_FE
 
 /***
 *unsigned int _set_abort_behavior(unsigned int, unsigned int) - set the behavior on abort

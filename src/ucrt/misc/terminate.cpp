@@ -8,6 +8,14 @@
 
 #include <corecrt_internal.h>
 #include <corecrt_terminate.h>
+#include <vcstartup_internal.h>
+
+
+// fix: abort not implemented after 19043
+// alternatename: https://devblogs.microsoft.com/oldnewthing/20200731-00/?p=104024
+extern "C" void __cdecl _abort_default();
+_VCRT_DECLARE_ALTERNATE_NAME(abort, _abort_default);
+
 
 static terminate_handler __cdecl get_terminate_or_default(
     __acrt_ptd const* const ptd
