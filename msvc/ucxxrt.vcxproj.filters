@@ -807,5 +807,8 @@
     <MASM Include="..\src\crt\i386\exsup3.asm">
       <Filter>ucxxrt\crt\i386</Filter>
     </MASM>
+    <MASM Include="..\src\crt\x64\guard_dispatch.asm">
+      <Filter>ucxxrt\crt\x64</Filter>
+    </MASM>
   </ItemGroup>
 </Project>

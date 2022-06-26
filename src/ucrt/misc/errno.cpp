@@ -7,6 +7,7 @@
 //
 #include <internal_shared.h>
 #include <corecrt_internal.h>
+#include <vcstartup_internal.h>
 #include <errno.h>
 
 _CRT_BEGIN_C_HEADER
@@ -86,15 +87,14 @@ int __cdecl __acrt_errno_from_os_error(long const oserrno)
     return EINVAL;
 }
 
-#if (WDK_NTDDI_VERSION < 0x0A00000A /*NTDDI_WIN10_FE*/)
 // These safely set and get the value of the calling thread's errno
-errno_t __cdecl _set_errno(_In_ int const value)
+errno_t __cdecl _set_errno_default(_In_ int const value)
 {
     errno = value;
     return 0;
 }
 
-errno_t __cdecl _get_errno(_Out_ int* const result)
+errno_t __cdecl _get_errno_default(_Out_ int* const result)
 {
     _VALIDATE_RETURN_NOERRNO(result != nullptr, EINVAL);
 
@@ -102,7 +102,12 @@ errno_t __cdecl _get_errno(_Out_ int* const result)
     *result = errno;
     return 0;
 }
-#endif // (WDK_NTDDI_VERSION < 0x0A00000A /*NTDDI_WIN10_FE*/)
+
+_VCRT_DECLARE_ALTERNATE_NAME(_set_errno, _set_errno_default);
+_VCRT_DECLARE_ALTERNATE_NAME(_get_errno, _get_errno_default);
+
+static auto _set_errno_dummy = &_set_errno;
+static auto _get_errno_dummy = &_get_errno;
 
 // These safely set and get the value of the calling thread's doserrno
 errno_t __cdecl _set_doserrno(_In_ unsigned long const value)

@@ -81,9 +81,6 @@
 #  endif
 #endif
 
-#undef  NTDDI_VERSION
-#define NTDDI_VERSION NTDDI_WIN10_CO
-
 #include <veil/veil.h>
 #include <corecrt.h>
 
