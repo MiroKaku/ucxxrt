@@ -9,31 +9,31 @@
 
 ; Segment type: Zero-length
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-_text$mn        ends
+_TEXT$mn        segment para public 'CODE' use32
+_TEXT$mn        ends
 
 ; Segment type: Zero-length
 ; Segment permissions: Read/Write
-_data           segment para public 'DATA' use32
-_data           ends
+_DATA           segment para public 'DATA' use32
+_DATA           ends
 
 ; Segment type: Pure data
 ; Segment permissions: Read
 
-_rdata          segment para public 'DATA' use32
-                assume cs:_rdata
+_RDATA          segment readonly para public 'DATA' use32
+                assume cs:_RDATA
 
 two32           dd 4F800000h
 two63           dd 5F000000h
 _NaN            dd 0FFFFFFFFh
 
-_rdata          ends
+_RDATA          ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ftol2_sse_excpt
 _ftol2_sse_excpt proc near
@@ -41,13 +41,13 @@ _ftol2_sse_excpt proc near
 _ftol2_sse_excpt endp
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ftol2_sse
 _ftol2_sse     proc near
@@ -55,13 +55,13 @@ _ftol2_sse     proc near
 _ftol2_sse     endp
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ftoi2
 _ftoi2         proc near
@@ -119,14 +119,14 @@ L41:
                 mov     eax, 80000000h
                 retn
 _ftoi2         endp
-_text$mn        ends
+_TEXT$mn        ends
 
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
                 
                 public _ftoui2
 _ftoui2        proc near
@@ -202,13 +202,13 @@ L99:
 _ftoui2        endp
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ftol2
 _ftol2         proc near
@@ -284,13 +284,13 @@ L57:
 _ftol2         endp
 
                 align 10h
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ftoul2
 _ftoul2        proc near
@@ -372,8 +372,8 @@ LAF:
                 mov     eax, 0FFFFFFFFh
                 cdq
                 retn
-_ftoul2        endp
-_text$mn        ends
+_ftoul2         endp
+_TEXT$mn        ends
 
 ; Segment type: Externs
                 extrn __isa_available:dword

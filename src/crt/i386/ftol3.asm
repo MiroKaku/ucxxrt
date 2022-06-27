@@ -9,31 +9,31 @@
 
 ; Segment type: Zero-length
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-_text$mn        ends
+_TEXT$mn        segment para public 'CODE' use32
+_TEXT$mn        ends
 
 ; Segment type: Zero-length
 ; Segment permissions: Read/Write
-_data           segment para public 'DATA' use32
-_data           ends
+_DATA           segment para public 'DATA' use32
+_DATA           ends
 
 ; Segment type: Pure data
 ; Segment permissions: Read
-_rdata          segment para public 'DATA' use32
-                assume cs:_rdata
+_RDATA          segment readonly para public 'DATA' use32
+                assume cs:_RDATA
 
 _NaN            dd 0FFFFFFFFh
 _onept5         dd 3FC00000h
 _DP2to32        dq 0
 qword_18        dq 41F0000000000000h
 
-_rdata          ends
+_RDATA          ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ftoui3
 _ftoui3        proc near
@@ -67,13 +67,13 @@ _ftoui3_NaN:
 _ftoui3        endp
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ftoul3
 _ftoul3        proc near
@@ -124,13 +124,13 @@ _ftoul3_NaN:
 _ftoul3        endp
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ftol3
 _ftol3         proc near
@@ -177,13 +177,13 @@ _ftol3_retmin:
 _ftol3         endp
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _dtoui3
 _dtoui3        proc near
@@ -227,13 +227,13 @@ _dtoui3_NaN:
                 dec     eax
                 retn
 _dtoui3        endp
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _dtoul3
 _dtoul3        proc near
@@ -299,13 +299,13 @@ _dtoul3_NaN:
 _dtoul3        endp
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _dtol3
 _dtol3         proc near
@@ -380,13 +380,13 @@ _dtol3_retmin:
                 retn
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ultod3
 _ultod3        proc near
@@ -414,13 +414,13 @@ _ultod3_uint32:
 _ultod3        endp
 
                 align 4
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Pure code
 ; Segment permissions: Read/Execute
-_text$mn        segment para public 'CODE' use32
-                assume cs:_text$mn
-                assume es:nothing, ss:nothing, ds:_data, fs:nothing, gs:nothing
+_TEXT$mn        segment para public 'CODE' use32
+                assume cs:_TEXT$mn
+                assume es:nothing, ss:nothing, ds:_DATA, fs:nothing, gs:nothing
 
                 public _ltod3
 _ltod3         proc near
@@ -441,7 +441,7 @@ _ltod3_default:
                 addsd   xmm0, xmm1
                 retn
 _ltod3         endp
-_text$mn        ends
+_TEXT$mn        ends
 
 ; Segment type: Externs
                 extrn __isa_available:dword
