@@ -28,16 +28,10 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _malloc_base(size_t c
     // Ensure we request an allocation of at least one byte:
     size_t const actual_size = size == 0 ? 1 : size;
 
-#ifdef POOL_NX_OPTIN_AUTO
-    POOL_TYPE pool_type = NonPagedPool;
-#else
-    POOL_TYPE pool_type = ExDefaultNonPagedPoolType;
-#endif
-
     for (;;)
     {
 #pragma warning(suppress: 4996)
-        void* const block = ExAllocatePoolWithTag(pool_type, actual_size, __ucxxrt_tag);
+        void* const block = ExAllocatePoolWithTag(NonPagedPool, actual_size, __ucxxrt_tag);
         if (block)
             return block;
 

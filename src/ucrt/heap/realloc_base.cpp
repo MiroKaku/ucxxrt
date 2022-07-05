@@ -67,16 +67,10 @@ extern "C" __declspec(noinline) _CRTRESTRICT void* __cdecl _realloc_base(
     // Ensure that the requested size is not too large:
     _VALIDATE_RETURN_NOEXC(_HEAP_MAXREQ >= size, ENOMEM, nullptr);
 
-#ifdef POOL_NX_OPTIN_AUTO
-    POOL_TYPE pool_type = NonPagedPool;
-#else
-    POOL_TYPE pool_type = ExDefaultNonPagedPoolType;
-#endif
-
     for (;;)
     {
-        void* const new_block = ExReallocatePoolWithTag(_msize_base(block), size, block,
-            pool_type, __ucxxrt_tag);
+        void* const new_block = ExReallocatePoolWithTag(
+            _msize_base(block), size, block, NonPagedPool, __ucxxrt_tag);
         if (new_block)
         {
             return new_block;
