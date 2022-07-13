@@ -23,6 +23,12 @@ jobs:
         with:
           submodules: true
 
+      - name: setup wdk.vsix
+        shell: pwsh
+        run: |
+          $FilePath = Resolve-Path "C:\Program Files (x86)\Windows Kits\10\Vsix\VS2022\*\WDK.vsix"
+          Install-VsixExtension -FilePath $FilePath -Name "WDK.vsix" -VSversion "2022" -InstallOnly
+
       - name: build nuspec
         if: contains(github.ref, 'tags/')
         working-directory: ${{github.workspace}}
