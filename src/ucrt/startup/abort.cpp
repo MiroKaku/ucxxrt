@@ -59,6 +59,7 @@ extern "C" void __cdecl _abort_default()
     __fastfail(FAST_FAIL_FATAL_APP_EXIT);
 }
 
+
 /***
 *unsigned int _set_abort_behavior(unsigned int, unsigned int) - set the behavior on abort
 *
