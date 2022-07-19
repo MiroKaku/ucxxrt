@@ -33,7 +33,7 @@ jobs:
         working-directory: ${{github.workspace}}
         shell: pwsh
         run: |
-          '.\.github\workflows\EnableX86AndARM.ps1'
+          .\.github\workflows\EnableX86AndARM.ps1
 
       - name: build nuspec
         if: contains(github.ref, 'tags/')
