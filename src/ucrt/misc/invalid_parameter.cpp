@@ -9,6 +9,14 @@
 #include <vcstartup_internal.h>
 
 
+_VCRT_DECLARE_ALTERNATE_NAME(_invoke_watson, _invoke_watson_default);
+#ifdef _DEBUG
+_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter, _invalid_parameter_default);
+#endif
+_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter_noinfo, _invalid_parameter_noinfo_default);
+_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter_noinfo_noreturn, _invalid_parameter_noinfo_noreturn_default);
+
+
 static _invalid_parameter_handler __acrt_invalid_parameter_handler;
 
 
@@ -18,12 +26,12 @@ extern "C" void __cdecl __acrt_initialize_invalid_parameter_handler(void* const 
 }
 
 
-
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
 // _invalid_parameter
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 extern "C" void __cdecl _invalid_parameter_internal(
     wchar_t const*     const expression,
     wchar_t const*     const function_name,
@@ -62,7 +70,7 @@ extern "C" void __cdecl _invalid_parameter_default(
 
 extern "C" void __cdecl _invalid_parameter_noinfo_default()
 {
-    _invalid_parameter(nullptr, nullptr, nullptr, 0, 0);
+    _invalid_parameter_internal(nullptr, nullptr, nullptr, 0, 0);
 }
 
 // This is used by inline code in the C++ Standard Library and the SafeInt
@@ -70,17 +78,9 @@ extern "C" void __cdecl _invalid_parameter_noinfo_default()
 // optimize use of the invalid parameter handler for inline code.
 extern "C" __declspec(noreturn) void __cdecl _invalid_parameter_noinfo_noreturn_default()
 {
-    _invalid_parameter(nullptr, nullptr, nullptr, 0, 0);
-    _invoke_watson    (nullptr, nullptr, nullptr, 0, 0);
+    _invalid_parameter_internal(nullptr, nullptr, nullptr, 0, 0);
+    _invoke_watson(nullptr, nullptr, nullptr, 0, 0);
 }
-
-_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter, _invalid_parameter_default);
-_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter_noinfo, _invalid_parameter_noinfo_default);
-_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter_noinfo_noreturn, _invalid_parameter_noinfo_noreturn_default);
-
-static auto _invalid_parameter_dummy                    = &_invalid_parameter;
-static auto _invalid_parameter_noinfo_dummy             = &_invalid_parameter_noinfo;
-static auto _invalid_parameter_noinfo_noreturn_dummy    = &_invalid_parameter_noinfo_noreturn;
 
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -88,6 +88,7 @@ static auto _invalid_parameter_noinfo_noreturn_dummy    = &_invalid_parameter_no
 // _invoke_watson
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 extern "C" __declspec(noreturn) void __cdecl _invoke_watson_default(
     wchar_t const* const expression,
     wchar_t const* const function_name,
@@ -104,9 +105,6 @@ extern "C" __declspec(noreturn) void __cdecl _invoke_watson_default(
 
     __fastfail(FAST_FAIL_INVALID_ARG);
 }
-
-_VCRT_DECLARE_ALTERNATE_NAME(_invoke_watson, _invoke_watson_default);
-static auto _invoke_watson_dummy = &_invoke_watson;
 
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

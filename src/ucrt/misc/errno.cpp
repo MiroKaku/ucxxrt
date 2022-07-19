@@ -106,9 +106,6 @@ errno_t __cdecl _get_errno_default(_Out_ int* const result)
 _VCRT_DECLARE_ALTERNATE_NAME(_set_errno, _set_errno_default);
 _VCRT_DECLARE_ALTERNATE_NAME(_get_errno, _get_errno_default);
 
-static auto _set_errno_dummy = &_set_errno;
-static auto _get_errno_dummy = &_get_errno;
-
 // These safely set and get the value of the calling thread's doserrno
 errno_t __cdecl _set_doserrno(_In_ unsigned long const value)
 {
