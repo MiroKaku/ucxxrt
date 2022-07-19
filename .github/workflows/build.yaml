@@ -32,7 +32,8 @@ jobs:
       - name: enable X86 and ARM build support
         working-directory: ${{github.workspace}}
         shell: pwsh
-        run: & '.\.github\workflows\EnableX86&ARM.ps1'
+        run: |
+          '.\.github\workflows\EnableX86AndARM.ps1'
 
       - name: build nuspec
         if: contains(github.ref, 'tags/')
