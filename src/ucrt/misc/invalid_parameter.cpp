@@ -9,12 +9,12 @@
 #include <vcstartup_internal.h>
 
 
-_VCRT_DECLARE_ALTERNATE_NAME(_invoke_watson, _invoke_watson_default);
+_VCRT_DECLARE_ALTERNATE_NAME(_invoke_watson, _UCXXRT__invoke_watson);
 #ifdef _DEBUG
-_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter, _invalid_parameter_default);
+_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter, _UCXXRT__invalid_parameter);
 #endif
-_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter_noinfo, _invalid_parameter_noinfo_default);
-_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter_noinfo_noreturn, _invalid_parameter_noinfo_noreturn_default);
+_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter_noinfo, _UCXXRT__invalid_parameter_noinfo);
+_VCRT_DECLARE_ALTERNATE_NAME(_invalid_parameter_noinfo_noreturn, _UCXXRT__invalid_parameter_noinfo_noreturn);
 
 
 static _invalid_parameter_handler __acrt_invalid_parameter_handler;
@@ -32,7 +32,7 @@ extern "C" void __cdecl __acrt_initialize_invalid_parameter_handler(void* const 
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-extern "C" void __cdecl _invalid_parameter_internal(
+extern "C" static void __cdecl _invalid_parameter_internal(
     wchar_t const*     const expression,
     wchar_t const*     const function_name,
     wchar_t const*     const file_name,
@@ -57,7 +57,7 @@ extern "C" void __cdecl _invalid_parameter_internal(
     _invoke_watson(expression, function_name, file_name, line_number, reserved);
 }
 
-extern "C" void __cdecl _invalid_parameter_default(
+extern "C" void __cdecl _UCXXRT__invalid_parameter(
     wchar_t const* const expression,
     wchar_t const* const function_name,
     wchar_t const* const file_name,
@@ -68,7 +68,7 @@ extern "C" void __cdecl _invalid_parameter_default(
     return _invalid_parameter_internal(expression, function_name, file_name, line_number, reserved);
 }
 
-extern "C" void __cdecl _invalid_parameter_noinfo_default()
+extern "C" void __cdecl _UCXXRT__invalid_parameter_noinfo()
 {
     _invalid_parameter_internal(nullptr, nullptr, nullptr, 0, 0);
 }
@@ -76,7 +76,7 @@ extern "C" void __cdecl _invalid_parameter_noinfo_default()
 // This is used by inline code in the C++ Standard Library and the SafeInt
 // library.  Because it is __declspec(noreturn), the compiler can better
 // optimize use of the invalid parameter handler for inline code.
-extern "C" __declspec(noreturn) void __cdecl _invalid_parameter_noinfo_noreturn_default()
+extern "C" __declspec(noreturn) void __cdecl _UCXXRT__invalid_parameter_noinfo_noreturn()
 {
     _invalid_parameter_internal(nullptr, nullptr, nullptr, 0, 0);
     _invoke_watson(nullptr, nullptr, nullptr, 0, 0);
@@ -89,7 +89,7 @@ extern "C" __declspec(noreturn) void __cdecl _invalid_parameter_noinfo_noreturn_
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-extern "C" __declspec(noreturn) void __cdecl _invoke_watson_default(
+extern "C" __declspec(noreturn) void __cdecl _UCXXRT__invoke_watson(
     wchar_t const* const expression,
     wchar_t const* const function_name,
     wchar_t const* const file_name,

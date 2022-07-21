@@ -9,6 +9,7 @@
 *
 *******************************************************************************/
 
+#include <vcstartup_internal.h>
 
 #if defined (_M_IX86) && defined (_CRTBLD) && defined (_DEBUG)
 /*
@@ -158,7 +159,9 @@ static UINT_PTR __get_entropy(void)
 *
 *******************************************************************************/
 
-void __cdecl __security_init_cookie(void)
+_VCRT_DECLARE_ALTERNATE_NAME(__security_init_cookie, _UCXXRT___security_init_cookie);
+
+void __cdecl _UCXXRT___security_init_cookie(void)
 {
     UINT_PTR cookie;
 

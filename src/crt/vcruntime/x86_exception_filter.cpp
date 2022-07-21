@@ -16,7 +16,7 @@
 
 #if defined(_M_IX86)
 
-extern "C" long __CRTDECL _filter_x86_sse2_floating_point_exception_default(long const exception_code)
+extern "C" long __CRTDECL _UCXXRT__filter_x86_sse2_floating_point_exception_default(long const exception_code)
 {
     // If we're using SSE2 instructions on x86, the OS exception trap does not correctly
     // return accurate floating point exception codes.
@@ -29,7 +29,7 @@ extern "C" long __CRTDECL _filter_x86_sse2_floating_point_exception_default(long
     if (   exception_code != STATUS_FLOAT_MULTIPLE_FAULTS
         && exception_code != STATUS_FLOAT_MULTIPLE_TRAPS) {
         return exception_code;
-   }
+    }
 
     // _mm_getcsr() (SSE2 fp status register 'mxcsr') format:
     //           Excpt Mask          Excpt Set

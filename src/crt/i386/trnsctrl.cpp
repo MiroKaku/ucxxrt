@@ -509,6 +509,7 @@ BEGIN_PRAGMA_OPTIMIZE_DISABLE("g", DOLPH:3322, "Uninvestigated issue from Visual
 #if defined(_M_IX86) && !defined(CRTDLL) && !defined(_M_HYBRID)
 // Filter incorrect x86 floating point exceptions, unless linkopt that provides an empty filter is available.
 #pragma comment(linker, "/alternatename:__filter_x86_sse2_floating_point_exception=__filter_x86_sse2_floating_point_exception_default")
+#pragma comment(linker, "/alternatename:__filter_x86_sse2_floating_point_exception_default=__UCXXRT__filter_x86_sse2_floating_point_exception_default")
 #endif
 
 __declspec(guard(ignore)) BOOL _CallSETranslator(

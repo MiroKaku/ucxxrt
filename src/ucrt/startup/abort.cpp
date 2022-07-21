@@ -42,7 +42,7 @@ extern "C" unsigned int __abort_behavior = _INIT_ABORT_BEHAVIOR;
 *
 *******************************************************************************/
 
-extern "C" void __cdecl _abort_default()
+extern "C" void __cdecl _UCXXRT__abort()
 {
 #ifdef _DEBUG
     if (__abort_behavior & _WRITE_ABORT_MSG)

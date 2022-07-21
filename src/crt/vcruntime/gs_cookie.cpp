@@ -39,8 +39,7 @@ _CRT_BEGIN_C_HEADER
  * initialize the cookie to the final value.
  */
 
-//UINT_PTR __security_cookie = DEFAULT_SECURITY_COOKIE;
-//
-//UINT_PTR __security_cookie_complement = ~(DEFAULT_SECURITY_COOKIE);
+DECLSPEC_SELECTANY UINT_PTR __security_cookie            = DEFAULT_SECURITY_COOKIE;
+DECLSPEC_SELECTANY UINT_PTR __security_cookie_complement = ~(DEFAULT_SECURITY_COOKIE);
 
 _CRT_END_C_HEADER

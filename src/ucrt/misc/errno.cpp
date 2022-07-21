@@ -88,13 +88,13 @@ int __cdecl __acrt_errno_from_os_error(long const oserrno)
 }
 
 // These safely set and get the value of the calling thread's errno
-errno_t __cdecl _set_errno_default(_In_ int const value)
+errno_t __cdecl _UCXXRT__set_errno(_In_ int const value)
 {
     errno = value;
     return 0;
 }
 
-errno_t __cdecl _get_errno_default(_Out_ int* const result)
+errno_t __cdecl _UCXXRT__get_errno(_Out_ int* const result)
 {
     _VALIDATE_RETURN_NOERRNO(result != nullptr, EINVAL);
 
@@ -103,8 +103,8 @@ errno_t __cdecl _get_errno_default(_Out_ int* const result)
     return 0;
 }
 
-_VCRT_DECLARE_ALTERNATE_NAME(_set_errno, _set_errno_default);
-_VCRT_DECLARE_ALTERNATE_NAME(_get_errno, _get_errno_default);
+_VCRT_DECLARE_ALTERNATE_NAME(_set_errno, _UCXXRT__set_errno);
+_VCRT_DECLARE_ALTERNATE_NAME(_get_errno, _UCXXRT__get_errno);
 
 // These safely set and get the value of the calling thread's doserrno
 errno_t __cdecl _set_doserrno(_In_ unsigned long const value)
