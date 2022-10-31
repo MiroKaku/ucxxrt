@@ -4,7 +4,7 @@
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/MiroKaku/ucxxrt/blob/master/LICENSE)
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 ![Windows](https://img.shields.io/badge/Windows-7+-orange.svg)
-![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2019-purple.svg)
+![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022-purple.svg)
 [![nuget](https://img.shields.io/nuget/v/ucxxrt)](https://www.nuget.org/packages/ucxxrt/)
 
 * [English](https://github.com/MiroKaku/ucxxrt/blob/master/README.md)
