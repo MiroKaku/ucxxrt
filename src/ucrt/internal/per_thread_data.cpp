@@ -12,12 +12,20 @@
 struct __acrt_ptd_km : public __acrt_ptd
 {
     void*       tid;
-    long long   create_time;
+    long long   uid;
 };
 
 static NPAGED_LOOKASIDE_LIST __acrt_startup_ptd_pools;
 static RTL_AVL_TABLE         __acrt_startup_ptd_table;
 static KSPIN_LOCK            __acrt_startup_ptd_table_lock;
+
+static long long __get_thread_uid(_In_ PETHREAD thread)
+{
+    CLIENT_ID id = PsGetThreadClientId(thread);
+    size_t high  = reinterpret_cast<size_t>(id.UniqueProcess) >> 2;
+    size_t low   = reinterpret_cast<size_t>(id.UniqueThread ) >> 2;
+    return (static_cast<long long>(high & ~uint32_t(0)) << 32) | (static_cast<long long>(low & ~uint32_t(0)));
+}
 
 RTL_GENERIC_COMPARE_RESULTS NTAPI __acrt_ptd_table_compare(
     _In_ RTL_AVL_TABLE* /*table*/,
@@ -69,10 +77,10 @@ static __acrt_ptd* __cdecl store_and_initialize_ptd(__acrt_ptd* const ptd)
     }
 
     // reuse outdated ptd.
-    if (PsGetThreadCreateTime(PsGetCurrentThread()) != static_cast<__acrt_ptd_km*>(new_ptd)->create_time)
+    if (__get_thread_uid(PsGetCurrentThread()) != static_cast<__acrt_ptd_km*>(new_ptd)->uid)
     {
         inserted = true;
-        RtlSecureZeroMemory(new_ptd, sizeof __acrt_ptd); // not reset pid/create_time
+        RtlSecureZeroMemory(new_ptd, sizeof __acrt_ptd); // not reset pid/uid
     }
 
     return new_ptd;
@@ -91,8 +99,8 @@ extern "C" bool __cdecl __acrt_initialize_ptd()
         &__acrt_ptd_table_allocate, &__acrt_ptd_table_free, &__acrt_startup_ptd_pools);
 
     __acrt_ptd_km ptd{};
-    ptd.tid         = PsGetCurrentThreadId();
-    ptd.create_time = PsGetThreadCreateTime(PsGetCurrentThread());
+    ptd.tid = PsGetCurrentThreadId();
+    ptd.uid = __get_thread_uid(PsGetCurrentThread());
 
     if (!store_and_initialize_ptd(&ptd))
     {
@@ -123,8 +131,8 @@ extern "C" __acrt_ptd* __cdecl __acrt_getptd_noexit()
     __acrt_ptd* existing_ptd = nullptr;
 
     __acrt_ptd_km ptd{};
-    ptd.tid         = PsGetCurrentThreadId();
-    ptd.create_time = PsGetThreadCreateTime(PsGetCurrentThread());
+    ptd.tid = PsGetCurrentThreadId();
+    ptd.uid = __get_thread_uid(PsGetCurrentThread());
 
     KLOCK_QUEUE_HANDLE lock_state{};
     KeAcquireInStackQueuedSpinLock(&__acrt_startup_ptd_table_lock, &lock_state);
@@ -159,8 +167,8 @@ extern "C" __acrt_ptd* __cdecl __acrt_getptd()
 extern "C" void __cdecl __acrt_freeptd()
 {
     __acrt_ptd_km current_ptd{};
-    current_ptd.tid         = PsGetCurrentThreadId();
-    current_ptd.create_time = PsGetThreadCreateTime(PsGetCurrentThread());
+    current_ptd.tid = PsGetCurrentThreadId();
+    current_ptd.uid = __get_thread_uid(PsGetCurrentThread());
 
 
     __acrt_ptd* const block_to_free = &current_ptd;
