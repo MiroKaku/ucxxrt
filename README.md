@@ -108,7 +108,7 @@ Right click on the project and select "Manage NuGet Packages", then search for `
 
 IDE：Visual Studio 2019 or higher (Compiling for ARM/ARM64 requires Visual Studio 2022)
 
-* `git clone https://github.com/MiroKaku/ucxxrt.git`
+* `git clone --recurse-submodules https://github.com/MiroKaku/ucxxrt.git`
 * Open `ucxxrt.sln` and compile.
 
 ## 4. Reference and Acknowledgement
