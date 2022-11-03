@@ -61,7 +61,7 @@
     <!-- Include STL -->
     <IncludePath>$(VC_IncludePath);$(IncludePath)</IncludePath>
   </PropertyGroup>
-  
+
   <ItemDefinitionGroup Condition=" ('$(UCXXRT_KernelMode)'=='true') ">
     <ClCompile>
       <PreprocessorDefinitions>_NO_CRT_STDIO_INLINE;_HAS_EXCEPTIONS=1;_ITERATOR_DEBUG_LEVEL=0;__KERNEL_MODE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -71,6 +71,12 @@
     <Link>
       <AdditionalDependencies>libcntpr.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition=" ('$(UCXXRT_KernelMode)'=='true') ">
+    <ClCompile>
+      <PreprocessorDefinitions>_KERNEL_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
   </ItemDefinitionGroup>
 
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">

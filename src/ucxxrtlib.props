@@ -62,6 +62,12 @@ xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\" /EXCLUDE:$(
     </ClCompile>
   </ItemDefinitionGroup>
 
+  <ItemDefinitionGroup Condition=" ('$(UCXXRT_KernelMode)'=='true') ">
+    <ClCompile>
+      <PreprocessorDefinitions>_KERNEL_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
     <ClCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
