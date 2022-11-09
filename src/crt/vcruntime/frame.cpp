@@ -204,6 +204,61 @@ inline ESTypeList* RENAME_EH_EXTERN(__FrameHandler3)::getESTypes(FuncInfo* pFunc
 
 ////////////////////////////////////////////////////////////////////////////////
 //
+// __InternalCxxFrameHandlerWrapper - Wraps the frame handler so we have a place
+// to apply cleanup on this function
+
+template <class T>
+EXCEPTION_DISPOSITION __InternalCxxFrameHandler(
+    EHExceptionRecord* pExcept,        // Information for this exception
+    EHRegistrationNode* pRN,            // Dynamic information for this frame
+    CONTEXT* pContext,                  // Context info
+    DispatcherContext* pDC,             // Context within subject frame
+    typename T::FuncInfo* pFuncInfo,    // Static information for this frame
+    int CatchDepth,                     // How deeply nested are we?
+    EHRegistrationNode* pMarkerRN,      // Marker node for when checking inside catch block
+    BOOLEAN recursive                   // Are we handling a translation?
+);
+
+template <class T>
+EXCEPTION_DISPOSITION __InternalCxxFrameHandlerWrapper(
+    EHExceptionRecord* pExcept,         // Information for this exception
+    EHRegistrationNode* pRN,            // Dynamic information for this frame
+    CONTEXT* pContext,                  // Context info
+    DispatcherContext* pDC,             // Context within subject frame
+    typename T::FuncInfo* pFuncInfo,    // Static information for this frame
+    int CatchDepth,                     // How deeply nested are we?
+    EHRegistrationNode* pMarkerRN,      // Marker node for when checking inside catch block
+    BOOLEAN recursive                   // Are we handling a translation?
+) {
+
+#if defined(_M_HYBRID_X86_ARM64) && !defined(_CHPE_X86_ARM64_EH_)
+    _HybridGenerateThunks(__InternalCxxFrameHandlerWrapper<T>, 1);
+#endif
+
+    if constexpr (std::is_same_v<T, RENAME_EH_EXTERN(__FrameHandler4)>)
+    {
+        __try
+        {
+            return __InternalCxxFrameHandler<T>(pExcept, pRN, pContext, pDC, pFuncInfo, CatchDepth, pMarkerRN, recursive);
+        }
+        __finally
+        {
+#if _VCRT_BUILD_FH4
+            // For FrameHandler4, this value should always be invalid past an invocation of this function.
+            CatchStateInParent = INVALID_CATCH_SPECIFIC_STATE;
+#endif
+        }
+    }
+    else
+    {
+        // Compile-time disable the __try/__finally unless we need it. On x86 even a no-op finally triggers a call
+        // to local_unwind and can change behavior of the handler.
+        return __InternalCxxFrameHandler<T>(pExcept, pRN, pContext, pDC, pFuncInfo, CatchDepth, pMarkerRN, recursive);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
 // __InternalCxxFrameHandler - the frame handler for all functions with C++ EH
 // information.
 //
@@ -227,8 +282,7 @@ EXCEPTION_DISPOSITION __InternalCxxFrameHandler(
     DispatcherContext *pDC,             // Context within subject frame
     typename T::FuncInfo *pFuncInfo,    // Static information for this frame
     int CatchDepth,                     // How deeply nested are we?
-    EHRegistrationNode *pMarkerRN,      // Marker node for when checking inside
-                                        //  catch block
+    EHRegistrationNode *pMarkerRN,      // Marker node for when checking inside catch block
     BOOLEAN recursive                   // Are we handling a translation?
 ) {
 
@@ -352,7 +406,7 @@ EXCEPTION_DISPOSITION __InternalCxxFrameHandler(
 
 } // __InternalCxxFrameHandler
 
-template EXCEPTION_DISPOSITION __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler3)>(
+template EXCEPTION_DISPOSITION __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler3)>(
     EHExceptionRecord  *pExcept,
     EHRegistrationNode *pRN,
     CONTEXT *pContext,
@@ -364,7 +418,7 @@ template EXCEPTION_DISPOSITION __InternalCxxFrameHandler<RENAME_EH_EXTERN(__Fram
     );
 
 #if _VCRT_BUILD_FH4
-template EXCEPTION_DISPOSITION __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler4)>(
+template EXCEPTION_DISPOSITION __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler4)>(
     EHExceptionRecord  *pExcept,
     EHRegistrationNode *pRN,
     CONTEXT *pContext,

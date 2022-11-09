@@ -3,16 +3,17 @@
 
 // implement random_device
 
-#include <stdexcept> // for out_of_range
-
-#include <random>
+#include <cstdlib>
+#include <xutility>
 
 _STD_BEGIN
-_CRTIMP2_PURE unsigned int __CLRCALL_PURE_OR_CDECL _Random_device();
-
 _CRTIMP2_PURE unsigned int __CLRCALL_PURE_OR_CDECL _Random_device() { // return a random value
-    unsigned long ans = 0;
-    return RtlRandomEx(&ans);
+    unsigned int ans;
+    if (_CSTD rand_s(&ans)) {
+        _Xout_of_range("invalid random_device value");
+    }
+
+    return ans;
 }
 
 _STD_END

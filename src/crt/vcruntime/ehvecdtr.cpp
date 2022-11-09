@@ -16,15 +16,28 @@
 #include <eh.h>
 #include <trnsctrl.h>
 
-#define CALLEETYPE __stdcall
-#define __RELIABILITY_CONTRACT
-#define ASSERT_UNMANAGED_CODE_ATTRIBUTE
-#define SECURITYCRITICAL_ATTRIBUTE
+#if defined _M_CEE
+    #define CALLTYPE  __clrcall
+    #define CALLEETYPE __clrcall
+    #define __RELIABILITY_CONTRACT                                                   \
+        [System::Runtime::ConstrainedExecution::ReliabilityContract(                 \
+            System::Runtime::ConstrainedExecution::Consistency::WillNotCorruptState, \
+            System::Runtime::ConstrainedExecution::Cer::Success                      \
+        )]
 
-#if defined _M_IX86
-#define CALLTYPE __thiscall
+    #define ASSERT_UNMANAGED_CODE_ATTRIBUTE [System::Security::Permissions::SecurityPermissionAttribute(System::Security::Permissions::SecurityAction::Assert, UnmanagedCode = true)]
+    #define SECURITYCRITICAL_ATTRIBUTE      [System::Security::SecurityCritical]
 #else
-#define CALLTYPE __stdcall
+    #define CALLEETYPE __stdcall
+    #define __RELIABILITY_CONTRACT
+    #define ASSERT_UNMANAGED_CODE_ATTRIBUTE
+    #define SECURITYCRITICAL_ATTRIBUTE
+
+    #if defined _M_IX86
+        #define CALLTYPE __thiscall
+    #else
+        #define CALLTYPE __stdcall
+    #endif
 #endif
 
 using destructor_type = void (CALLTYPE*)(void*);

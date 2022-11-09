@@ -278,7 +278,7 @@ extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl RENAME_EH_EXTER
     _ThrowImageBase = (uintptr_t)pExcept->params.pThrowImageBase;
 #endif
     pFuncInfo = (FuncInfo*)(_ImageBase +*(PULONG)pDC->HandlerData);
-    result = __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler3)>(pExcept, &EstablisherFrame, pContext, pDC, pFuncInfo, 0, nullptr, FALSE);
+    result = __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler3)>(pExcept, &EstablisherFrame, pContext, pDC, pFuncInfo, 0, nullptr, FALSE);
     return result;
 }
 
@@ -301,7 +301,7 @@ extern "C" DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSITION __cdecl RENAME_EH_EXTER
 
     FH4::DecompFuncInfo(buffer, FuncInfo, pDC->ImageBase, pDC->FunctionEntry->BeginAddress);
 
-    result = __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler4)>(pExcept, &EstablisherFrame, pContext, pDC, &FuncInfo, 0, nullptr, FALSE);
+    result = __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler4)>(pExcept, &EstablisherFrame, pContext, pDC, &FuncInfo, 0, nullptr, FALSE);
     return result;
 }
 #endif // _VCRT_BUILD_FH4
@@ -348,6 +348,7 @@ static int SehTransFilter(
 
         UNREFERENCED_PARAMETER(curState);
         _pForeignExcept = pExcept;
+        _ImageBase = pDC->ImageBase;
 #ifdef _ThrowImageBase
         _ThrowImageBase = (uintptr_t)((EHExceptionRecord *)ExPtrs->ExceptionRecord)->params.pThrowImageBase;
 #endif
@@ -355,13 +356,13 @@ static int SehTransFilter(
 #if _VCRT_BUILD_FH4
         if constexpr (std::is_same_v<T, RENAME_EH_EXTERN(__FrameHandler4)>)
         {
-            // For FH4, the catch state from rethrow is transient and only readable one time before being reset. 
+            // For FH4, the catch state from rethrow is transient and only readable one time before being reset.
             // This path reprocesses a throw which means the transient state needs to be set again so the correct state is used.
             CatchStateInParent = curState;
         }
 #endif
 
-        __InternalCxxFrameHandler<T>((EHExceptionRecord *)ExPtrs->ExceptionRecord,
+        __InternalCxxFrameHandlerWrapper<T>((EHExceptionRecord *)ExPtrs->ExceptionRecord,
                                    pRN,
                                    pContext,
                                    pDC,
@@ -647,7 +648,7 @@ void RENAME_EH_EXTERN(__FrameHandler4)::UnwindNestedFrames(
     ExceptionRecord.ExceptionInformation[7] = (ULONG_PTR)recursive;
     // Used for translated Exceptions
     ExceptionRecord.ExceptionInformation[8] = EH_MAGIC_NUMBER1;
-    // Used in __InternalCxxFrameHandler to detected if it's being
+    // Used in __InternalCxxFrameHandler to detect if it's being
     // called from _UnwindNestedFrames.
 
     // TODO: make these contiguous
@@ -729,7 +730,7 @@ void RENAME_EH_EXTERN(__FrameHandler3)::UnwindNestedFrames(
     ExceptionRecord.ExceptionInformation[7] = (ULONG_PTR)recursive;
                 // Used for translated Exceptions
     ExceptionRecord.ExceptionInformation[8] = EH_MAGIC_NUMBER1;
-                // Used in __InternalCxxFrameHandler to detected if it's being
+                // Used in __InternalCxxFrameHandler to detect if it's being
                 // called from _UnwindNestedFrames.
 
 #if defined(_M_ARM64EC)

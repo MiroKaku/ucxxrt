@@ -72,7 +72,7 @@ extern "C" _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch)(
 //
 
 template<class T>
-EXCEPTION_DISPOSITION __InternalCxxFrameHandler(
+EXCEPTION_DISPOSITION __InternalCxxFrameHandlerWrapper(
     EHExceptionRecord    *pExcept,
     EHRegistrationNode   *pRN,
     CONTEXT              *pContext,

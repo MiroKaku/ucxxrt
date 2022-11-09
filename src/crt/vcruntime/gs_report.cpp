@@ -59,11 +59,11 @@ BEGIN_PRAGMA_OPTIMIZE_DISABLE("", DevDivVSO:162582, "Optimizations must be disab
 // __fastcall, it isn't a true argument, and we must flush ECX to the context
 // record quickly.
 #if defined _M_IX86
-    #define GSFAILURE_PARAMETER void
+    #define GSFAILURE_PARAMETER
 #elif defined _M_X64
-    #define GSFAILURE_PARAMETER ULONGLONG stack_cookie
+    #define GSFAILURE_PARAMETER _In_ ULONGLONG stack_cookie
 #elif defined _M_ARM || defined _M_ARM64
-    #define GSFAILURE_PARAMETER uintptr_t stack_cookie
+    #define GSFAILURE_PARAMETER _In_ uintptr_t stack_cookie
 #else
     #error Unsupported architecture
 #endif
@@ -72,7 +72,7 @@ BEGIN_PRAGMA_OPTIMIZE_DISABLE("", DevDivVSO:162582, "Optimizations must be disab
 
 #pragma warning(push)
 #pragma warning(disable: 4100) // unreferenced formal parameter
-__declspec(noreturn) void __cdecl __report_gsfailure(_In_ GSFAILURE_PARAMETER)
+__declspec(noreturn) void __cdecl __report_gsfailure(GSFAILURE_PARAMETER)
 {
     __fastfail(FAST_FAIL_STACK_COOKIE_CHECK_FAILURE);
 }

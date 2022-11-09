@@ -191,7 +191,7 @@ typedef struct RENAME_BASE_PTD(__vcrt_ptd)
 {
     // C++ Exception Handling (EH) state
     unsigned long      _NLG_dwCode;      // Required by NLG routines
-    unexpected_handler _unexpected;      // unexpected() routine
+    void (__CRTDECL* _unexpected)(void); // unexpected() routine
     void*              _translator;      // S.E. translator
     void*              _purecall;        // called when pure virtual happens
     void*              _curexception;    // current exception

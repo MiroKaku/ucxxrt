@@ -28,7 +28,7 @@ bool __cdecl __vcrt_initialize()
     return true;
 }
 
-bool __cdecl __vcrt_uninitialize(_In_ bool terminating)
+bool __cdecl __vcrt_uninitialize(_In_ bool const terminating)
 {
     UNREFERENCED_PARAMETER(terminating);
 

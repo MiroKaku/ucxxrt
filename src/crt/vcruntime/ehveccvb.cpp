@@ -21,13 +21,23 @@
 
 #include <eh.h>
 
-#define CALLEETYPE __stdcall
-#define __RELIABILITY_CONTRACT
-
-#if defined _M_IX86
-#define CALLTYPE __thiscall
+#if defined _M_CEE
+    #define CALLTYPE  __clrcall
+    #define CALLEETYPE __clrcall
+    #define __RELIABILITY_CONTRACT                                                   \
+        [System::Runtime::ConstrainedExecution::ReliabilityContract(                 \
+            System::Runtime::ConstrainedExecution::Consistency::WillNotCorruptState, \
+            System::Runtime::ConstrainedExecution::Cer::Success                      \
+        )]
 #else
-#define CALLTYPE __stdcall
+    #define CALLEETYPE __stdcall
+    #define __RELIABILITY_CONTRACT
+
+    #if defined _M_IX86
+        #define CALLTYPE __thiscall
+    #else
+        #define CALLTYPE __stdcall
+    #endif
 #endif
 
 using constructor_type = void (CALLTYPE*)(void*);

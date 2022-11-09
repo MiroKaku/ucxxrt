@@ -209,7 +209,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
 
     EHTRACE_FMT1("pRN = 0x%p", pRN);
 
-    result = __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept, pRN, (PCONTEXT)pContext, pDC, pFuncInfo, 0, nullptr, FALSE );
+    result = __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept, pRN, (PCONTEXT)pContext, pDC, pFuncInfo, 0, nullptr, FALSE );
 
     EHTRACE_HANDLER_EXIT(result);
 
@@ -263,7 +263,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
 
     EHTRACE_FMT1("pRN = 0x%p", pRN);
 
-    result = __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept, pRN, (PCONTEXT)pContext, pDC, pFuncInfo, 0, nullptr, FALSE );
+    result = __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept, pRN, (PCONTEXT)pContext, pDC, pFuncInfo, 0, nullptr, FALSE );
 
     EHTRACE_HANDLER_EXIT(result);
 
@@ -313,7 +313,7 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
 
     EHTRACE_FMT1("pRN = 0x%p", pRN);
 
-    result = __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept, pRN, (PCONTEXT)pContext, pDC, pFuncInfo, 0, nullptr, FALSE );
+    result = __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept, pRN, (PCONTEXT)pContext, pDC, pFuncInfo, 0, nullptr, FALSE );
 
     EHTRACE_HANDLER_EXIT(result);
 
@@ -442,7 +442,7 @@ extern "C" EXCEPTION_DISPOSITION __cdecl _CatchGuardHandler(
     __security_check_cookie(pRN->RandomCookie ^ (UINT_PTR)pRN);
 
     EXCEPTION_DISPOSITION result =
-        __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept,
+        __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept,
                                    pRN->pRN,
                                    (PCONTEXT)pContext,
                                    nullptr,
@@ -667,7 +667,7 @@ extern "C" EXCEPTION_DISPOSITION __cdecl _TranslatorGuardHandler(
         //
         // Check for a handler:
         //
-        __InternalCxxFrameHandler<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept, pRN->pRN, (PCONTEXT)pContext, nullptr, pRN->pFuncInfo, pRN->CatchDepth, pRN->pMarkerRN, TRUE );
+        __InternalCxxFrameHandlerWrapper<RENAME_EH_EXTERN(__FrameHandler3)>( pExcept, pRN->pRN, (PCONTEXT)pContext, nullptr, pRN->pFuncInfo, pRN->CatchDepth, pRN->pMarkerRN, TRUE );
 
         if (!pRN->DidUnwind) {
             //

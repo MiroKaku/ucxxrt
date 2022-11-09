@@ -37,6 +37,10 @@ extern "C" _CRTIMP2 void* __cdecl __AdjustPointer(void*, const PMD&); // defined
 
 using namespace std;
 
+#ifndef _MSVC_NOOP_DTOR
+#define _MSVC_NOOP_DTOR [[msvc::noop_dtor]]
+#endif
+
 namespace {
 #if defined(_M_CEE_PURE)
     template <class _Ty>
@@ -53,10 +57,10 @@ namespace {
 
         constexpr _Constexpr_excptptr_immortalize_impl() noexcept : _Storage{} {}
 
-        _Constexpr_excptptr_immortalize_impl(const _Constexpr_excptptr_immortalize_impl&) = delete;
+        _Constexpr_excptptr_immortalize_impl(const _Constexpr_excptptr_immortalize_impl&)            = delete;
         _Constexpr_excptptr_immortalize_impl& operator=(const _Constexpr_excptptr_immortalize_impl&) = delete;
 
-        [[msvc::noop_dtor]] ~_Constexpr_excptptr_immortalize_impl() {
+        _MSVC_NOOP_DTOR ~_Constexpr_excptptr_immortalize_impl() {
             // do nothing, allowing _Ty to be used during shutdown
         }
     };
@@ -80,7 +84,7 @@ namespace {
     _Ty& _Immortalize() { // return a reference to an object that will live forever
         static once_flag _Flag;
         alignas(_Ty) static unsigned char _Storage[sizeof(_Ty)];
-        if (_Execute_once(_Flag, _Immortalize_impl<_Ty>, &_Storage) == 0) {
+        if (!_Execute_once(_Flag, _Immortalize_impl<_Ty>, &_Storage)) {
             // _Execute_once should never fail if the callback never fails
             _STD terminate();
         }

@@ -30,13 +30,32 @@ extern IMAGE_DOS_HEADER __ImageBase;
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 // Attributes for managed declarations in the CRT
-#define _CRT_SUPPRESS_UNMANAGED_CODE_SECURITY
-#define _CRT_CALLING_CONVENTION_CDECL
-#define _CRT_CALLING_CONVENTION_WINAPI
-#define _CRT_RELIABILITY_CONTRACT
-#define _CRT_ASSERT_UNMANAGED_CODE_ATTRIBUTE
-#define _CRT_SECURITYCRITICAL_ATTRIBUTE
-#define _CRT_SECURITYSAFECRITICAL_ATTRIBUTE
+#ifdef _M_CEE
+    #define _CRT_INTEROPSERVICES_DLLIMPORT(_DllName , _EntryPoint , _CallingConvention) \
+        [System::Runtime::InteropServices::DllImport( \
+            _DllName , EntryPoint = _EntryPoint, CallingConvention = _CallingConvention)]
+    #define _CRT_SUPPRESS_UNMANAGED_CODE_SECURITY [System::Security::SuppressUnmanagedCodeSecurity]
+    #define _CRT_CALLING_CONVENTION_CDECL System::Runtime::InteropServices::CallingConvention::Cdecl
+    #define _CRT_CALLING_CONVENTION_WINAPI System::Runtime::InteropServices::CallingConvention::Winapi
+    #define _CRT_RELIABILITY_CONTRACT \
+        [System::Runtime::ConstrainedExecution::ReliabilityContract( \
+            System::Runtime::ConstrainedExecution::Consistency::WillNotCorruptState, \
+            System::Runtime::ConstrainedExecution::Cer::Success)]
+    #define _CRT_ASSERT_UNMANAGED_CODE_ATTRIBUTE \
+        [System::Security::Permissions::SecurityPermissionAttribute( \
+            System::Security::Permissions::SecurityAction::Assert, UnmanagedCode = true)]
+    #define _CRT_SECURITYCRITICAL_ATTRIBUTE [System::Security::SecurityCritical]
+    #define _CRT_SECURITYSAFECRITICAL_ATTRIBUTE [System::Security::SecuritySafeCritical]
+#else
+    #define _CRT_INTEROPSERVICES_DLLIMPORT(_DllName , _EntryPoint , _CallingConvention)
+    #define _CRT_SUPPRESS_UNMANAGED_CODE_SECURITY
+    #define _CRT_CALLING_CONVENTION_CDECL
+    #define _CRT_CALLING_CONVENTION_WINAPI
+    #define _CRT_RELIABILITY_CONTRACT
+    #define _CRT_ASSERT_UNMANAGED_CODE_ATTRIBUTE
+    #define _CRT_SECURITYCRITICAL_ATTRIBUTE
+    #define _CRT_SECURITYSAFECRITICAL_ATTRIBUTE
+#endif
 
 
 
@@ -525,6 +544,14 @@ extern "C++" {
         return __crt_fast_encoded_nullptr_t();
     }
 
+
+
+    //template <typename T>
+    //T __crt_get_proc_address(HMODULE const m, char const* const f) noexcept
+    //{
+    //    return reinterpret_cast<T>(::GetProcAddress(m, f));
+    //}
+
     template <typename T, typename V>
     T* __crt_interlocked_exchange_pointer(T* const volatile* target, V const value) noexcept
     {
@@ -543,7 +570,7 @@ extern "C++" {
         UNREFERENCED_PARAMETER(comparand); // unreferenced formal parameter warnings.
 
         static_assert(sizeof(T) == sizeof(LONG), "Type being compared must be same size as a LONG.");
-        return static_cast<T>(InterlockedCompareExchange(
+        return static_cast<T>(_InterlockedCompareExchange(
             reinterpret_cast<LONG*>(target), (LONG)exchange, (LONG)comparand));
     }
 
@@ -554,64 +581,69 @@ extern "C++" {
         UNREFERENCED_PARAMETER(exchange);  // These are required to silence spurious
         UNREFERENCED_PARAMETER(comparand); // unreferenced formal parameter warnings.
 
-        return reinterpret_cast<T*>(InterlockedCompareExchangePointer(
+        return reinterpret_cast<T*>(_InterlockedCompareExchangePointer(
             (void**)target, (void*)exchange, (void*)comparand));
     }
 
-    #if defined _M_ARM
-        #define __crt_interlocked_memory_barrier() (__dmb(_ARM_BARRIER_ISH))
-    #elif defined _M_ARM64
-        #define __crt_interlocked_memory_barrier() (__dmb(_ARM64_BARRIER_ISH))
-    #endif
+    #ifndef _M_CEE_PURE
 
-    inline __int32 __crt_interlocked_read_32(__int32 const volatile* target) noexcept
-    {
-        #if defined _M_IX86 || defined _M_X64
-        __int32 const result = *target;
-        _ReadWriteBarrier();
-        return result;
-        #elif defined _M_ARM || defined _M_ARM64
-        __int32 const result = __iso_volatile_load32(reinterpret_cast<int const volatile*>(target));
-        __crt_interlocked_memory_barrier();
-        return result;
-        #else
-        #error Unsupported architecture
+        #if defined _M_ARM
+            #define __crt_interlocked_memory_barrier() (__dmb(_ARM_BARRIER_ISH))
+        #elif defined _M_ARM64
+            #define __crt_interlocked_memory_barrier() (__dmb(_ARM64_BARRIER_ISH))
         #endif
-    }
 
-    #if defined _WIN64
-        inline __int64 __crt_interlocked_read_64(__int64 const volatile* target) noexcept
+        inline __int32 __crt_interlocked_read_32(__int32 const volatile* target) noexcept
         {
-            #if defined _M_X64
-            __int64 const result = *target;
+            #if defined _M_IX86 || defined _M_X64
+            __int32 const result = *target;
             _ReadWriteBarrier();
             return result;
-            #elif defined _M_ARM64
-            __int64 const result = __iso_volatile_load64(target);
+            #elif defined _M_ARM || defined _M_ARM64
+            __int32 const result = __iso_volatile_load32(reinterpret_cast<int const volatile*>(target));
             __crt_interlocked_memory_barrier();
             return result;
             #else
             #error Unsupported architecture
             #endif
         }
-    #endif // _WIN64
 
-    template <typename T>
-    T __crt_interlocked_read(T const volatile* target) noexcept
-    {
-        static_assert(sizeof(T) == sizeof(__int32), "Type being read must be 32 bits in size.");
-        return (T)__crt_interlocked_read_32((__int32*)target);
-    }
+        #if defined _WIN64
+            inline __int64 __crt_interlocked_read_64(__int64 const volatile* target) noexcept
+            {
+                #if defined _M_X64
+                __int64 const result = *target;
+                _ReadWriteBarrier();
+                return result;
+                #elif defined _M_ARM64
+                __int64 const result = __iso_volatile_load64(target);
+                __crt_interlocked_memory_barrier();
+                return result;
+                #else
+                #error Unsupported architecture
+                #endif
+            }
+        #endif // _WIN64
 
-    template <typename T>
-    T* __crt_interlocked_read_pointer(T* const volatile* target) noexcept
-    {
-        #ifdef _WIN64
-        return (T*)__crt_interlocked_read_64((__int64*)target);
-        #else
-        return (T*)__crt_interlocked_read_32((__int32*)target);
-        #endif
-    }
+        template <typename T>
+        T __crt_interlocked_read(T const volatile* target) noexcept
+        {
+            static_assert(sizeof(T) == sizeof(__int32), "Type being read must be 32 bits in size.");
+            return (T)__crt_interlocked_read_32((__int32*)target);
+        }
+
+
+        template <typename T>
+        T* __crt_interlocked_read_pointer(T* const volatile* target) noexcept
+        {
+            #ifdef _WIN64
+            return (T*)__crt_interlocked_read_64((__int64*)target);
+            #else
+            return (T*)__crt_interlocked_read_32((__int32*)target);
+            #endif
+        }
+
+    #endif // _M_CEE_PURE
 
 } // extern "C++"
 #endif // __cplusplus

@@ -221,29 +221,29 @@ Return Value:
 static_assert(CAST_GUARD_SECTION_ALIGNMENT_IN_PTRS * sizeof(void*) == CAST_GUARD_SECTION_ALIGNMENT, "Invalid alignment");
 
 //
-// CastGuard checks lowered by the compiler, for efficiency, have an assumption that vftables laid out 
-// by CastGuard start at a 128-byte alignment for 64-bit and 64-byte alignment for 32-bit. The section these 
-// vftables are placed have this alignment specified by the compiler. 
-// 
-// __CastGuardVftableStart is a very special symbol. In order to do AppCompat checks correctly, 
-// we need to know the precise distance of __CastGuardVftablesStart variable from the first 
-// vftable laid out by CastGuard. The CastGuardVftablesB section (created by the compiler) 
-// is aligned by 16*sizeof(void*). The start variable therefore must have the exact same 
+// CastGuard checks lowered by the compiler, for efficiency, have an assumption that vftables laid out
+// by CastGuard start at a 128-byte alignment for 64-bit and 64-byte alignment for 32-bit. The section these
+// vftables are placed have this alignment specified by the compiler.
+//
+// __CastGuardVftableStart is a very special symbol. In order to do AppCompat checks correctly,
+// we need to know the precise distance of __CastGuardVftablesStart variable from the first
+// vftable laid out by CastGuard. The CastGuardVftablesB section (created by the compiler)
+// is aligned by 16*sizeof(void*). The start variable therefore must have the exact same
 // alignment as the section such that there's always 16*sizeof(void*) bytes between the address
-// of this variable and the address of the first vftable. 
-// 
-// If no vftables are laid out, __CastGuardVftablesStart will be 64/128 bytes away from the 
-// __CastGuardVftablesEnd global variable. The code in __castguard_compat_check explicitly 
-// adds this 64/128 bytes to the __CastGuardVftablesStart, so it's important to ensure that the 
-// alignment is always respected. 
-//   
+// of this variable and the address of the first vftable.
+//
+// If no vftables are laid out, __CastGuardVftablesStart will be 64/128 bytes away from the
+// __CastGuardVftablesEnd global variable. The code in __castguard_compat_check explicitly
+// adds this 64/128 bytes to the __CastGuardVftablesStart, so it's important to ensure that the
+// alignment is always respected.
+//
 
 struct __declspec(align(CAST_GUARD_SECTION_ALIGNMENT)) CastGuardVftables {
     char padding[CAST_GUARD_SECTION_ALIGNMENT];
 };
 
 __declspec(allocate(".rdata$CastGuardVftablesA"))
-DECLSPEC_SELECTANY 
+DECLSPEC_SELECTANY
 struct CastGuardVftables __CastGuardVftablesStart;
 
 __declspec(allocate(".rdata$CastGuardVftablesC"))
@@ -272,8 +272,8 @@ __cdecl __castguard_check_failure_os_handled_wrapper(
 {
 
     //
-    // This function is opted out of CFG because the os handled function pointer 
-    // is allocated within ".00cfg" section. This section benefits from the same 
+    // This function is opted out of CFG because the os handled function pointer
+    // is allocated within ".00cfg" section. This section benefits from the same
     // level of protection as a CFG pointer would.
     //
 

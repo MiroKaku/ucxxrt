@@ -34,7 +34,6 @@ extern "C" int __cdecl _seh_filter_sys(
 // of specifying /alternatename comments to the linker.  It prepends the leading
 // decoration character for x86 and hybrid and leaves names unmodified for other
 // architectures.
-
 #if defined _M_IX86
     #if defined _M_HYBRID
         #define _VCRT_DECLARE_ALTERNATE_NAME_PREFIX "#"

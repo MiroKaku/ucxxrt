@@ -101,7 +101,7 @@ class UnDecorator;
 const   unsigned int    memBlockSize = 4096;
 
 // Dev10 bug 662979
-// undname will be pullled into libcmt.lib. Prefix with underscore to prevent potential conflict with user code.
+// undname will be pulled into libcmt.lib. Prefix with underscore to prevent potential conflict with user code.
 class _HeapManager
 {
 private:
@@ -609,6 +609,57 @@ private:
 	static bool fExplicitTemplateParams;
 	static bool fGetTemplateArgumentList;
 
+	// Increment the internal buffer 'gName' by 'count' characters.
+	// If it passes the terminating null, return false. Otherwise, return true.
+	static [[nodiscard]] bool increment_buffer(size_t count)
+	{
+		DASSERT(count > 0);
+
+		for (size_t i = 0; i < count; ++i)
+		{
+			if (*gName == 0)
+			{
+				return false;
+			}
+
+			++gName;
+		}
+
+		return true;
+	}
+
+	// Increment the internal buffer 'gName' by 'count' characters.
+	// The caller ensures that it won't pass the terminating null.
+	static void increment_buffer_no_check(size_t count)
+	{
+		DASSERT(count > 0);
+
+		for (size_t i = 0; i < count; ++i)
+		{
+			DASSERT(gName[i] != 0);
+		}
+
+		gName += count;
+	}
+
+	// Increment the internal buffer 'gName' by one character.
+	// The caller ensures that it won't pass the terminating null.
+	static void increment_buffer_no_check()
+	{
+		DASSERT(*gName != 0);
+		++gName;
+	}
+
+	// Get the current character pointed by the internal buffer 'gName'.
+	// If the current character isn't the terminating null, increment the buffer
+	// by one character.
+	static [[nodiscard]] char get_current_character_and_increment_buffer()
+	{
+		char c = *gName;
+		if (c) ++gName;
+		return c;
+	}
+
 	static DName getDecoratedName(void);
 	static DName getSymbolName(void);
 	static DName getZName(bool fUpdateCachedNames, bool fAllowEmptyName = false);
@@ -890,6 +941,8 @@ inline UnDecorator::UnDecorator(
 
 DName UnDecorator::parseDecoratedName(void)
 {
+    DASSERT(name == gName);
+
     DName result;
 
     //	Find out if the name is a decorated name or not.  Could be a reserved
@@ -900,7 +953,7 @@ DName UnDecorator::parseDecoratedName(void)
         if ((*name == '?') && (name[1] == '@'))
         {
 #if ( !NO_COMPILER_NAMES )
-            gName += 2;
+            gName = name + 2;
             result = "CV: "_l + getDecoratedName();
 #else // elif NO_COMPILER_NAMES
             result = DN_invalid;
@@ -1111,7 +1164,7 @@ DName UnDecorator::getDecoratedName(void)
 	{
 		//	Extract the basic symbol name
 
-		gName++;	// Advance the original name pointer
+		increment_buffer_no_check();	// Advance the original name pointer
 
 		// What!?!? we have a name that starts with '???' how is this possible?
 		// Easy: consider code like the following:
@@ -1141,7 +1194,7 @@ DName UnDecorator::getDecoratedName(void)
 			// to keep the CLR happy
 			while (*gName != '\0')
 			{
-				++gName;
+				increment_buffer_no_check();
 			}
 
 			return result;
@@ -1196,7 +1249,7 @@ DName UnDecorator::getDecoratedName(void)
 		else if(!*gName || (*gName == '@'))
 		{
 			if (*gName)
-				gName++;
+				increment_buffer_no_check();
 
 			if (doNameOnly() && !udcSeen && !symbolName.isVCallThunk())
 			{
@@ -1234,7 +1287,7 @@ inline DName UnDecorator::getSymbolName()
 		}
 		else
 		{
-			gName += 1;
+			increment_buffer_no_check();
 
 			return getOperatorName(false, NULL);
 		}
@@ -1255,7 +1308,7 @@ DName UnDecorator::getZName(bool fUpdateCachedNames, bool fAllowEmptyName)
 
 	if ((zNameIndex >= 0) && (zNameIndex <= 9))
 	{
-		gName++;	// Skip past the replicator
+		increment_buffer_no_check();	// Skip past the replicator
 
 		//	And return the indexed name
 
@@ -1270,8 +1323,15 @@ DName UnDecorator::getZName(bool fUpdateCachedNames, bool fAllowEmptyName)
 		{
 			zName = getTemplateName(false);
 
-			if (*gName++ != '@')
-				zName = *--gName ? DN_invalid : DN_truncated;
+			char c = *gName;
+			if (c == '@')
+			{
+				increment_buffer_no_check();
+			}
+			else
+			{
+				zName = c ? DN_invalid : DN_truncated;
+			}
 		}
 		else
 		{
@@ -1288,13 +1348,13 @@ DName UnDecorator::getZName(bool fUpdateCachedNames, bool fAllowEmptyName)
 			{
 				isGenericType = true;
 				genericType = TEMPLATE_PARAMETER_STRING_LITERAL;
-				gName += TEMPLATE_PARAMETER_LEN;
+				increment_buffer_no_check(TEMPLATE_PARAMETER_LEN);
 			}
 			else if (und_strncmp(gName, GENERIC_TYPE, GENERIC_TYPE_LEN) == 0)
 			{
 				isGenericType = true;
 				genericType = GENERIC_TYPE_STRING_LITERAL;
-				gName += GENERIC_TYPE_LEN;
+				increment_buffer_no_check(GENERIC_TYPE_LEN);
 			}
 
 			if (isGenericType)
@@ -1325,7 +1385,7 @@ DName UnDecorator::getZName(bool fUpdateCachedNames, bool fAllowEmptyName)
 			{
 				// Empty zname is used in old-style template function decorated names
 				zName = DName();
-				gName += 1;
+				increment_buffer_no_check();
 			}
 			else
 			{
@@ -1359,11 +1419,9 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 
 	//	So what type of operator is it ?
 
-	switch (*gName++)
+	switch (get_current_character_and_increment_buffer())
 	{
 	case 0:
-		gName--;		// End of string, better back-track
-
 		return DName(DN_truncated);
 
 	case OC_ctor:
@@ -1408,7 +1466,7 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 				return templateArguments;
 			}
 
-			gName += 1;
+			increment_buffer_no_check();
 		}
 
 		//
@@ -1481,11 +1539,9 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 		break;
 
 	case '_':
-		switch (*gName++)
+		switch (get_current_character_and_increment_buffer())
 		{
 		case 0:
-			gName--;		// End of string, better back-track
-
 			return DName(DN_truncated);
 
 		case OC_asdiv:
@@ -1560,7 +1616,7 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 
 			tmpName = rttiTable[index];
 
-			switch (*gName++)
+			switch (get_current_character_and_increment_buffer())
 			{
 			case OC_rtti_TD:
 			{
@@ -1583,10 +1639,11 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 			case OC_rtti_COL:
 				return operatorName + tmpName;
 				break;
+			case 0:
+				return DName(DN_truncated);
 			default:
 				gName--;
 				return DName(DN_truncated);
-				break;
 			}
 			break;
 
@@ -1603,12 +1660,10 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 
 			// Yet another level of nested encodings....
 		case '?':
-			switch (*gName++)
+			switch (get_current_character_and_increment_buffer())
 			{
 
 			case 0:
-				gName--;		// End of string, better back-track
-
 				return DName(DN_truncated);
 
 			case OC_anonymousNamespace:
@@ -1633,7 +1688,7 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 			// A double extended operator
 			//
 		case '_':
-			switch (*gName++)
+			switch (get_current_character_and_increment_buffer())
 			{
 			case OC_man_vec_ctor:
 			case OC_man_vec_dtor:
@@ -1677,7 +1732,7 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 					// the next section
 					if (*gName == '@')
 					{
-						gName += 1;
+						increment_buffer_no_check();
 					}
 				}
 				else
@@ -1700,20 +1755,23 @@ inline DName UnDecorator::getOperatorName(bool fIsTemplate, bool *pfReadTemplate
 
 				while (*gName != '\0' && *gName != '@')
 				{
-					result += *gName++;
+					result += *gName;
+					increment_buffer_no_check();
 				}
 
 				if (*gName == '@')
 				{
-					gName += 1;
+					increment_buffer_no_check();
 				}
 
 				return result;
 			}
 			break;
 			case OC_NTTP_class_type:
-				if (*gName++ == TC_value_object)
+				if (get_current_character_and_increment_buffer() == TC_value_object)
+				{
 					return getValueObject();
+				}
 				return DName(DN_invalid);
 			default:
 				return DName(DN_invalid);
@@ -1747,13 +1805,17 @@ DName UnDecorator::getStringEncoding(PrefixKind kind, int /*unused*/)
 	DName result(PrefixName[static_cast<int>(kind)]);
 
 	// First @ comes right after operator code
-	if (*gName++ != '@' || *gName++ != '_')
+	if (get_current_character_and_increment_buffer() != '@' ||
+		get_current_character_and_increment_buffer() != '_')
 	{
 		return DName(DN_invalid);
 	}
 
 	// Skip the string kind
-	gName++;
+	if (!increment_buffer(1))
+	{
+		return DName(DN_truncated);
+	}
 
 	// Get (& discard) the length
 	getDimension();
@@ -1764,7 +1826,7 @@ DName UnDecorator::getStringEncoding(PrefixKind kind, int /*unused*/)
 	while (*gName && *gName != '@')
 	{
 		// For now, we'll just skip it
-		gName++;
+		increment_buffer_no_check();
 	}
 
 	if (!*gName)
@@ -1774,7 +1836,7 @@ DName UnDecorator::getStringEncoding(PrefixKind kind, int /*unused*/)
 	}
 
 	// Eat the terminating '@'
-	gName++;
+	increment_buffer_no_check();
 
 	return result;
 }
@@ -1809,7 +1871,9 @@ DName UnDecorator::getScope(void)
 		//	Determine what kind of scope it is
 
 		if (*gName == '?')
-			switch (*++gName)
+		{
+			increment_buffer_no_check();
+			switch (*gName)
 			{
 			case '?':
 				if (gName[1] == '_' && gName[2] == '?')
@@ -1817,13 +1881,13 @@ DName UnDecorator::getScope(void)
 					//
 					// Anonymous namespace name (new style)
 					//
-					gName++;
+					increment_buffer_no_check();
 					scope = getOperatorName(false, NULL) + scope;
 
 					// There should be a zname termination @...
 					if (*gName == '@')
 					{
-						gName++;
+						increment_buffer_no_check();
 					}
 				}
 				else
@@ -1865,7 +1929,7 @@ DName UnDecorator::getScope(void)
 				// This is the interface whose method the class is
 				// implementing
 				//
-				gName++;
+				increment_buffer_no_check();
 				scope = getZName(true) + ']' + scope;
 				fNeedBracket = true;
 				break;
@@ -1874,7 +1938,7 @@ DName UnDecorator::getScope(void)
 			{
 				DName explicitScope;
 
-				++gName;
+				increment_buffer_no_check();
 				do
 				{
 					DName scopeName = getZName(true);
@@ -1899,7 +1963,8 @@ DName UnDecorator::getScope(void)
 				if (explicitScope.status() == DN_valid)
 				{
 					scope = '[' + explicitScope + ']';
-					++gName;
+					DASSERT(*gName == '@');
+					increment_buffer_no_check();
 				}
 				else
 				{
@@ -1912,6 +1977,7 @@ DName UnDecorator::getScope(void)
 				break;
 
 			}	// End of SWITCH
+		}
 		else
 			scope = getZName(true) + scope;
 
@@ -1950,7 +2016,7 @@ DName UnDecorator::getSignedDimension(void)
 		return DName(DN_truncated);
 	else if(*gName == '?')
 	{
-		gName++;	// skip the '?'
+		increment_buffer_no_check();	// skip the '?'
 		return '-' + getDimension();
 	}
 	else
@@ -1967,22 +2033,24 @@ DName UnDecorator::getDimension(bool is_signed)
 	if (*gName == TC_nontype_dummy)
 	{
 		has_prefix = true;
-		++gName;
+		increment_buffer_no_check();
 	}
 
 	if (*gName == '\0')
 		return DName(DN_truncated);
 
 	if ((*gName >= '0') && (*gName <= '9'))
-		return has_prefix ?
-			(prefix + DName(static_cast<uint64_t>(*gName++ - '0' + 1))) :
-			DName(static_cast<uint64_t>(*gName++ - '0' + 1));
+	{
+		uint64_t dim = static_cast<uint64_t>(*gName - '0' + 1);
+		increment_buffer_no_check();
+		return has_prefix ? (prefix + DName(dim)) : DName(dim);
+	}
 
 	if (auto result = getValue())
 	{
 		// Consume the terminating '@'
 		DASSERT(*gName == '@');
-		++gName;
+		increment_buffer_no_check();
 		auto value = *result;
 		if (is_signed)
 		{
@@ -2012,7 +2080,7 @@ std::optional<std::uint64_t> UnDecorator::getValue()
 			value = (value << 4) + (c - 'A');
 		else
 			return { };
-		++gName;
+		increment_buffer_no_check();
 	}
 }
 
@@ -2032,12 +2100,16 @@ DName UnDecorator::getFloatingPoint(int type_category)
 		return DName(DN_truncated);
 	
 	if ((*gName >= '0') && (*gName <= '9'))
-		return DName(static_cast<uint64_t>(*gName++ - '0' + 1));
-	
+	{
+		uint64_t dim = static_cast<uint64_t>(*gName - '0' + 1);
+		increment_buffer_no_check();
+		return DName(dim);
+	}
+
 	if (auto result = getValue())
 	{
 		// Skip the terminator
-		++gName;
+		increment_buffer_no_check();
 
 		auto value = *result;
 		if (type_category == TC_double)
@@ -2078,15 +2150,15 @@ DName UnDecorator::getValueObject()
 		switch (*gName)
 		{
 		case TC_value_object:
-			++gName;  // Consume 'TC_value_object'
+			increment_buffer_no_check();  // Consume 'TC_value_object'
 			encoding += getValueObject();
 			break;
 		case TC_array_object:
-			++gName;  // Consume 'TC_array_object'
+			increment_buffer_no_check();  // Consume 'TC_array_object'
 			encoding += getArrayObject();
 			break;
 		case TC_string_object:
-			++gName;  // Consume 'TC_string_object'
+			increment_buffer_no_check();  // Consume 'TC_string_object'
 			encoding += getStringObject();
 			break;
 		case '@':
@@ -2105,7 +2177,7 @@ DName UnDecorator::getValueObject()
 
 		if (*gName == '@')
 		{
-			++gName;		// Consume the '@'
+			increment_buffer_no_check();		// Consume the '@'
 			break;
 		}
 		need_comma = true;
@@ -2134,11 +2206,11 @@ DName UnDecorator::getArrayObject()
 
 		if (*gName != '@')
 			return DName(DN_invalid);
-		++gName;		// Consume the separator '@' character
+		increment_buffer_no_check();		// Consume the separator '@' character
 
 		if (*gName == '@')
 		{
-			++gName;	// Consume the final '@'
+			increment_buffer_no_check();	// Consume the final '@'
 			break;
 		}
 
@@ -2159,7 +2231,7 @@ DName UnDecorator::getStringObject()
 	// First we need to skip the string literal prefix which is "??_C"
 	if (strncmp(gName, "??_C", std::size("??_C") - 1) == 0)
 	{
-		gName += std::size("??_C") - 1;
+		increment_buffer_no_check(std::size("??_C") - 1);
 		return getStringEncoding(PrefixKind::StringLiteral, true);
 	}
 	return DName(DN_invalid);
@@ -2174,7 +2246,7 @@ DName UnDecorator::getAddressOf()
 	if (*gName == '@')
 	{
 		// Consume the terminating '@'
-		++gName;
+		increment_buffer_no_check();
 		return encoding;
 	}
 	return DName(DN_invalid);
@@ -2190,7 +2262,7 @@ DName UnDecorator::getMemberAccess()
 	if (*gName == '@')
 	{
 		// Consume the terminating '@'
-		++gName;
+		increment_buffer_no_check();
 		return encoding;
 	}
 	return DName(DN_invalid);
@@ -2207,7 +2279,7 @@ DName UnDecorator::getArrayAccess()
 	if (*gName == '@')
 	{
 		// Consume the terminating '@'
-		++gName;
+		increment_buffer_no_check();
 		return encoding;
 	}
 
@@ -2230,7 +2302,7 @@ DName UnDecorator::getUnionObject()
 	if (*gName == '@')
 	{
 		// Consume the terminating '@'
-		++gName;
+		increment_buffer_no_check();
 		return encoding;
 	}
 	return DName(DN_invalid);
@@ -2245,13 +2317,13 @@ DName UnDecorator::getPointerToMember()
 	if (encoding.isValid() && (*gName == '@'))
 	{
 		// Consume the '@' that terminates the scope encoding
-		gName++;
+		increment_buffer_no_check();
 		encoding += "::"_l;
 		encoding += getZName(false, false);
 		if (*gName == '@')
 		{
 			// Consume the terminating '@'
-			++gName;
+			increment_buffer_no_check();
 			return encoding;
 		}
 	}
@@ -2263,8 +2335,12 @@ int UnDecorator::getNumberOfDimensions(void)
 {
 	if (!*gName)
 		return 0;
-	else if((*gName >= '0') && (*gName <= '9'))
-		return ((*gName++ - '0') + 1);
+	else if ((*gName >= '0') && (*gName <= '9'))
+	{
+		int dim = (*gName - '0') + 1;
+		increment_buffer_no_check();
+		return dim;
+	}
 	else
 	{
 		int dim = 0;
@@ -2281,15 +2357,14 @@ int UnDecorator::getNumberOfDimensions(void)
 			else
 				return -1;
 
-			gName++;
+			increment_buffer_no_check();
 
 		}	// End of WHILE
 
 		//	Ensure integrity, and return
 
-		if (*gName++ != '@')
-			return -1;		// Should never get here
-
+		DASSERT(*gName == '@');
+		increment_buffer_no_check();
 		return dim;
 
 	}	// End of else if else
@@ -2304,7 +2379,7 @@ DName UnDecorator::getTemplateName(bool fReadTerminator)
 	if (gName[0] != '?' || gName[1] != '$')
 		return DName(DN_invalid);
 
-	gName += 2;			// Skip the marker characters
+	increment_buffer_no_check(2);			// Skip the marker characters
 
 	//
 	// Stack the replicators, since template names are their own replicator scope:
@@ -2327,7 +2402,7 @@ DName UnDecorator::getTemplateName(bool fReadTerminator)
 
 	if (*gName == '?')
 	{
-		gName += 1;
+		increment_buffer_no_check();
 
 		templateName = getOperatorName(true, &fReadTemplateArguments);
 	}
@@ -2359,7 +2434,7 @@ DName UnDecorator::getTemplateName(bool fReadTerminator)
 
 		if (fReadTerminator && *gName)
 		{
-			gName += 1;
+			increment_buffer_no_check();
 		}
 	}
 
@@ -2408,7 +2483,7 @@ DName UnDecorator::getTemplateArgumentList(void)
 
 		if ((argIndex >= 0) && (argIndex <= 9))
 		{
-			gName++;	// Skip past the replicator
+			increment_buffer_no_check();	// Skip past the replicator
 
 			// Argument to append to the argument list
 
@@ -2426,21 +2501,21 @@ DName UnDecorator::getTemplateArgumentList(void)
 				{
 				case PDT_packExpansion:
 					havePackExpansion = true;
-					gName += 3;
+					increment_buffer_no_check(3);
 					break;
 				case PDT_placeHolder:
-					gName += 3;
+					increment_buffer_no_check(3);
 					break;
 				case PDT_empty:
 				case PDT_terminator:
-					gName += 3;
+					increment_buffer_no_check(3);
 					skipArgument = true;
 					break;
 				case PDT_extend:
 					// We have a bug (in older builds of the compiler) in which 'empty' is encoded with an extra '$'
 					if (*(gName + 3) == PDT_empty)
 					{
-						gName += 4;
+						increment_buffer_no_check(4);
 						skipArgument = true;
 					}
 					break;
@@ -2457,7 +2532,7 @@ DName UnDecorator::getTemplateArgumentList(void)
 			// Extract the 'argument' type
 			if ((*gName == '$') && (gName[1] != '$'))
 			{
-				gName++;
+				increment_buffer_no_check();
 				arg = getTemplateNonTypeArgument();
 			}
 			else
@@ -2528,7 +2603,7 @@ DName UnDecorator::getTemplateNonTypeArgument(void)
 	//		'1' <template-address-constant>
 	//		'2' <template-floating-point-constant>
 	//
-	char type_category = *gName++;
+	char type_category = get_current_character_and_increment_buffer();
 	switch (type_category)
 	{
 		//
@@ -2546,7 +2621,7 @@ DName UnDecorator::getTemplateNonTypeArgument(void)
 	case TC_address:
 		if (*gName == TC_nullptr)
 		{
-			gName++;
+			increment_buffer_no_check();
 			return DName("NULL"_l);
 		}
 		else
@@ -2684,12 +2759,9 @@ DName UnDecorator::getTemplateNonTypeArgument(void)
 		(void) getDimension();
 		return DName("lambda"_l);
 	case '\0':
-		--gName;
 		return DName(DN_truncated);
-		break;
 	default:
 		return DName(DN_invalid);
-		break;
 	}
 }
 
@@ -2697,7 +2769,7 @@ DName UnDecorator::getTemplateTypeArgument(void)
 {
 	if (*gName == BDT_void)
 	{
-		gName++;
+		increment_buffer_no_check();
 		return DName("void"_l);
 	}
 	else if (*gName == '?')
@@ -3064,7 +3136,7 @@ inline int UnDecorator::getTypeEncoding(void)
 	{
 		TE_setisbased(typeCode);
 
-		gName++;
+		increment_buffer_no_check();
 
 	}	// End of IF
 
@@ -3072,8 +3144,8 @@ inline int UnDecorator::getTypeEncoding(void)
 
 	if ((*gName >= 'A') && (*gName <= 'Z'))	// Is it some sort of function ?
 	{
-		int code = *gName++ - 'A';
-
+		int code = *gName - 'A';
+		increment_buffer_no_check();
 
 		//	Now determine the function type
 
@@ -3144,9 +3216,11 @@ inline int UnDecorator::getTypeEncoding(void)
 	}	// End of IF then
 	else if(*gName == '$')	// Extended set ?  Special handling
 	{
+		increment_buffer_no_check();
+
 		//	What type of symbol is it ?
 		bool isVtorDispThunkEx = false;
-		switch (*(++gName))
+		switch (*gName)
 		{
 		case SHF_localdtor:	// A destructor helper for a local static ?
 			TE_setislocaldtor(typeCode);
@@ -3169,12 +3243,13 @@ inline int UnDecorator::getTypeEncoding(void)
 
 		case '$':
 		{
-			if (*(gName + 1) == SHF_AnyDLLImportMethod)
+			increment_buffer_no_check();
+			if (*gName == SHF_AnyDLLImportMethod)
 			{
-				gName += 1;
+				increment_buffer_no_check();
 			}
 
-			switch (*(++gName))
+			switch (*gName)
 			{
 			case SHF_CPPManagedILFunction:				// C++ managed-IL function
 			case SHF_CPPManagedILMain:					// C++ managed-IL main
@@ -3183,7 +3258,7 @@ inline int UnDecorator::getTypeEncoding(void)
 				//
 				// Skip the encoding
 				//
-				gName += 1;
+				increment_buffer_no_check();
 				return getTypeEncoding();
 
 			case SHF_CManagedILFunction:				// C (or extern "C") managed-IL function
@@ -3193,7 +3268,7 @@ inline int UnDecorator::getTypeEncoding(void)
 				//
 				// Skip the encoding
 				//
-				gName += 1;
+				increment_buffer_no_check();
 
 				//
 				// The next character should be the number of characters
@@ -3205,10 +3280,20 @@ inline int UnDecorator::getTypeEncoding(void)
 					// Skip the character count and the byte-count
 					// itself
 					//
-					gName += ((*gName - '0') + 1);
+					size_t count = (*gName - '0') + 1;
+					if (!increment_buffer(count))
+					{
+						TE_setistruncated(typeCode);
+						return typeCode;
+					}
 
 					typeCode = getTypeEncoding();
 					TE_setisisexternc(typeCode);
+					return typeCode;
+				}
+				else if (*gName == 0)
+				{
+					TE_setistruncated(typeCode);
 					return typeCode;
 				}
 				else
@@ -3220,37 +3305,36 @@ inline int UnDecorator::getTypeEncoding(void)
 
 			case MGD_AppDomain:
 			{
-				gName += 1; //  this is __declspec(appdomain), but we won't say it
+				increment_buffer_no_check(); //  this is __declspec(appdomain), but we won't say it
 				return getTypeEncoding();
 			}
 
 			case SHF_Hybrid:
 			{
-                m_CHPENameOffset = 0; // clear the chpe name offset because this name is already chpe
-				gName += 1;
+				m_CHPENameOffset = 0; // clear the chpe name offset because this name is already chpe
+				increment_buffer_no_check();
 				return getTypeEncoding();
 			}
 
 			case 0:
-				TE_setistruncated ( typeCode );
-				return  typeCode;
+				TE_setistruncated(typeCode);
+				return typeCode;
 
 			default:
 				TE_setisbadtype(typeCode);
-				return  typeCode;
+				return typeCode;
 			}
 		}
 		break;
 
 		case 0:
 			TE_setistruncated(typeCode);
-			--gName; // back up, we advance back to the NUL below
-			break;
+			return typeCode;
 
 		case SHF_VtorDispThunkEx:
 			isVtorDispThunkEx = true;
 
-			++gName;
+			increment_buffer_no_check();
 			if (*gName < '0' || *gName > '5') // case labels below
 			{
 				if (*gName)
@@ -3319,13 +3403,13 @@ inline int UnDecorator::getTypeEncoding(void)
 
 		//	Advance past the code character
 
-		gName++;
+		increment_buffer_no_check();
 
 	}	// End of else if then
 	else if((*gName >= TE_static_d) && (*gName <= TE_metatype))	// Non function decorations ?
 	{
-		int code = *gName++;
-
+		int code = *gName;
+		increment_buffer_no_check();
 
 		TE_setisdata(typeCode);
 
@@ -3381,13 +3465,13 @@ inline int UnDecorator::getTypeEncoding(void)
 	}	// End of else if then
 	else if(*gName == '9')
 	{
-		gName++;
+		increment_buffer_no_check();
 
 		TE_setisCident(typeCode);
 	}
 	else if (*gName == TE_structured_binding)
 	{
-		++gName;
+		increment_buffer_no_check();
 		TE_setisstructuredbinding(typeCode);
 	}
 	else if(*gName)
@@ -3410,60 +3494,58 @@ DName UnDecorator::getBasedType(void)
 
 	//	What type of 'based' is it ?
 
-	if (*gName)
+	switch (get_current_character_and_increment_buffer())
 	{
-		switch (*gName++)
-		{
 #if !VERS_32BIT
-		case BT_segname:
-			basedDecl += UScore(TOK_segnameLpQ) + getSegmentName() + "\")";
-			break;
+	case BT_segname:
+		basedDecl += UScore(TOK_segnameLpQ) + getSegmentName() + "\")";
+		break;
 
-		case BT_segment:
-			basedDecl += DName("NYI:") + UScore(TOK_segment);
-			break;
+	case BT_segment:
+		basedDecl += DName("NYI:") + UScore(TOK_segment);
+		break;
 #endif
 
-		case BT_void:
-			basedDecl += "void"_l;
-			break;
+	case BT_void:
+		basedDecl += "void"_l;
+		break;
 
 #if !VERS_32BIT
-		case BT_self:
-			basedDecl += UScore(TOK_self);
-			break;
+	case BT_self:
+		basedDecl += UScore(TOK_self);
+		break;
 
-		case BT_nearptr:
-			basedDecl += DName("NYI:") + UScore(TOK_nearP);
-			break;
+	case BT_nearptr:
+		basedDecl += DName("NYI:") + UScore(TOK_nearP);
+		break;
 
-		case BT_farptr:
-			basedDecl += DName("NYI:") + UScore(TOK_farP);
-			break;
+	case BT_farptr:
+		basedDecl += DName("NYI:") + UScore(TOK_farP);
+		break;
 
-		case BT_hugeptr:
-			basedDecl += DName("NYI:") + UScore(TOK_hugeP);
-			break;
+	case BT_hugeptr:
+		basedDecl += DName("NYI:") + UScore(TOK_hugeP);
+		break;
 
-		case BT_segaddr:
-			basedDecl += "NYI:<segment-address-of-variable>";
-			break;
+	case BT_segaddr:
+		basedDecl += "NYI:<segment-address-of-variable>";
+		break;
 #else
-		case BT_nearptr:
-			basedDecl += getScopedName();
-			break;
+	case BT_nearptr:
+		basedDecl += getScopedName();
+		break;
 #endif
 
-		case BT_basedptr:
-			//
-			// Note: based pointer on based pointer is reserved
-			//
-			return DName(DN_invalid);
+	case BT_basedptr:
+		//
+		// Note: based pointer on based pointer is reserved
+		//
+		return DName(DN_invalid);
 
-		}	// End of SWITCH
-	}	// End of IF else
-	else
+	case 0:
 		basedDecl += DN_truncated;
+		break;
+	}	// End of SWITCH
 
 	//	Close the based syntax
 
@@ -3494,7 +3576,7 @@ DName UnDecorator::getScopedName(void)
 	//	Skip the trailing '@'
 
 	if (*gName == '@')
-		gName++;
+		increment_buffer_no_check();
 	else if(*gName)
 		scopeName = DN_invalid;
 	else if(scopeName.isEmpty())
@@ -3553,15 +3635,20 @@ inline DName UnDecorator::getEnumType(void)
 
 		//	Add the 'unsigned'ness if appropriate
 
-		switch (*gName++)
+		switch (*gName)
 		{
+		case 0:
+			return DName(DN_truncated);
 		case ET_uchar:
 		case ET_ushort:
 		case ET_uint:
 		case ET_ulong:
+			increment_buffer_no_check();
 			ecsuName = "unsigned "_l + ecsuName;
 			break;
-
+		default:
+			increment_buffer_no_check();
+			break;
 		}	// End of SWITCH
 
 		//	Now return the composed name
@@ -3580,8 +3667,8 @@ DName UnDecorator::getCallingConvention(void)
 {
 	if (*gName)
 	{
-		unsigned int callCode = ((unsigned int)*gName++) - 'A';
-
+		unsigned int callCode = ((unsigned int)*gName) - 'A';
+		increment_buffer_no_check();
 
 		//	What is the primary calling convention
 
@@ -3677,7 +3764,7 @@ DName UnDecorator::getReturnType(DName * pDeclarator)
 {
 	if (*gName == '@')	// Return type for constructors and destructors ?
 	{
-		gName++;
+		increment_buffer_no_check();
 
 		return DName(pDeclarator);
 
@@ -3702,7 +3789,7 @@ DName UnDecorator::getDataType(DName * pDeclarator)
 		return (DN_truncated + superType);
 
 	case BDT_void:
-		gName++;
+		increment_buffer_no_check();
 
 		if (superType.isEmpty())
 			return DName("void"_l);
@@ -3712,7 +3799,7 @@ DName UnDecorator::getDataType(DName * pDeclarator)
 	case '?':
 	{
 
-		gName++;	// Skip the '?'
+		increment_buffer_no_check();	// Skip the '?'
 
 		superType = getDataIndirectType(superType, IndirectionKind::None, DName(), 0);
 		return getPrimaryDataType(superType);
@@ -3754,7 +3841,7 @@ DName UnDecorator::getPrimaryDataType(const DName & superType)
 	{
 		DName superName(superType);
 
-		gName++;
+		increment_buffer_no_check();
 
 		return getReferenceType(cvType, superName.setPtrRef(), IndirectionKind::LvalueReference);
 
@@ -3772,21 +3859,21 @@ DName UnDecorator::getPrimaryDataType(const DName & superType)
 			else
 				return DName(DN_invalid);
 
-		gName += 2;
+		increment_buffer_no_check(2);
 
 		switch (*gName)
 		{
 		case PDT_ex_function:
-			gName++;
+			increment_buffer_no_check();
 			return getFunctionIndirectType(superType);
 
 		case PDT_ex_other:
-			gName++;
+			increment_buffer_no_check();
 			return getPtrRefDataType(superType, /* isPtr = */ TRUE);
 
 		case PDT_ex_qualified:
 		{
-			gName++;
+			increment_buffer_no_check();
 
 			return getBasicDataType(getDataIndirectType(superType, IndirectionKind::None, DName(), 0));
 		}
@@ -3808,18 +3895,18 @@ DName UnDecorator::getPrimaryDataType(const DName & superType)
 		{
 			DName superName(superType);
 
-			gName++;
+			increment_buffer_no_check();
 
 			return getReferenceType(cvType, superName.setPtrRef(), IndirectionKind::RvalueReference);
 		}
 
 		case PDT_ex_nullptr:
-			gName++;
+			increment_buffer_no_check();
 			return DName(DN_invalid);
 			break;
 
 		case PDT_ex_nullptr_t:
-			gName++;
+			increment_buffer_no_check();
 
 			if (!superType.isEmpty())
 			{
@@ -3832,13 +3919,13 @@ DName UnDecorator::getPrimaryDataType(const DName & superType)
 			break;
 
 		case PDT_aliasTemplate:
-			gName++;
+			increment_buffer_no_check();
 			return getScopedName();
 
 		case PDT_empty:
 			// This is the representation of a variadic type that was expanded to nothing so just return whatever the
 			// super-type is
-			++gName;
+			increment_buffer_no_check();
 			return superType;
 
 		case 0:
@@ -3862,10 +3949,12 @@ DName UnDecorator::getArgumentTypes(void)
 	switch (*gName)
 	{
 	case AT_ellipsis:
-		return DName((gName++, doEllipsis() ? "..."_l : UNDNAME_ELLIPSIS_ALTERNATE_STRINGLITERAL_1));
+		increment_buffer_no_check();
+		return DName(doEllipsis() ? "..."_l : UNDNAME_ELLIPSIS_ALTERNATE_STRINGLITERAL_1);
 
 	case AT_void:
-		return DName((gName++, "void"_l));
+		increment_buffer_no_check();
+		return DName("void"_l);
 
 	default:
 	{
@@ -3881,10 +3970,12 @@ DName UnDecorator::getArgumentTypes(void)
 				return arguments;
 
 			case AT_ellipsis:
-				return DName((gName++, arguments + (doEllipsis() ? ",..."_l : UNDNAME_ELLIPSIS_ALTERNATE_STRINGLITERAL_2)));
+				increment_buffer_no_check();
+				return DName(arguments + (doEllipsis() ? ",..."_l : UNDNAME_ELLIPSIS_ALTERNATE_STRINGLITERAL_2));
 
 			case AT_endoflist:
-				return (gName++, arguments);
+				increment_buffer_no_check();
+				return arguments;
 
 			default:
 				return DName(DN_invalid);
@@ -3925,7 +4016,7 @@ DName UnDecorator::getArgumentList(void)
 
 			if ((argIndex >= 0) && (argIndex <= 9))
 			{
-				gName++;	// Skip past the replicator
+				increment_buffer_no_check();	// Skip past the replicator
 
 				//	Append to the argument list
 
@@ -3985,16 +4076,18 @@ DName UnDecorator::getThrowTypes(void)
 	// Top-level noexcept functions still have the ellipsis encoded, however, to maintain
 	// ABI compatibility with C++14 and earlier code.
 	if (*gName == AT_ellipsis)
-		return (gName++, DName());
-	else
-		return DName();
+	{
+		increment_buffer_no_check();
+	}
+
+	return DName();
 }	// End of "UnDecorator" FUNCTION "getThrowTypes"
 
 DName UnDecorator::getNoexcept()
 {
-	if (*gName && *gName == '_' && *(gName + 1) && *(gName + 1) == FT_noexcept)
+	if (*gName == '_' && *(gName + 1) == FT_noexcept)
 	{
-		gName += 2;
+		increment_buffer_no_check(2);
 		return DName(" noexcept"_l);
 	}
 
@@ -4004,12 +4097,13 @@ DName UnDecorator::getNoexcept()
 #if CC_RESTRICTION_SPEC
 DName UnDecorator::getRestrictionSpec(void)
 {
-	if (*gName && *gName == '_' && *(gName+1) && *(gName+1) <= 'D')
+	if (*gName == '_' && *(gName+1) && *(gName+1) <= 'D')
 	{
 		// Skip the escape char '_' first
-		gName++;
+		increment_buffer_no_check();
 
-		unsigned int rstCode = ((unsigned int)*gName++) - 'A';
+		unsigned int rstCode = ((unsigned int)*gName) - 'A';
+		increment_buffer_no_check();
 
 		if (rstCode <= RST_MASK)
 		{
@@ -4058,13 +4152,18 @@ DName UnDecorator::getRestrictionSpec(void)
 
 DName UnDecorator::getDispatchTarget(void)
 {
-	if (*gName && *gName == '_' && *(gName + 1) && *(gName + 1) == '_')
+	if (*gName == '_' && *(gName + 1) == '_')
 	{
 		// Skip the escape prefix '__' first
-		gName++;
-		gName++;
+		increment_buffer_no_check(2);
 
-		unsigned int rstCode = ((unsigned int)*gName++) - 'A';
+		if (*gName == 0)
+		{
+			return DName(DN_truncated);
+		}
+
+		unsigned int rstCode = ((unsigned int)*gName) - 'A';
+		increment_buffer_no_check();
 		if (rstCode > RST_MASK)
 		{
 			// not a valid dispatch target
@@ -4083,7 +4182,9 @@ DName UnDecorator::getBasicDataType(const DName & superType)
 {
 	if (*gName)
 	{
-		unsigned char bdtCode = *gName++;
+		unsigned char bdtCode = *gName;
+		increment_buffer_no_check();
+
 		unsigned char extended_bdtCode = 0x0;
 		int pCvCode = -1;
 		DName basicDataType;
@@ -4140,7 +4241,7 @@ DName UnDecorator::getBasicDataType(const DName & superType)
 			pCvCode = (bdtCode & (BDT_const | BDT_volatile));
 			break;
 		case BDT_extend:
-			switch (extended_bdtCode = *gName++)
+			switch (extended_bdtCode = get_current_character_and_increment_buffer())
 			{
 			case BDT_array:
 				pCvCode = -2;
@@ -4212,7 +4313,6 @@ DName UnDecorator::getBasicDataType(const DName & superType)
 				return "__w64 "_l + getBasicDataType(superType);
 
 			case '\0':
-				gName--;		// End of string, better back-up
 				basicDataType = DN_truncated;
 				break;
 
@@ -4358,7 +4458,7 @@ DName UnDecorator::getECSUDataType(void)
 	{
 		DName Prefix;
 
-		switch (*gName++)
+		switch (get_current_character_and_increment_buffer())
 		{
 		case BDT_union:
 			Prefix = "union "_l;
@@ -4385,15 +4485,26 @@ DName UnDecorator::getECSUDataType(void)
 		case BDT_enum:
 			Prefix = "enum "_l + getEnumType();
 			break;
+
+		case 0:
+			return DName(DN_truncated);
 		}	// End of SWITCH
 
 		ecsuDataType = Prefix;
 	}
 	else
 	{
+		char c = *gName;
+		if (c == 0)
+		{
+			return DName(DN_truncated);
+		}
+
+		increment_buffer_no_check();
+
 		// We don't need to output the prefix, but we still need to
 		// skip the corresponding characters
-		if (*gName++ == BDT_enum)
+		if (c == BDT_enum)
 		{
 			// Skip the characters for the underlying type
 			getEnumType();
@@ -4425,13 +4536,15 @@ DName UnDecorator::getFunctionIndirectType(const DName & superType)
 		return DName(DN_invalid);
 
 
-	int fitCode = *gName++ - '6';
+	int fitCode = *gName - '6';
+	increment_buffer_no_check();
 
 	if (fitCode == ('_' - '6'))
 	{
 		if (*gName)
 		{
-			fitCode = *gName++ - 'A' + FIT_based;
+			fitCode = *gName - 'A' + FIT_based;
+			increment_buffer_no_check();
 
 			if ((fitCode < FIT_based) || (fitCode > (FIT_based | FIT_far | FIT_member)))
 				fitCode = -1;
@@ -4471,12 +4584,12 @@ DName UnDecorator::getFunctionIndirectType(const DName & superType)
 		else
 		{
 			// Pseudo this pointer
-			gName++;
+			increment_buffer_no_check();
 		}
 
 		if (*gName)
 			if (*gName == '@')
-				gName++;
+				increment_buffer_no_check();
 			else
 				return DName(DN_invalid);
 		else
@@ -4621,7 +4734,7 @@ DName UnDecorator::getExtendedDataIndirectType(IndirectionKind& kind, bool& fIsP
 
 	DASSERT(*gName == '$');
 
-	gName++;	// swallow up the dollar
+	increment_buffer_no_check();	// swallow up the dollar
 
 	switch (*gName)
 	{
@@ -4638,7 +4751,7 @@ DName UnDecorator::getExtendedDataIndirectType(IndirectionKind& kind, bool& fIsP
 				kind = IndirectionKind::Handle;
 			}
 		}
-		gName++;
+		increment_buffer_no_check();
 		break;
 
 	case DIT_PinPointer:
@@ -4648,13 +4761,13 @@ DName UnDecorator::getExtendedDataIndirectType(IndirectionKind& kind, bool& fIsP
 
 		fIsPinPtr = true;
 		szComPlusIndirSpecifier = '>';
-		gName++;
+		increment_buffer_no_check();
 		break;
 
 	case DIT_InteriorPointer:
 		// this pointer of value class is interior_ptr
 		kind = IndirectionKind::Percent;
-		gName++;
+		increment_buffer_no_check();
 		break;
 
 	default:
@@ -4665,7 +4778,7 @@ DName UnDecorator::getExtendedDataIndirectType(IndirectionKind& kind, bool& fIsP
 			return DName(DN_invalid);
 
 		unsigned int nRank = ((gName[0] - '0') << 4) + (gName[1] - '0');
-		gName += 2;
+		increment_buffer_no_check(2);
 
 		if (nRank > 1)
 		{
@@ -4684,7 +4797,7 @@ DName UnDecorator::getExtendedDataIndirectType(IndirectionKind& kind, bool& fIsP
 			//      array<int>^
 			// and: array<int>
 
-			gName++;
+			increment_buffer_no_check();
 		}
 		else
 		{
@@ -4692,7 +4805,7 @@ DName UnDecorator::getExtendedDataIndirectType(IndirectionKind& kind, bool& fIsP
 		}
 
 		if (*gName)
-			gName++;
+			increment_buffer_no_check();
 		else
 			szComPlusIndirSpecifier += DN_truncated;
 
@@ -4782,7 +4895,12 @@ DName UnDecorator::getDataIndirectType(const DName & superType, IndirectionKind 
 
 			if (fContinue)
 			{
-				gName++;
+				increment_buffer_no_check();
+
+				if (*gName == 0)
+				{
+					return DName(DN_truncated);
+				}
 
 				if (gName[0] == '$')
 				{
@@ -4799,7 +4917,7 @@ DName UnDecorator::getDataIndirectType(const DName & superType, IndirectionKind 
 		} while (fContinue);
 
 		if (*gName)
-			gName++;		// Skip to next character in name
+			increment_buffer_no_check();		// Skip to next character in name
 
 		//	Is it a valid 'data-indirection-type' ?
 
@@ -4852,9 +4970,10 @@ DName UnDecorator::getDataIndirectType(const DName & superType, IndirectionKind 
 
 				//	Now skip the scope terminator
 
-				if (!*gName)
+				char c = get_current_character_and_increment_buffer();
+				if (!c)
 					ditType += DN_truncated;
-				else if(*gName++ != '@')
+				else if (c != '@')
 					return DName(DN_invalid);
 
 			}	// End of IF
@@ -4972,7 +5091,7 @@ DName UnDecorator::getPtrRefDataType(const DName& superType, int isPtr)
 		{
 			if (*gName == PoDT_void)
 			{
-				gName++;	// Skip this character
+				increment_buffer_no_check();	// Skip this character
 
 				if (superType.isEmpty())
 				{
@@ -4985,14 +5104,14 @@ DName UnDecorator::getPtrRefDataType(const DName& superType, int isPtr)
 			// If this is the encoding for a boxed type then skip over it and continue with the underlying type
 			if ((gName[0] == BDT_extend) && (gName[1] == BDT_extend) && (gName[2] == BDT_boxed))
 			{
-				gName += 3;
+				increment_buffer_no_check(3);
 			}
 		}
 
 		// Otherwise it may be std::nullptr_t which has special decoration
 		if ((gName[0] == PDT_extend) && (gName[1] == PDT_extend) && (gName[2] == PDT_ex_nullptr_t))
 		{
-			gName += 3;
+			increment_buffer_no_check(3);
 			if (superType.isEmpty())
 			{
 				return DName("std::nullptr_t"_l);
@@ -5006,7 +5125,7 @@ DName UnDecorator::getPtrRefDataType(const DName& superType, int isPtr)
 		// Otherwise it may be a 'reference-data-type'
 		if (*gName == RDT_array)	// An array ?
 		{
-			gName++;
+			increment_buffer_no_check();
 			return getArrayType(superType);
 		}
 
@@ -5125,7 +5244,7 @@ inline DName UnDecorator::getVCallThunkType(void)
 	switch (*gName)
 	{
 	case VMT_nTnCnV:
-		++gName;
+		increment_buffer_no_check();
 		return DName("{flat}"_l);
 	case 0:
 		return DName(DN_truncated);
@@ -5200,7 +5319,7 @@ inline DName UnDecorator::getVCallThunkType(void)
 
 	//	Get the 'vfptr' model
 
-	switch (*gName++)	// Last time, so advance the pointer
+	switch (get_current_character_and_increment_buffer())	// Last time, so advance the pointer
 	{
 	case VMT_nTnCnV:
 	case VMT_nTfCnV:
@@ -5223,6 +5342,8 @@ inline DName UnDecorator::getVCallThunkType(void)
 		vcallType += getBasedType();
 		break;
 
+	case 0:
+		return DName(DN_truncated);
 	}	// End of SWITCH
 
 	//	Always append 'vfptr'
@@ -5259,7 +5380,7 @@ inline DName UnDecorator::getVfTableType(const DName & superType)
 					//	Skip the scope delimiter
 
 					if (*gName == '@')
-						gName++;
+						increment_buffer_no_check();
 
 					//	Close the current scope, and add a conjunction for the next (if any)
 
@@ -5281,7 +5402,7 @@ inline DName UnDecorator::getVfTableType(const DName & superType)
 			//	Skip the 'vpath-name' terminator
 
 			if (*gName == '@')
-				gName++;
+				increment_buffer_no_check();
 
 		}	// End of IF
 	}	// End of IF then
@@ -5301,7 +5422,7 @@ inline DName UnDecorator::getVdispMapType(const DName & superType)
 	vdispMapName += '}';
 
 	if (*gName == '@')
-		gName++;
+		increment_buffer_no_check();
 	return vdispMapName;
 }
 #endif // !NO_COMPILER_NAMES
@@ -5309,7 +5430,7 @@ inline DName UnDecorator::getVdispMapType(const DName & superType)
 
 inline DName UnDecorator::getExternalDataType(const DName & superType)
 {
-	//	Create an indirect declarator for the the rest
+	//	Create an indirect declarator for the rest
 
 	DName *	pDeclarator = gnew DName();
 	DName declaration = getDataType(pDeclarator);
