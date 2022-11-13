@@ -9,31 +9,6 @@
 #include <malloc.h>
 
 
-
-// This function implements the logic of expand().  It is called directly by the
-// _expand() function in the Release CRT, and called by the debug heap in the
-// Debug CRT.
-//
-// This function must be marked noinline, otherwise _expand and
-// _expand_base will have identical COMDATs, and the linker will fold
-// them when calling one from the CRT. This is necessary because _expand
-// needs to support users patching in custom implementations.
-extern "C" __declspec(noinline) void* __cdecl _expand_base(void* const block, size_t const size)
-{
-    // Validation section
-    _VALIDATE_RETURN      (block != nullptr,     EINVAL, nullptr);
-    _VALIDATE_RETURN_NOEXC(size <= _HEAP_MAXREQ, ENOMEM, nullptr);
-
-    size_t const new_size = size == 0 ? 1 : size;
-
-    void* new_block = _realloc_base(block, new_size);
-    if (new_block != nullptr)
-        return new_block;
-
-    errno = __acrt_errno_from_os_error(STATUS_INSUFFICIENT_RESOURCES);
-    return nullptr;
-}
-
 // Expands or contracts a block of memory in the heap.
 //
 // This function resizes a block of memory in the heap to 'size' bytes.  The
@@ -48,9 +23,16 @@ extern "C" __declspec(noinline) void* __cdecl _expand_base(void* const block, si
 // with either other function or vice versa.
 extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) void* __cdecl _expand(void* const block, size_t const size)
 {
-#ifdef _DEBUG
-    return _expand_dbg(block, size, _NORMAL_BLOCK, nullptr, 0);
-#else
-    return _expand_base(block, size);
-#endif
+    // Validation section
+    _VALIDATE_RETURN(block != nullptr, EINVAL, nullptr);
+    _VALIDATE_RETURN_NOEXC(size <= _HEAP_MAXREQ, ENOMEM, nullptr);
+
+    size_t const new_size = size == 0 ? 1 : size;
+
+    void* new_block = realloc(block, new_size);
+    if (new_block != nullptr)
+        return new_block;
+
+    errno = __acrt_errno_from_os_error(STATUS_INSUFFICIENT_RESOURCES);
+    return nullptr;
 }

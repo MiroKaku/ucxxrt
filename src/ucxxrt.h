@@ -41,16 +41,8 @@
 #define _VCRTIMP _CRTIMP
 #endif
 
-#ifdef DBG
-#  ifndef _DEBUG
-#    define _DEBUG DBG
-#  endif
-#endif
 
 #include <fltKernel.h>
-#include <inc/new_km.h>
-#include <inc/malloc_km.h>
-
 #include <cstdint>
 
 
@@ -60,6 +52,7 @@ namespace ucxxrt
     extern PVOID PsSystemDllBase;
 #endif
 }
+
 
 #ifndef _ByteSwap16
 #define _ByteSwap16(x) (                            \

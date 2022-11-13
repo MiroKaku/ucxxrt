@@ -32,7 +32,7 @@ copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\"
 copy /Y "$(SolutionDir)LICENSE" "$(SolutionDir)ucxxrt\"
 copy /Y "$(SolutionDir)src\ucxxrt.props" "$(SolutionDir)ucxxrt\"
 copy /Y "$(SolutionDir)src\ucxxrt.h" "$(SolutionDir)ucxxrt\"
-xcopy /D /S /Y /V /F "$(SolutionDir)inc" "$(SolutionDir)ucxxrt\inc\"
+xcopy /D /S /Y /V /F "$(SolutionDir)kext" "$(SolutionDir)ucxxrt\kext\"
 xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\" /EXCLUDE:$(SolutionDir)src\exclusion.txt</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

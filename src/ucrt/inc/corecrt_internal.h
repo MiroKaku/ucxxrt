@@ -194,9 +194,7 @@ extern "C++"
 
 // CRT Allocation macros:
 #define _expand_crt    _expand
-
 #define _strdup_crt    _strdup
-
 #define _dupenv_s_crt  _dupenv_s
 #define _wdupenv_s_crt _wdupenv_s
 

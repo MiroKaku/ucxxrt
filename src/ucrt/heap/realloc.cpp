@@ -7,6 +7,36 @@
 //
 #include <corecrt_internal.h>
 #include <malloc.h>
+#include <new.h>
+
+
+
+extern"C" __declspec(noinline) void* __cdecl ExReallocatePoolWithTag(
+    _In_ SIZE_T OldSize,
+    _In_ SIZE_T NewSize,
+    _In_ PVOID  OldBlock,
+    _In_ __drv_strictTypeMatch(__drv_typeExpr) POOL_TYPE PoolType,
+    _In_ ULONG Tag
+)
+{
+    if (OldSize == 0)
+    {
+        return nullptr;
+    }
+
+#pragma warning(suppress: 4996)
+    void* const NewBlock = ExAllocatePoolWithTag(PoolType, NewSize, Tag);
+    if (NewBlock)
+    {
+        memset(NewBlock, 0, NewSize);
+        memmove(NewBlock, OldBlock, OldSize);
+
+        ExFreePoolWithTag(OldBlock, Tag);
+        return NewBlock;
+    }
+
+    return nullptr;
+}
 
 // Reallocates a block of memory in the heap.
 //
@@ -33,9 +63,36 @@ extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT void* __cdecl 
     size_t const size
     )
 {
-#ifdef _DEBUG
-    return _realloc_dbg(block, size, _NORMAL_BLOCK, nullptr, 0);
-#else
-    return _realloc_base(block, size);
-#endif
+    // If the block is a nullptr, just call malloc:
+    if (block == nullptr)
+        return malloc(size);
+
+    // If the new size is 0, just call free and return nullptr:
+    if (size == 0)
+    {
+        free(block);
+        return nullptr;
+    }
+
+    // Ensure that the requested size is not too large:
+    _VALIDATE_RETURN_NOEXC(_HEAP_MAXREQ >= size, ENOMEM, nullptr);
+
+    for (;;)
+    {
+        void* const new_block = ExReallocatePoolWithTag(_msize(block), size, block, NonPagedPool, __ucxxrt_tag);
+        if (new_block)
+        {
+            return new_block;
+        }
+
+        // Otherwise, see if we need to call the new handler, and if so call it.
+        // If the new handler fails, just return nullptr:
+        if (_query_new_mode() == 0 || !_callnewh(size))
+        {
+            errno = ENOMEM;
+            return nullptr;
+        }
+
+        // The new handler was successful; try to allocate again...
+    }
 }

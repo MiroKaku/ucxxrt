@@ -213,7 +213,7 @@ extern "C" int __cdecl _execute_onexit_table(_onexit_table_t* const table)
 
         if (first != reinterpret_cast<_PVFV*>(-1))
         {
-            _free_crt(first);
+            free(first);
         }
 
         _PVFV* const encoded_nullptr = __crt_fast_encode_pointer(nullptr);

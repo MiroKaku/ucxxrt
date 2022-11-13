@@ -248,61 +248,23 @@ extern "C++"
 // CRT Memory Allocation and Management
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#ifdef _DEBUG
 
-    // These must match the definitions in the CoreCRT's debug header.  They
-    // are defined separately here to avoid unwanted CRT header dependencies.
-    #define _NORMAL_BLOCK    1
-    #define _CRT_BLOCK       2
+// When building for vcruntime*.dll, we are not a part of the UCRT or OS so we
+// should use the public allocation functions exported by the UCRT.
+#define _calloc_crt   calloc
+#define _free_crt     free
+#define _malloc_crt   malloc
+#define _realloc_crt  realloc
+#define _msize_crt    _msize
+#define _recalloc_crt _recalloc
 
-    #define _calloc_crt(c, s)      (_calloc_dbg  (   c, s, _CRT_BLOCK, __FILE__, __LINE__))
-    #define _free_crt(p)           (_free_dbg    (p,       _CRT_BLOCK                    ))
-    #define _malloc_crt(s)         (_malloc_dbg  (      s, _CRT_BLOCK, __FILE__, __LINE__))
-    #define _msize_crt(p)          (_msize_dbg   (p,       _CRT_BLOCK                    ))
-    #define _recalloc_crt(p, c, s) (_recalloc_dbg(p, c, s, _CRT_BLOCK, __FILE__, __LINE__))
-    #define _realloc_crt(p, s)     (_realloc_dbg (p,    s, _CRT_BLOCK, __FILE__, __LINE__))
-
-    #define _malloca_crt(size)                                                            \
-        __pragma(warning(suppress: 6255))                                                 \
-        (_MallocaComputeSize(size) != 0                                                   \
-            ? _MarkAllocaS(_malloc_crt(_MallocaComputeSize(size)), _ALLOCA_S_HEAP_MARKER) \
-            : NULL)
-
-#else // ^^^ _DEBUG ^^^ // vvv !_DEBUG vvv
-
-    // The *_crt macros call the allocation function that vcruntime should use for
-    // internal allocations. It changes based off of where it is being built.
-
-    #ifdef _CRT_WINDOWS
-    // When building for the UCRT, we want to use the internal allocation functions.
-    // We need to ensure that users hooking the public allocation functions do not
-    // interfere with the UCRT's allocations.
-        #define _calloc_crt   _calloc_base
-        #define _free_crt     _free_base
-        #define _malloc_crt   _malloc_base
-        #define _realloc_crt  _realloc_base
-        #define _msize_crt    _msize_base
-        #define _recalloc_crt _recalloc_base
-    #else
-    // When building for vcruntime*.dll, we are not a part of the UCRT or OS so we
-    // should use the public allocation functions exported by the UCRT.
-        #define _calloc_crt   calloc
-        #define _free_crt     free
-        #define _malloc_crt   malloc
-        #define _realloc_crt  realloc
-        #define _msize_crt    _msize
-        #define _recalloc_crt _recalloc
-    #endif
-
-    #define _malloca_crt(size)                                                                 \
+#define _malloca_crt(size)                                                                 \
         __pragma(warning(suppress: 6255))                                                      \
         (_MallocaComputeSize(size) != 0                                                        \
             ? ((_MallocaComputeSize(size) <= _ALLOCA_S_THRESHOLD)                              \
                 ? _MarkAllocaS(_alloca(_MallocaComputeSize(size)), _ALLOCA_S_STACK_MARKER)     \
                 : _MarkAllocaS(_malloc_crt(_MallocaComputeSize(size)), _ALLOCA_S_HEAP_MARKER)) \
             : NULL)
-
-#endif // !_DEBUG
 
 #pragma warning(push)
 #pragma warning(disable: 6014)
@@ -482,7 +444,6 @@ extern "C++" {
     #define _malloca_crt_t(t, n)     (__crt_scoped_stack_ptr_tag<t>(static_cast<t*>(_malloca_crt (     (n) * sizeof(t)))))
 
 
-
     enum : int
     {
         __crt_maximum_pointer_shift = sizeof(uintptr_t) * 8
@@ -647,22 +608,6 @@ extern "C++" {
 
 } // extern "C++"
 #endif // __cplusplus
-
-
-
-#define _CRT_DEBUGGER_IGNORE            -1
-#define _CRT_DEBUGGER_GSFAILURE          1
-#define _CRT_DEBUGGER_INVALIDPARAMETER   2
-#define _CRT_DEBUGGER_ABORT              3
-
-// Note:  These names are well-known to the debugger
-#ifdef _M_IX86
-    void __cdecl _crt_debugger_hook(int);
-    #define _CRT_DEBUGGER_HOOK _crt_debugger_hook
-#else
-    void __cdecl __crt_debugger_hook(int);
-    #define _CRT_DEBUGGER_HOOK __crt_debugger_hook
-#endif
 
 
 

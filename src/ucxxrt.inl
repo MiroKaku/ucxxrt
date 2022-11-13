@@ -75,12 +75,6 @@
 #   define NTOS_KERNEL_RUNTIME __KERNEL_MODE
 #endif
 
-#ifdef DBG
-#  ifndef _DEBUG
-#    define _DEBUG DBG
-#  endif
-#endif
-
 #include <veil/veil.h>
 #include <corecrt.h>
 
@@ -96,6 +90,10 @@
 #include <cstddef>
 #include <cstdlib>
 #include <cstdint>
+
+#define _UCXXRT_ALLOCATOR_STDMALLOC 1
+#define _UCXXRT_ALLOCATOR_MINMALLOC 2
+#define _UCXXRT_ALLOCATOR _UCXXRT_ALLOCATOR_STDMALLOC
 
 #include "ucxxrt.h"
 

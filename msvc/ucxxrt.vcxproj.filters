@@ -254,9 +254,6 @@
     <ClCompile Include="..\src\crt\vcruntime\delete_array_size_align.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\crt\vcruntime\delete_debug.cpp">
-      <Filter>ucxxrt\crt\vcruntime</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\crt\vcruntime\delete_scalar.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
@@ -336,9 +333,6 @@
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
     <ClCompile Include="..\src\crt\vcruntime\new_array_nothrow.cpp">
-      <Filter>ucxxrt\crt\vcruntime</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\crt\vcruntime\new_debug.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
     <ClCompile Include="..\src\crt\vcruntime\new_mode.cpp">
@@ -647,31 +641,16 @@
     <ClCompile Include="..\src\ucrt\heap\calloc.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\calloc_base.cpp">
-      <Filter>ucxxrt\ucrt\heap</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\debug_heap.cpp">
-      <Filter>ucxxrt\ucrt\heap</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\expand.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\free.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\free_base.cpp">
-      <Filter>ucxxrt\ucrt\heap</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\malloc_base.cpp">
-      <Filter>ucxxrt\ucrt\heap</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\msize.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\realloc.cpp">
-      <Filter>ucxxrt\ucrt\heap</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\realloc_base.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\recalloc.cpp">
@@ -686,13 +665,13 @@
     <ClCompile Include="..\src\crt\vcruntime\user.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\malloc_km.cpp">
+    <ClCompile Include="..\src\ucrt\heap\kmalloc.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\free_km.cpp">
+    <ClCompile Include="..\src\ucrt\heap\kfree.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\calloc_km.cpp">
+    <ClCompile Include="..\src\ucrt\heap\kcalloc.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
     <ClCompile Include="..\src\crt\vcruntime\delete_km.cpp">

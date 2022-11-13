@@ -14,6 +14,7 @@
 #include <malloc.h>
 #include <vcruntime_new.h>
 #include <vcstartup_internal.h>
+#include <kext/kmalloc.h>
 
 ////////////////////////////////////////////////////////////////
 // delete() Fallback Ordering

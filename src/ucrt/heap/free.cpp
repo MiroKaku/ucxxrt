@@ -17,9 +17,8 @@
 // with either other function or vice versa.
 extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) void __cdecl free(void* const block)
 {
-#ifdef _DEBUG
-    _free_dbg(block, _NORMAL_BLOCK);
-#else
-    _free_base(block);
-#endif
+    if (block)
+    {
+        ExFreePoolWithTag(block, __ucxxrt_tag);
+    }
 }

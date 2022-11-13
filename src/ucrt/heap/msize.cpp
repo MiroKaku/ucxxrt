@@ -10,14 +10,14 @@
 
 
 
-// This function implements the logic of _msize().  It is called only in the
-// Release CRT.  The Debug CRT has its own implementation of this function.
+// Calculates the size of the specified block in the heap.  'block' must be a
+// pointer to a valid block of heap-allocated memory (it must not be nullptr).
 //
-// This function must be marked noinline, otherwise _msize and
-// _msize_base will have identical COMDATs, and the linker will fold
-// them when calling one from the CRT. This is necessary because _msize
-// needs to support users patching in custom implementations.
-extern "C" __declspec(noinline) size_t __cdecl _msize_base(void* const block) _CRT_NOEXCEPT
+// This function supports patching and therefore must be marked noinline.
+// Both _msize_dbg and _msize_base must also be marked noinline
+// to prevent identical COMDAT folding from substituting calls to _msize
+// with either other function or vice versa.
+extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) size_t __cdecl _msize(void* const block)
 {
     size_t  size = 0;
     BOOLEAN quota_charged = FALSE;
@@ -32,25 +32,8 @@ extern "C" __declspec(noinline) size_t __cdecl _msize_base(void* const block) _C
         //       rather than the correct number of bytes.
 
         size = 0;
-
         KdBreakPoint();
     }
 
     return size;
-}
-
-// Calculates the size of the specified block in the heap.  'block' must be a
-// pointer to a valid block of heap-allocated memory (it must not be nullptr).
-//
-// This function supports patching and therefore must be marked noinline.
-// Both _msize_dbg and _msize_base must also be marked noinline
-// to prevent identical COMDAT folding from substituting calls to _msize
-// with either other function or vice versa.
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) size_t __cdecl _msize(void* const block)
-{
-#ifdef _DEBUG
-    return _msize_dbg(block, _NORMAL_BLOCK);
-#else
-    return _msize_base(block);
-#endif
 }

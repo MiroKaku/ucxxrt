@@ -13,6 +13,7 @@
 #include <stdlib.h>
 #include <vcruntime_new.h>
 #include <vcstartup_internal.h>
+#include <kext/kmalloc.h>
 
 // Enable the compiler to elide null checks during LTCG
 #pragma comment(linker, "/ThrowingNew")

@@ -1,10 +1,15 @@
-//
-// malloc.cpp
-//
-//      Copyright (c) Microsoft Corporation. All rights reserved.
-//
-// Implementation of malloc().
-//
+/*
+ * PROJECT:   Universal C++ RunTime (UCXXRT)
+ * FILE:      malloc_km.cpp
+ * DATA:      2022/06/17
+ *
+ * PURPOSE:   Universal C++ RunTime
+ *
+ * LICENSE:   Relicensed under The MIT License from The CC BY 4.0 License
+ *
+ * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
+ */
+
 #include <corecrt_internal.h>
 #include <malloc.h>
 #include <new.h>
@@ -15,10 +20,14 @@
 // fails, nullptr is returned.
 //
 // This function supports patching and therefore must be marked noinline.
-// Both _malloc_dbg and _malloc_base must also be marked noinline
+// Both _kmalloc_dbg and _kmalloc_base must also be marked noinline
 // to prevent identical COMDAT folding from substituting calls to malloc
 // with either other function or vice versa.
-extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT void* __cdecl malloc(size_t const size)
+extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT void* __cdecl kmalloc(
+    size_t      const   size,
+    int                 pool_type,
+    unsigned    long    tag
+)
 {
     // Ensure that the requested size is not too large:
     _VALIDATE_RETURN_NOEXC(_HEAP_MAXREQ >= size, ENOMEM, nullptr);
@@ -29,7 +38,7 @@ extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT void* __cdecl 
     for (;;)
     {
         #pragma warning(suppress: 4996)
-        void* const block = ExAllocatePoolWithTag(NonPagedPool, actual_size, __ucxxrt_tag);
+        void* const block = ExAllocatePoolWithTag((POOL_TYPE)pool_type, actual_size, tag);
         if (block)
             return block;
 

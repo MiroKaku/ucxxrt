@@ -270,7 +270,6 @@
     <ClCompile Include="..\src\crt\vcruntime\delete_array_nothrow.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\delete_array_size.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\delete_array_size_align.cpp" />
-    <ClCompile Include="..\src\crt\vcruntime\delete_debug.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\delete_km.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\delete_scalar.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\delete_scalar_align.cpp" />
@@ -299,7 +298,6 @@
     <ClCompile Include="..\src\crt\vcruntime\new_array_align.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\new_array_align_nothrow.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\new_array_nothrow.cpp" />
-    <ClCompile Include="..\src\crt\vcruntime\new_debug.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\new_km.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\new_mode.cpp" />
     <ClCompile Include="..\src\crt\vcruntime\new_scalar.cpp" />
@@ -343,26 +341,16 @@
     </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\align.cpp" />
     <ClCompile Include="..\src\ucrt\heap\calloc.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\calloc_base.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\calloc_km.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\debug_heap.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="..\src\ucrt\heap\kcalloc.cpp" />
     <ClCompile Include="..\src\ucrt\heap\expand.cpp" />
     <ClCompile Include="..\src\ucrt\heap\free.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\free_base.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\free_km.cpp" />
+    <ClCompile Include="..\src\ucrt\heap\kfree.cpp" />
     <ClCompile Include="..\src\ucrt\heap\malloc.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\malloc_base.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\malloc_km.cpp" />
+    <ClCompile Include="..\src\ucrt\heap\kmalloc.cpp" />
     <ClCompile Include="..\src\ucrt\heap\msize.cpp" />
     <ClCompile Include="..\src\ucrt\heap\new_handler.cpp" />
     <ClCompile Include="..\src\ucrt\heap\new_mode.cpp" />
     <ClCompile Include="..\src\ucrt\heap\realloc.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\realloc_base.cpp" />
     <ClCompile Include="..\src\ucrt\heap\recalloc.cpp" />
     <ClCompile Include="..\src\ucrt\internal\initialization.cpp" />
     <ClCompile Include="..\src\ucrt\internal\locks.cpp" />

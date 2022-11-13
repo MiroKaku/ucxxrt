@@ -30,9 +30,5 @@
 _CRT_SECURITYCRITICAL_ATTRIBUTE
 void __CRTDECL operator delete(void* const block) noexcept
 {
-    #ifdef _DEBUG
-    _free_dbg(block, _UNKNOWN_BLOCK);
-    #else
     free(block);
-    #endif
 }

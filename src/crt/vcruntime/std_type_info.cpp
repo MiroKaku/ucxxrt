@@ -81,8 +81,8 @@ extern "C" char const* __cdecl __std_type_info_name(
         nullptr,
         data->_DecoratedName + 1,
         0,
-        [](size_t const n) { return _malloc_crt(n); },
-        [](void*  const p) { return _free_crt(p);   },
+        [](size_t const n) { return malloc(n); },
+        [](void*  const p) { return free(p);   },
         UNDNAME_32_BIT_DECODE | UNDNAME_TYPE_ONLY));
 
     if (!undecorated_name)
@@ -100,7 +100,7 @@ extern "C" char const* __cdecl __std_type_info_name(
     size_t const undecorated_name_count = undecorated_name_length + 1;
     size_t const node_size = sizeof(SLIST_ENTRY) + undecorated_name_count;
 
-    __crt_unique_heap_ptr<void> node_block(_malloc_crt(node_size));
+    __crt_unique_heap_ptr<void> node_block(malloc(node_size));
     if (!node_block)
     {
         return nullptr; // CRT_REFACTOR TODO This is nonconforming
@@ -143,7 +143,7 @@ extern "C" void __cdecl __std_type_info_destroy_list(
     while (current_node)
     {
         PSLIST_ENTRY const next_node = current_node->Next;
-        _free_crt(current_node);
+        free(current_node);
         current_node = next_node;
     }
 }
