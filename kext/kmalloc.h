@@ -1,6 +1,6 @@
 /*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
- * FILE:      malloc_km.h
+ * FILE:      kmalloc.h
  * DATA:      2022/06/17
  *
  * PURPOSE:   Universal C++ RunTime
@@ -17,7 +17,7 @@
 extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
 void* __cdecl kmalloc(
     _In_ _CRT_GUARDOVERFLOW size_t size,
-    _In_ int pool_type,
+    _In_ int pool,
     _In_ unsigned long tag
 );
 
@@ -31,6 +31,23 @@ extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
 void* __cdecl kcalloc(
     _In_ _CRT_GUARDOVERFLOW size_t const count,
     _In_ _CRT_GUARDOVERFLOW size_t const size,
-    _In_ int          pool_type,
+    _In_ int pool,
     _In_ unsigned long tag
+);
+
+extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT
+void* __cdecl krealloc(
+    void* const block,
+    size_t const size,
+    int pool,
+    unsigned long tag
+);
+
+extern "C" __declspec(noinline) _CRTRESTRICT
+void* __cdecl krecalloc(
+    void* const block,
+    size_t const count,
+    size_t const size,
+    int pool,
+    unsigned long tag
 );

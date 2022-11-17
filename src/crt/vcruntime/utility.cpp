@@ -147,6 +147,8 @@ extern "C" void __cdecl __scrt_initialize_memory()
 {
     // Nx
     ExInitializeDriverRuntime(DrvRtPoolNxOptIn);
+
+    _set_allocator(nullptr, nullptr, nullptr);
 }
 
 extern "C" bool __cdecl __scrt_initialize_crt()

@@ -1,6 +1,6 @@
 /*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
- * FILE:      free_km.cpp
+ * FILE:      kfree.cpp
  * DATA:      2022/06/17
  *
  * PURPOSE:   Universal C++ RunTime

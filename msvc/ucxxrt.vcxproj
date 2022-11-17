@@ -341,17 +341,18 @@
     </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\align.cpp" />
     <ClCompile Include="..\src\ucrt\heap\calloc.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\kcalloc.cpp" />
     <ClCompile Include="..\src\ucrt\heap\expand.cpp" />
     <ClCompile Include="..\src\ucrt\heap\free.cpp" />
     <ClCompile Include="..\src\ucrt\heap\kfree.cpp" />
     <ClCompile Include="..\src\ucrt\heap\malloc.cpp" />
     <ClCompile Include="..\src\ucrt\heap\kmalloc.cpp" />
+    <ClCompile Include="..\src\ucrt\heap\moverride.cpp" />
     <ClCompile Include="..\src\ucrt\heap\msize.cpp" />
     <ClCompile Include="..\src\ucrt\heap\new_handler.cpp" />
     <ClCompile Include="..\src\ucrt\heap\new_mode.cpp" />
     <ClCompile Include="..\src\ucrt\heap\realloc.cpp" />
     <ClCompile Include="..\src\ucrt\heap\recalloc.cpp" />
+    <ClCompile Include="..\src\ucrt\heap\stdalloc.cpp" />
     <ClCompile Include="..\src\ucrt\internal\initialization.cpp" />
     <ClCompile Include="..\src\ucrt\internal\locks.cpp" />
     <ClCompile Include="..\src\ucrt\internal\per_thread_data.cpp" />

@@ -91,10 +91,6 @@
 #include <cstdlib>
 #include <cstdint>
 
-#define _UCXXRT_ALLOCATOR_STDMALLOC 1
-#define _UCXXRT_ALLOCATOR_MI_MALLOC 2
-#define _UCXXRT_ALLOCATOR _UCXXRT_ALLOCATOR_STDMALLOC
-
 #include "ucxxrt.h"
 
 #if _MSC_VER >= 1200

@@ -671,14 +671,17 @@
     <ClCompile Include="..\src\ucrt\heap\kfree.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\kcalloc.cpp">
-      <Filter>ucxxrt\ucrt\heap</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\crt\vcruntime\delete_km.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
     <ClCompile Include="..\src\crt\vcruntime\new_km.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ucrt\heap\moverride.cpp">
+      <Filter>ucxxrt\ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\ucrt\heap\stdalloc.cpp">
+      <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

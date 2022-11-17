@@ -28,8 +28,7 @@ extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT void* __cdecl 
 
     for (;;)
     {
-        #pragma warning(suppress: 4996)
-        void* const block = ExAllocatePoolWithTag(NonPagedPool, actual_size, __ucxxrt_tag);
+        void* const block = __override_malloc(size);
         if (block)
             return block;
 

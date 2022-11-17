@@ -19,9 +19,12 @@ _CRT_BEGIN_C_HEADER
 
 
 
-extern ULONG __ucxxrt_tag;
-extern IMAGE_DOS_HEADER __ImageBase;
+extern ULONG                __ucxxrt_tag;
+extern IMAGE_DOS_HEADER     __ImageBase;
 
+extern volatile _malloc_t   __override_malloc;
+extern volatile _free_t     __override_free;
+extern volatile _msize_t    __override_msize;
 
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+

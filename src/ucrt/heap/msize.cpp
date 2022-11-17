@@ -19,21 +19,5 @@
 // with either other function or vice versa.
 extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) size_t __cdecl _msize(void* const block)
 {
-    size_t  size = 0;
-    BOOLEAN quota_charged = FALSE;
-
-    // Validation section
-    _VALIDATE_RETURN(block != nullptr, EINVAL, static_cast<size_t>(-1));
-
-    size = ExQueryPoolBlockSize(block, &quota_charged);
-    if (size == PAGE_SIZE && PAGE_ALIGN(block))
-    {
-        // NOTE: If the entry is bigger than a page, the value PAGE_SIZE is returned
-        //       rather than the correct number of bytes.
-
-        size = 0;
-        KdBreakPoint();
-    }
-
-    return size;
+    return __override_msize(block);
 }

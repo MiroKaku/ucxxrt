@@ -9,30 +9,25 @@
 #include <malloc.h>
 #include <new.h>
 
-
-
-extern"C" __declspec(noinline) void* __cdecl ExReallocatePoolWithTag(
-    _In_ SIZE_T OldSize,
-    _In_ SIZE_T NewSize,
-    _In_ PVOID  OldBlock,
-    _In_ __drv_strictTypeMatch(__drv_typeExpr) POOL_TYPE PoolType,
-    _In_ ULONG Tag
+extern"C" __declspec(noinline) void* __cdecl _realloc_size(
+    _In_ SIZE_T oldsize,
+    _In_ SIZE_T newsize,
+    _In_ PVOID  oldblock
 )
 {
-    if (OldSize == 0)
+    if (oldsize == 0)
     {
         return nullptr;
     }
 
-#pragma warning(suppress: 4996)
-    void* const NewBlock = ExAllocatePoolWithTag(PoolType, NewSize, Tag);
-    if (NewBlock)
+    void* const newblock = malloc(newsize);
+    if (newblock)
     {
-        memset(NewBlock, 0, NewSize);
-        memmove(NewBlock, OldBlock, OldSize);
+        memset (newblock, 0, newsize);
+        memmove(newblock, oldblock, oldsize);
 
-        ExFreePoolWithTag(OldBlock, Tag);
-        return NewBlock;
+        free(oldblock);
+        return newblock;
     }
 
     return nullptr;
@@ -79,7 +74,7 @@ extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT void* __cdecl 
 
     for (;;)
     {
-        void* const new_block = ExReallocatePoolWithTag(_msize(block), size, block, NonPagedPool, __ucxxrt_tag);
+        void* const new_block = _realloc_size(_msize(block), size, block);
         if (new_block)
         {
             return new_block;
