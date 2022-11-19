@@ -22,9 +22,6 @@ _CRT_BEGIN_C_HEADER
 extern ULONG                __ucxxrt_tag;
 extern IMAGE_DOS_HEADER     __ImageBase;
 
-extern volatile _malloc_t   __override_malloc;
-extern volatile _free_t     __override_free;
-extern volatile _msize_t    __override_msize;
 
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -251,6 +248,10 @@ extern "C++"
 // CRT Memory Allocation and Management
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+_CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT void* __cdecl std_malloc(size_t const size);
+_CRT_HYBRIDPATCHABLE __declspec(noinline) void __cdecl std_free(void* const block);
+_CRT_HYBRIDPATCHABLE __declspec(noinline) size_t __cdecl std_msize(void* const block);
 
 // When building for vcruntime*.dll, we are not a part of the UCRT or OS so we
 // should use the public allocation functions exported by the UCRT.

@@ -92,6 +92,8 @@
 #include <cstdint>
 
 #include "ucxxrt.h"
+#include "kext/kmalloc.h"
+#include "kext/knew.h"
 
 #if _MSC_VER >= 1200
 #pragma warning(pop)

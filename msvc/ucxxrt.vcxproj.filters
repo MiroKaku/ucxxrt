@@ -677,9 +677,6 @@
     <ClCompile Include="..\src\crt\vcruntime\new_km.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ucrt\heap\moverride.cpp">
-      <Filter>ucxxrt\ucrt\heap</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\stdalloc.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
     </ClCompile>

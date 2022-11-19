@@ -346,7 +346,6 @@
     <ClCompile Include="..\src\ucrt\heap\kfree.cpp" />
     <ClCompile Include="..\src\ucrt\heap\malloc.cpp" />
     <ClCompile Include="..\src\ucrt\heap\kmalloc.cpp" />
-    <ClCompile Include="..\src\ucrt\heap\moverride.cpp" />
     <ClCompile Include="..\src\ucrt\heap\msize.cpp" />
     <ClCompile Include="..\src\ucrt\heap\new_handler.cpp" />
     <ClCompile Include="..\src\ucrt\heap\new_mode.cpp" />

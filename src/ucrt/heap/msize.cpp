@@ -19,5 +19,5 @@
 // with either other function or vice versa.
 extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) size_t __cdecl _msize(void* const block)
 {
-    return __override_msize(block);
+    return std_msize(block);
 }

@@ -84,13 +84,6 @@ namespace ucxxrt
 #endif
 
 
-typedef void* (__cdecl* _malloc_t)(size_t const size);
-typedef void  (__cdecl* _free_t  )(void* const block);
-typedef size_t(__cdecl* _msize_t )(void* const block);
-
-EXTERN_C void __cdecl _set_allocator(_malloc_t _malloc, _free_t _free, _msize_t _msize);
-
-
 #if _MSC_VER >= 1200
 #pragma warning(pop)
 #endif

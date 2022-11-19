@@ -28,7 +28,7 @@ extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) _CRTRESTRICT void* __cdecl 
 
     for (;;)
     {
-        void* const block = __override_malloc(size);
+        void* const block = std_malloc(size);
         if (block)
             return block;
 

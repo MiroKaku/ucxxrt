@@ -17,5 +17,5 @@
 // with either other function or vice versa.
 extern "C" _CRT_HYBRIDPATCHABLE __declspec(noinline) void __cdecl free(void* const block)
 {
-    return __override_free(block);
+    return std_free(block);
 }
