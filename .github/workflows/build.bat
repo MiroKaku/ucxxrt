@@ -13,17 +13,17 @@ if exist bin rd /s /q bin
 if exist lib rd /s /q lib
 if exist ucxxrt rd /s /q ucxxrt
 
-%msbuild% -p:Configuration=Debug   -p:Platform=x86 ..\..\ucxxrt.sln -t:ucxxrt
-%msbuild% -p:Configuration=Release -p:Platform=x86 ..\..\ucxxrt.sln -t:ucxxrt
+%msbuild% -m -p:Configuration=Debug   -p:Platform=x86 ..\..\ucxxrt.sln -t:ucxxrt
+%msbuild% -m -p:Configuration=Release -p:Platform=x86 ..\..\ucxxrt.sln -t:ucxxrt
 
-%msbuild% -p:Configuration=Debug   -p:Platform=x64 ..\..\ucxxrt.sln -t:ucxxrt
-%msbuild% -p:Configuration=Release -p:Platform=x64 ..\..\ucxxrt.sln -t:ucxxrt
+%msbuild% -m -p:Configuration=Debug   -p:Platform=x64 ..\..\ucxxrt.sln -t:ucxxrt
+%msbuild% -m -p:Configuration=Release -p:Platform=x64 ..\..\ucxxrt.sln -t:ucxxrt
 
-%msbuild% -p:Configuration=Debug   -p:Platform=ARM ..\..\ucxxrt.sln -t:ucxxrt
-%msbuild% -p:Configuration=Release -p:Platform=ARM ..\..\ucxxrt.sln -t:ucxxrt
+%msbuild% -m -p:Configuration=Debug   -p:Platform=ARM ..\..\ucxxrt.sln -t:ucxxrt
+%msbuild% -m -p:Configuration=Release -p:Platform=ARM ..\..\ucxxrt.sln -t:ucxxrt
 
-%msbuild% -p:Configuration=Debug   -p:Platform=ARM64 ..\..\ucxxrt.sln -t:ucxxrt
-%msbuild% -p:Configuration=Release -p:Platform=ARM64 ..\..\ucxxrt.sln -t:ucxxrt
+%msbuild% -m -p:Configuration=Debug   -p:Platform=ARM64 ..\..\ucxxrt.sln -t:ucxxrt
+%msbuild% -m -p:Configuration=Release -p:Platform=ARM64 ..\..\ucxxrt.sln -t:ucxxrt
 
 :exit
 popd

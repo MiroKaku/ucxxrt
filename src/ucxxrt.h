@@ -43,7 +43,7 @@
 
 
 #include <fltKernel.h>
-#include <cstdint>
+#include <stdint.h>
 
 
 namespace ucxxrt

@@ -38,7 +38,7 @@ extern "C" _CRTIMP2 void* __cdecl __AdjustPointer(void*, const PMD&); // defined
 using namespace std;
 
 #ifndef _MSVC_NOOP_DTOR
-#define _MSVC_NOOP_DTOR [[msvc::noop_dtor]]
+#define _MSVC_NOOP_DTOR
 #endif
 
 namespace {

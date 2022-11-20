@@ -1,0 +1,113 @@
+# This is a basic workflow to help you get started with Actions
+
+name: publish
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    tags:
+      - v*
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: windows-2022
+
+    # Any commit that contains [build] will now trigger these jobs, everything else will be skipped.
+    # if: "contains(github.event.head_commit.message, '[build]')"
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      #- name: setup wdk.vsix
+      #  shell: pwsh
+      #  run: |
+      #    $FilePath = Resolve-Path "C:\Program Files (x86)\Windows Kits\10\Vsix\VS2022\*\WDK.vsix"
+      #    Install-VsixExtension -FilePath $FilePath -Name "WDK.vsix" -VSversion "2022" -InstallOnly
+
+      - name: enable X86 and ARM build support
+        working-directory: ${{github.workspace}}
+        shell: pwsh
+        run: |
+          .\.github\workflows\EnableX86AndARM.ps1
+
+      - name: build nuspec
+        if: contains(github.ref, 'tags/')
+        working-directory: ${{github.workspace}}
+        shell: pwsh
+        run: |
+          if($env:GITHUB_REF.StartsWith("refs/tags/v", "CurrentCultureIgnoreCase"))
+          {
+              $BuildVersion = $env:GITHUB_REF.Remove(0, 11);
+              echo "BuildVersion=$BuildVersion" >> $env:GITHUB_ENV
+
+              # github的内置版本有Bug，此行必须添加，否则无法获得内容
+              git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+              $releaseNotes = & git tag -l --format='%(contents)' $env:GITHUB_REF.Remove(0, 10)
+              $content = [System.IO.File]::ReadAllText("nuget\ucxxrt.nuspec")
+
+              $releaseNotesToken = '$releaseNotes$'
+              $releaseNotesIndex = $content.IndexOf($releaseNotesToken)
+
+              if($releaseNotesIndex -ne -1)
+              {
+                  echo $content.Substring(0, $releaseNotesIndex) | out-file "nuget\ucxxrt-new.nuspec" -NoNewline
+                  echo $releaseNotes | out-file "nuget\ucxxrt-new.nuspec" -Append
+                  echo $content.Remove(0, $releaseNotesIndex + $releaseNotesToken.Length) | out-file "nuget\ucxxrt-new.nuspec" -NoNewline -Append
+              }
+          }
+
+      - name: compile
+        working-directory: ${{github.workspace}}
+        shell: cmd
+        run: call .\.github\workflows\build.bat
+
+      - name: upload an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ucxxrt
+          path: ucxxrt\
+          if-no-files-found: error
+
+      - name: pack zip
+        if: contains(github.ref, 'tags/')
+        working-directory: ${{github.workspace}}
+        shell: cmd
+        run: 7z a -tzip ucxxrt.zip ucxxrt\
+
+      - name: pack nuget
+        if: contains(github.ref, 'tags/')
+        working-directory: ${{github.workspace}}
+        shell: cmd
+        run: |
+          if "${{env.BuildVersion}}" NEQ "" (
+              nuget pack nuget\ucxxrt-new.nuspec -Properties version=${{env.BuildVersion}};commit=%GITHUB_SHA%
+          )
+
+          if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%
+
+      - name: publish a version
+        if: contains(github.ref, 'tags/')
+        uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            ucxxrt.zip
+            *.nupkg
+
+      - name: publish nuget
+        if: contains(github.ref, 'tags/')
+        working-directory: ${{github.workspace}}
+        shell: cmd
+        run: |
+          nuget push ucxxrt.${{env.BuildVersion}}.nupkg -ApiKey ${{ secrets.NUGET_TOKEN }} -Source https://api.nuget.org/v3/index.json
+          if %ERRORLEVEL% NEQ 0 exit /B %ERRORLEVEL%

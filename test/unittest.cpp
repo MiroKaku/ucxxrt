@@ -1,4 +1,5 @@
 #include <ucxxrt.h>
+#include <kext/kallocator.h>
 
 #include <string>
 #include <random>
@@ -10,7 +11,7 @@
 
 #define LOG(Format, ...) DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[ucxxrt] [" __FUNCTION__ ":%u]: " Format "\n", __LINE__, __VA_ARGS__)
 
-static std::vector<std::function<void()>> TestVec;
+static std::vector<std::function<void()>, std::kallocator<std::function<void()>, PagedPool, 'tset'>> TestVec;
 #define TEST(f) TestVec.emplace_back(f)
 #ifndef ASSERT
 #  define ASSERT assert
