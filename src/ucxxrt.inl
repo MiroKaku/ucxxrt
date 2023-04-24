@@ -68,11 +68,18 @@
 #define _CRTIMP
 #define _VCRTIMP _CRTIMP
 
-#ifndef  _KERNEL_MODE
-#   define _KERNEL_MODE __KERNEL_MODE
+#ifdef __KERNEL_MODE
+#   ifndef  _KERNEL_MODE
+#       define  _KERNEL_MODE __KERNEL_MODE
+#   endif
+#else
+#   error user mode is not supported.
 #endif
-#ifndef  NTOS_KERNEL_RUNTIME
-#   define NTOS_KERNEL_RUNTIME __KERNEL_MODE
+
+#ifdef _KERNEL_MODE
+#   ifndef  NTOS_KERNEL_RUNTIME
+#       define NTOS_KERNEL_RUNTIME __KERNEL_MODE
+#   endif
 #endif
 
 #include <veil/veil.h>

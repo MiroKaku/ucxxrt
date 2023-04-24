@@ -214,12 +214,12 @@ void Test$ErrorCode()
 
 void Test$Realloc()
 {
-    auto x = (int*)malloc(sizeof(int));
+    auto x = static_cast<int*>(malloc(sizeof(int)));
     if (x)
     {
         *x = 123;
 
-        auto y = (size_t*)realloc(x, sizeof(size_t));
+        auto y = static_cast<size_t*>(realloc(x, sizeof(size_t)));
         if (y)
         {
             ASSERT(*y == 123);
@@ -237,10 +237,8 @@ void Test$SEH()
 {
     try
     {
-        int x = 0;
-        int y = 0;
-
-        x = 5 / y;
+        constexpr int InvalidAddress = 0;
+        *reinterpret_cast<void**>(InvalidAddress) = Test$SEH;
     }
     catch (...)
     {
@@ -251,7 +249,6 @@ void Test$SEH()
 // compile with: /EHa
 class SE_Exception
 {
-private:
     SE_Exception() {}
     unsigned int Code = 0;
 public:
@@ -271,10 +268,8 @@ void Test$SETranslator()
 
     try
     {
-        int x = 0;
-        int y = 0;
-
-        x = 5 / y;
+        constexpr int InvalidAddress = 0;
+        *reinterpret_cast<void**>(InvalidAddress) = Test$SETranslator;
     }
     catch (const SE_Exception& e)
     {
