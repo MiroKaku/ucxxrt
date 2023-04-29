@@ -21,11 +21,15 @@
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <ObjectFileName>$(IntDir)anyname\%(RelativeDir)%(FileName).obj</ObjectFileName>
       <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <MASM>
       <IncludePaths>$(SolutionDir)src\ucrt\inc\i386;%(IncludePaths)</IncludePaths>
       <UseSafeExceptionHandlers Condition="'$(Platform)'=='Win32'">true</UseSafeExceptionHandlers>
     </MASM>
+    <MARMASM>
+      <AdditionalIncludeDirectories>$(SolutionDir)src\ucrt\inc\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </MARMASM>
     <PostBuildEvent>
       <Command>mkdir "$(SolutionDir)ucxxrt"
 copy /Y "$(SolutionDir)README.md" "$(SolutionDir)ucxxrt\"
@@ -64,8 +68,11 @@ xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\" /EXCLUDE:$(
 
   <ItemDefinitionGroup Condition=" ('$(UCXXRT_KernelMode)'=='true') ">
     <ClCompile>
-      <PreprocessorDefinitions>_KERNEL_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_KERNEL_MODE;NTOS_KERNEL_RUNTIME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <MARMASM>
+      <PreprocessorDefinitions>_KERNEL_MODE;NTOS_KERNEL_RUNTIME;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </MARMASM>
   </ItemDefinitionGroup>
 
   <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">

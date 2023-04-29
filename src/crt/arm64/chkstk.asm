@@ -17,7 +17,7 @@
 ;
 ;--
 
-;#include "arm64/arm64asmsymbolname.h"
+#include "arm64/arm64ASMsymbolname.h"
 #include "ksarm64.h"
 
 #if !defined(TEBREG)

@@ -78,7 +78,7 @@
 
 #ifdef _KERNEL_MODE
 #   ifndef  NTOS_KERNEL_RUNTIME
-#       define NTOS_KERNEL_RUNTIME __KERNEL_MODE
+#       define NTOS_KERNEL_RUNTIME _KERNEL_MODE
 #   endif
 #endif
 
