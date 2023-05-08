@@ -63,3 +63,13 @@ extern "C" __acrt_lock_id __cdecl __acrt_select_exit_lock()
 {
     return __acrt_exit_lock;
 }
+
+extern "C" void __cdecl _lock_locales()
+{
+    __acrt_lock(__acrt_locale_lock);
+}
+
+extern "C" void __cdecl _unlock_locales()
+{
+    __acrt_unlock(__acrt_locale_lock);
+}

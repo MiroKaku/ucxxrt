@@ -47,7 +47,7 @@ extern "C" void __cdecl _UCXXRT__abort()
 #ifdef _DEBUG
     if (__abort_behavior & _WRITE_ABORT_MSG)
     {
-        DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL,
+        DbgPrintEx(DPFLTR_DEFAULT_ID, DPFLTR_ERROR_LEVEL,
             "Microsoft Visual C++ Runtime Library\n"
             "\n"
             "Runtime Error!\n"

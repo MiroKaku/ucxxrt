@@ -7,12 +7,13 @@
 #include <functional>
 #include <unordered_map>
 #include <system_error>
+#include <mutex>
 
 #ifndef ASSERT
 #  define ASSERT assert
 #endif
 
-#define LOG(Format, ...) DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL, "[ucxxrt] [" __FUNCTION__ ":%u]: " Format "\n", __LINE__, ## __VA_ARGS__)
+#define LOG(Format, ...) DbgPrintEx(DPFLTR_DEFAULT_ID, DPFLTR_ERROR_LEVEL, "[ucxxrt] [" __FUNCTION__ ":%u]: " Format "\n", __LINE__, ## __VA_ARGS__)
 
 namespace UnitTest
 {
@@ -57,7 +58,7 @@ namespace UnitTest
         int   Val2 = static_cast<int>(Val1);
 
         ASSERT(Val2 == 1);
-        LOG("%f == %d", Val1, Val2);
+        LOG("1.6f == %d", Val2);
     }
 
 
@@ -288,6 +289,20 @@ namespace UnitTest
         }
     }
 
+
+    void TEST(Mutex)()
+    {
+        std::mutex Mutex;
+        auto Guard = std::unique_lock(Mutex);
+    }
+
+
+    void TEST(ConditionVariable)()
+    {
+        std::condition_variable cv;
+        cv.notify_one();
+    }
+
 }
 
 namespace Main
@@ -309,6 +324,8 @@ namespace Main
         TEST_PUSH(Realloc);
         TEST_PUSH(SEH);
         TEST_PUSH(SETranslate);
+        TEST_PUSH(Mutex);
+        TEST_PUSH(ConditionVariable);
 
         for (const auto& Test : TestVec) {
             Test();

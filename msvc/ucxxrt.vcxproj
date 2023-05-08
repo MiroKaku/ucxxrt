@@ -35,7 +35,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\crt\stl\primitives.hpp" />
     <ClInclude Include="..\src\crt\stl\xmath.hpp" />
+    <ClInclude Include="..\src\crt\stl\xmtx.hpp" />
     <ClInclude Include="..\src\crt\stl\xxcctype.hpp" />
     <ClInclude Include="..\src\crt\stl\xxdftype.hpp" />
     <ClInclude Include="..\src\crt\stl\xxfftype.hpp" />
@@ -195,9 +197,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="..\src\crt\stl\cond.cpp" />
     <ClCompile Include="..\src\crt\stl\memory_resource.cpp" />
     <ClCompile Include="..\src\crt\stl\mexcptptr.cpp" />
     <ClCompile Include="..\src\crt\stl\multprec.cpp" />
+    <ClCompile Include="..\src\crt\stl\mutex.cpp" />
     <ClCompile Include="..\src\crt\stl\nothrow.cpp" />
     <ClCompile Include="..\src\crt\stl\raisehan.cpp" />
     <ClCompile Include="..\src\crt\stl\stdhndlr.cpp" />
@@ -235,10 +239,13 @@
     <ClCompile Include="..\src\crt\stl\xldunsca.cpp" />
     <ClCompile Include="..\src\crt\stl\xlexp.cpp" />
     <ClCompile Include="..\src\crt\stl\xlgamma.cpp" />
+    <ClCompile Include="..\src\crt\stl\xlock.cpp" />
     <ClCompile Include="..\src\crt\stl\xlpoly.cpp" />
     <ClCompile Include="..\src\crt\stl\xlprec.cpp" />
     <ClCompile Include="..\src\crt\stl\xlsinh.cpp" />
     <ClCompile Include="..\src\crt\stl\xlvalues.cpp" />
+    <ClCompile Include="..\src\crt\stl\xmtx.cpp" />
+    <ClCompile Include="..\src\crt\stl\xnotify.cpp" />
     <ClCompile Include="..\src\crt\stl\xpoly.cpp" />
     <ClCompile Include="..\src\crt\stl\xprec.cpp" />
     <ClCompile Include="..\src\crt\stl\xrngabort.cpp" />
@@ -255,6 +262,7 @@
     <ClCompile Include="..\src\crt\stl\xstoull.cpp" />
     <ClCompile Include="..\src\crt\stl\xstoxflt.cpp" />
     <ClCompile Include="..\src\crt\stl\xthrow.cpp" />
+    <ClCompile Include="..\src\crt\stl\xtime.cpp" />
     <ClCompile Include="..\src\crt\stl\xvalues.cpp" />
     <ClCompile Include="..\src\crt\stl\xwstod.cpp" />
     <ClCompile Include="..\src\crt\stl\xwstof.cpp" />

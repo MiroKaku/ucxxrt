@@ -107,7 +107,7 @@ int __cdecl _CrtDbgReport(
 
         _vsnprintf(buffer, count, format, args);
 
-        DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL,
+        DbgPrintEx(DPFLTR_DEFAULT_ID, DPFLTR_ERROR_LEVEL,
             "================= Microsft Visual C++ Debug Library ================\n"
             "\n"
             "%s"
@@ -157,7 +157,7 @@ int __cdecl _CrtDbgReportW(
 
         _vsnwprintf(buffer, count, format, args);
 
-        DbgPrintEx(DPFLTR_IHVDRIVER_ID, DPFLTR_ERROR_LEVEL,
+        DbgPrintEx(DPFLTR_DEFAULT_ID, DPFLTR_ERROR_LEVEL,
             "================= Microsft Visual C++ Debug Library ================\n"
             "\n"
             "%ls"

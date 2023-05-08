@@ -34,7 +34,7 @@ static errentry const errtable[]
     { STATUS_BUFFER_OVERFLOW,       ENOMEM    },  //    7
     { STATUS_NO_MEMORY,             ENOMEM    },  //    8
     { STATUS_INSUFFICIENT_RESOURCES,ENOMEM    },  //    9
-    { STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT, E2BIG     },  //   10
+    { STATUS_IMAGE_SUBSYSTEM_NOT_PRESENT, E2BIG }, //   10
     { STATUS_INVALID_IMAGE_FORMAT,  ENOEXEC   },  //   11
     { STATUS_ACCESS_VIOLATION,      EINVAL    },  //   12
     { STATUS_DATA_ERROR,            EINVAL    },  //   13
@@ -53,6 +53,9 @@ static errentry const errtable[]
     { STATUS_CHILD_PROCESS_BLOCKED, EAGAIN    },  //   89
     { STATUS_PIPE_BROKEN,           EPIPE     },  //  109
     { STATUS_DISK_FULL,             ENOSPC    },  //  112
+    { STATUS_PROTOCOL_NOT_SUPPORTED, EPROTONOSUPPORT }, //  135
+    { STATUS_TIMEOUT,               ETIME     },  //  137
+    { STATUS_TIMEOUT,               ETIMEDOUT },  //  138
     { STATUS_DIRECTORY_NOT_EMPTY,   ENOTEMPTY },  //  145
     { STATUS_NOT_LOCKED,            EACCES    },  //  158
     { STATUS_OBJECT_NAME_INVALID,   ENOENT    },  //  161

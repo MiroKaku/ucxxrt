@@ -152,6 +152,8 @@ int  __cdecl __acrt_errno_from_os_error(long);
 typedef enum __acrt_lock_id
 {
     __acrt_exit_lock,
+    __acrt_locale_lock,
+    __acrt_time_lock,
     __acrt_lock_count
 } __acrt_lock_id;
 

@@ -118,6 +118,12 @@
     <ClInclude Include="..\src\crt\vcruntime\winapi_thunks.h">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\crt\stl\primitives.hpp">
+      <Filter>ucxxrt\crt\stl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\crt\stl\xmtx.hpp">
+      <Filter>ucxxrt\crt\stl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\ucxxrt.inl">
@@ -679,6 +685,24 @@
     </ClCompile>
     <ClCompile Include="..\src\ucrt\heap\stdalloc.cpp">
       <Filter>ucxxrt\ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\stl\mutex.cpp">
+      <Filter>ucxxrt\crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\stl\xtime.cpp">
+      <Filter>ucxxrt\crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\stl\cond.cpp">
+      <Filter>ucxxrt\crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\stl\xmtx.cpp">
+      <Filter>ucxxrt\crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\stl\xlock.cpp">
+      <Filter>ucxxrt\crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\stl\xnotify.cpp">
+      <Filter>ucxxrt\crt\stl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
