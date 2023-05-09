@@ -114,6 +114,36 @@ void __cdecl __acrt_initialize_new_handler(_In_opt_ void* encoded_null);
 
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 //
+// AppCRT Threading
+//
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+typedef struct __acrt_thread_parameter
+{
+    // The thread procedure and context argument
+    void* _procedure;
+    void* _context;
+
+    // The handle for the newly created thread.  This is initialized only from
+    // _beginthread (not _beginthreadex).  When a thread created via _beginthread
+    // exits, it frees this handle.
+    HANDLE _thread_handle;
+
+    // The handle for the module in which the user's thread procedure is defined.
+    // This may be null if the handle could not be obtained.  This handle enables
+    // us to bump the reference count of the user's module, to ensure that the
+    // module will not be unloaded while the thread is executing.  When the thread
+    // exits, it frees this handle.
+    HMODULE _module_handle;
+
+    // This flag is true if RoInitialized was called on the thread to initialize
+    // it into the MTA.
+    bool    _initialized_apartment;
+} __acrt_thread_parameter;
+
+
+
+//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+//
 // AppCRT Per-Thread Data
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -132,6 +162,11 @@ typedef struct __acrt_ptd
 
     // The thread-local invalid parameter handler
     _invalid_parameter_handler _thread_local_iph;
+
+    // If this thread was started by the CRT (_beginthread or _beginthreadex),
+    // then this points to the context with which the thread was created.  If
+    // this thread was not started by the CRT, this pointer is null.
+    __acrt_thread_parameter* _beginthread_context;
 
 } __acrt_ptd;
 

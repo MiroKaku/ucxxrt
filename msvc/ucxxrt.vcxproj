@@ -198,6 +198,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\src\crt\stl\cond.cpp" />
+    <ClCompile Include="..\src\crt\stl\cthread.cpp" />
     <ClCompile Include="..\src\crt\stl\memory_resource.cpp" />
     <ClCompile Include="..\src\crt\stl\mexcptptr.cpp" />
     <ClCompile Include="..\src\crt\stl\multprec.cpp" />
@@ -375,6 +376,7 @@
     <ClCompile Include="..\src\ucrt\startup\exit.cpp" />
     <ClCompile Include="..\src\ucrt\startup\initterm.cpp" />
     <ClCompile Include="..\src\ucrt\startup\onexit.cpp" />
+    <ClCompile Include="..\src\ucrt\startup\thread.cpp" />
     <ClCompile Include="..\src\ucrt\stdio\output.cpp" />
     <ClCompile Include="..\src\ucrt\stdlib\abs.cpp" />
     <ClCompile Include="..\src\ucrt\stdlib\ceil.cpp" />

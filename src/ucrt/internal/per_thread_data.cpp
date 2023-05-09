@@ -55,8 +55,9 @@ VOID NTAPI __acrt_ptd_table_free(
 )
 {
     auto ptd = reinterpret_cast<__acrt_ptd*>(static_cast<uint8_t*>(buffer) + sizeof(RTL_BALANCED_LINKS));
-    free(ptd->_strerror_buffer);
-    free(ptd->_wcserror_buffer);
+    _free_crt(ptd->_strerror_buffer);
+    _free_crt(ptd->_wcserror_buffer);
+    _free_crt(ptd->_beginthread_context);
 
     return ExFreeToNPagedLookasideList(&__acrt_startup_ptd_pools, buffer);
 }

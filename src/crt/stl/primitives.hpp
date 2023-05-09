@@ -95,7 +95,6 @@ namespace Concurrency {
                         const auto status = KeWaitForSingleObject(&m_semaphore, Executive,
                             KernelMode, FALSE, timeout == INFINITE ? nullptr : &wait_time);
                         if (status != STATUS_SUCCESS) {
-                            _set_errno(status);
                             return false;
                         }
                     }

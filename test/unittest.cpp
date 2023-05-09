@@ -5,9 +5,10 @@
 #include <random>
 #include <vector>
 #include <functional>
+#include <mutex>
 #include <unordered_map>
 #include <system_error>
-#include <mutex>
+#include <thread>
 
 #ifndef ASSERT
 #  define ASSERT assert
@@ -289,18 +290,44 @@ namespace UnitTest
         }
     }
 
+    std::mutex              TEST(Mutex);
+    std::condition_variable TEST(ConditionVariable);
+    std::string             TEST(ThreadData);
+    bool TEST(ThreadReady)      = false;
+    bool TEST(ThreadProcessed)  = false;
 
-    void TEST(Mutex)()
+    void TEST(Thread)()
     {
-        std::mutex Mutex;
-        auto Guard = std::unique_lock(Mutex);
-    }
+        auto Worker = std::thread([]
+        {
+            std::unique_lock Lock(TEST(Mutex));
+            TEST(ConditionVariable).wait(Lock, [] { return TEST(ThreadReady); });
 
+            LOG("Worker thread is processing data");
+            TEST(ThreadData) += " after processing";
 
-    void TEST(ConditionVariable)()
-    {
-        std::condition_variable cv;
-        cv.notify_one();
+            TEST(ThreadProcessed) = true;
+            LOG("Worker thread signals data processing completed");
+
+            Lock.unlock();
+            TEST(ConditionVariable).notify_one();
+        });
+
+        TEST(ThreadData) = "Example data";
+        {
+            std::lock_guard Lock(TEST(Mutex));
+            TEST(ThreadReady) = true;
+            LOG("main() signals data ready for processing");
+        }
+        TEST(ConditionVariable).notify_one();
+
+        {
+            std::unique_lock Lock(TEST(Mutex));
+            TEST(ConditionVariable).wait(Lock, [] { return TEST(ThreadProcessed); });
+        }
+        LOG("Back in main(), data = %s", TEST(ThreadData).c_str());
+
+        Worker.join();
     }
 
 }
@@ -324,8 +351,7 @@ namespace Main
         TEST_PUSH(Realloc);
         TEST_PUSH(SEH);
         TEST_PUSH(SETranslate);
-        TEST_PUSH(Mutex);
-        TEST_PUSH(ConditionVariable);
+        TEST_PUSH(Thread);
 
         for (const auto& Test : TestVec) {
             Test();

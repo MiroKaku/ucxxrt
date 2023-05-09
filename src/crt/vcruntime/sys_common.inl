@@ -118,7 +118,7 @@ static __declspec(noinline) long __cdecl __scrt_common_main_seh(PDRIVER_OBJECT d
 
         return main_result;
     }
-    __except (_seh_filter_sys(GetExceptionCode(), GetExceptionInformation()))
+    __except (_seh_filter_dll(GetExceptionCode(), GetExceptionInformation()))
     {
         // Note:  We should never reach this except clause.
         int const main_result = GetExceptionCode();
