@@ -54,12 +54,9 @@ VOID NTAPI __acrt_ptd_table_free(
     _In_ __drv_freesMem(Mem) _Post_invalid_ PVOID buffer
 )
 {
-    auto ptd = static_cast<__acrt_ptd*>(buffer);
-    if (ptd)
-    {
-        free(ptd->_strerror_buffer);
-        free(ptd->_wcserror_buffer);
-    }
+    auto ptd = reinterpret_cast<__acrt_ptd*>(static_cast<uint8_t*>(buffer) + sizeof(RTL_BALANCED_LINKS));
+    free(ptd->_strerror_buffer);
+    free(ptd->_wcserror_buffer);
 
     return ExFreeToNPagedLookasideList(&__acrt_startup_ptd_pools, buffer);
 }
@@ -70,13 +67,12 @@ static __acrt_ptd* __cdecl store_and_initialize_ptd(__acrt_ptd* const ptd)
 
     __acrt_ptd* const new_ptd = static_cast<__acrt_ptd*>(RtlInsertElementGenericTableAvl(
         &__acrt_startup_ptd_table, ptd, sizeof __acrt_ptd_km, &inserted));
-
     if (!new_ptd)
     {
         return nullptr;
     }
 
-    // reuse outdated ptd.
+    // reuse outdated ptd. (tid == new_tid && uid != new_uid)
     if (__get_thread_uid(PsGetCurrentThread()) != static_cast<__acrt_ptd_km*>(new_ptd)->uid)
     {
         inserted = true;
@@ -115,8 +111,7 @@ extern "C" bool __cdecl __acrt_uninitialize_ptd(bool)
 {
     auto ptd = static_cast<__acrt_ptd*>(RtlGetElementGenericTableAvl(&__acrt_startup_ptd_table, 0));
 
-    while (ptd)
-    {
+    while (ptd) {
         RtlDeleteElementGenericTableAvl(&__acrt_startup_ptd_table, ptd);
         ptd = static_cast<__acrt_ptd*>(RtlGetElementGenericTableAvl(&__acrt_startup_ptd_table, 0));
     }
@@ -128,7 +123,7 @@ extern "C" bool __cdecl __acrt_uninitialize_ptd(bool)
 
 extern "C" __acrt_ptd* __cdecl __acrt_getptd_noexit()
 {
-    __acrt_ptd* existing_ptd = nullptr;
+    __acrt_ptd* existing_ptd;
 
     __acrt_ptd_km ptd{};
     ptd.tid = PsGetCurrentThreadId();
@@ -136,18 +131,13 @@ extern "C" __acrt_ptd* __cdecl __acrt_getptd_noexit()
 
     KLOCK_QUEUE_HANDLE lock_state{};
     KeAcquireInStackQueuedSpinLock(&__acrt_startup_ptd_table_lock, &lock_state);
-    do
     {
         existing_ptd = static_cast<__acrt_ptd*>(RtlLookupElementGenericTableAvl(&__acrt_startup_ptd_table, &ptd));
-        if (existing_ptd)
-        {
-            break;
+        if (existing_ptd == nullptr) {
+            // No per-thread data for this thread yet. Try to create one:
+            existing_ptd = store_and_initialize_ptd(&ptd);
         }
-
-        // No per-thread data for this thread yet. Try to create one:
-        existing_ptd = store_and_initialize_ptd(&ptd);
-
-    } while (false);
+    }
     KeReleaseInStackQueuedSpinLock(&lock_state);
 
     return existing_ptd;
@@ -175,11 +165,9 @@ extern "C" void __cdecl __acrt_freeptd()
 
     KLOCK_QUEUE_HANDLE lock_state{};
     KeAcquireInStackQueuedSpinLock(&__acrt_startup_ptd_table_lock, &lock_state);
-    do
     {
         RtlDeleteElementGenericTableAvl(&__acrt_startup_ptd_table, block_to_free);
-
-    } while (false);
+    }
     KeReleaseInStackQueuedSpinLock(&lock_state);
 }
 
