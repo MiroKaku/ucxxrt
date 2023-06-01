@@ -35,6 +35,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\crt\stl\init_locks.hpp" />
     <ClInclude Include="..\src\crt\stl\primitives.hpp" />
     <ClInclude Include="..\src\crt\stl\xmath.hpp" />
     <ClInclude Include="..\src\crt\stl\xmtx.hpp" />

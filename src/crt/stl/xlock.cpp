@@ -8,6 +8,9 @@
 #include <clocale>
 #include <cstdlib>
 
+#if _MSC_VER >= 1936 // 17.6
+#include "init_locks.hpp"
+#endif
 #include "xmtx.hpp"
 
 _STD_BEGIN

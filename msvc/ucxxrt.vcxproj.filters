@@ -124,6 +124,9 @@
     <ClInclude Include="..\src\crt\stl\xmtx.hpp">
       <Filter>ucxxrt\crt\stl</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\crt\stl\init_locks.hpp">
+      <Filter>ucxxrt\crt\stl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\ucxxrt.inl">
