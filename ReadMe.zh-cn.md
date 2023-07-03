@@ -1,13 +1,12 @@
 # [Universal C++ RunTime (UCXXRT)](https://github.com/mirokaku/ucxxrt) - 通用 C++ 运行时库
 
 [![Actions Status](https://github.com/MiroKaku/ucxxrt/workflows/build%20&%20publish/badge.svg)](https://github.com/MiroKaku/ucxxrt/actions)
-[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/MiroKaku/ucxxrt/blob/master/LICENSE)
-[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
+[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/MiroKaku/ucxxrt/blob/main/LICENSE)
 ![Windows](https://img.shields.io/badge/Windows-7+-orange.svg)
 ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022-purple.svg)
 [![nuget](https://img.shields.io/nuget/v/ucxxrt)](https://www.nuget.org/packages/ucxxrt/)
 
-* [English](https://github.com/MiroKaku/ucxxrt/blob/master/README.md)
+* [English](https://github.com/MiroKaku/ucxxrt/blob/main/README.md)
 
 > 03/29/2022 开始移除了 UserMode 支持。最后支持 UserMode 的版本为 [e2f159f8f](https://github.com/MiroKaku/ucxxrt/tree/e2f159f8f04a829359e3a057b70457121485b4dc), UserMode 请使用 [VC-LTL5](https://github.com/Chuyu-Team/VC-LTL5)
 
@@ -36,7 +35,7 @@ ucxxrt 是一个基于微软的 MSVC 修改的开源运行时库，最大的亮�
 
 ### 1.3 例子
 
-> 项目 [unittest](https://github.com/MiroKaku/ucxxrt/blob/master/src/unittest.cpp) 查看更多信息。
+> 项目 [unittest](https://github.com/MiroKaku/ucxxrt/blob/main/src/unittest.cpp) 查看更多信息。
 
 ```cpp
 void Test$ThrowUnknow()
@@ -92,14 +91,14 @@ void Test$HashMap()
 
 右键单击该项目并选择“管理 NuGet 包”，然后搜索`ucxxrt`并选择适合你的版本，最后单击“安装”。
 
-![nuget](https://github.com/MiroKaku/ucxxrt/blob/master/readme/nuget.png?raw=true)
+![nuget](https://github.com/MiroKaku/ucxxrt/blob/main/readme/nuget.png?raw=true)
 
 ### 2.2 方法二
 
  1. 从 [release](https://github.com/MiroKaku/ucxxrt/releases) 下载最新包并解压。
  2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
 
-![使用方法](https://github.com/MiroKaku/ucxxrt/blob/master/readme/use.zh-cn.gif?raw=true)
+![使用方法](https://github.com/MiroKaku/ucxxrt/blob/main/readme/use.zh-cn.gif?raw=true)
 
 ## 3. 怎样编译
 

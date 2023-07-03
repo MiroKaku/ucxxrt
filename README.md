@@ -1,13 +1,12 @@
 # [Universal C++ RunTime (UCXXRT)](https://github.com/mirokaku/ucxxrt)
 
 [![Actions Status](https://github.com/MiroKaku/ucxxrt/workflows/build%20&%20publish/badge.svg)](https://github.com/MiroKaku/ucxxrt/actions)
-[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/MiroKaku/ucxxrt/blob/master/LICENSE)
-[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
+[![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/MiroKaku/ucxxrt/blob/main/LICENSE)
 ![Windows](https://img.shields.io/badge/Windows-7+-orange.svg)
 ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022-purple.svg)
 [![nuget](https://img.shields.io/nuget/v/ucxxrt)](https://www.nuget.org/packages/ucxxrt/)
 
-* [简体中文](https://github.com/MiroKaku/ucxxrt/blob/master/ReadMe.zh-cn.md)
+* [简体中文](https://github.com/MiroKaku/ucxxrt/blob/main/ReadMe.zh-cn.md)
 
 > UserMode support will be removed starting 03/29/2022. The last version to support UserMode is [e2f159f8f](https://github.com/MiroKaku/ucxxrt/tree/e2f159f8f04a829359e3a057b70457121485b4dc), UserMode please use [VC-LTL5](https://github.com/Chuyu-Team/VC-LTL5)
 
@@ -38,7 +37,7 @@ But there are several problems，like it isn't support C++ exception and it cost
 
 ### 1.3 Example
 
-> See project [unittest](https://github.com/MiroKaku/ucxxrt/blob/master/src/unittest.cpp) for more Infomation.  
+> See project [unittest](https://github.com/MiroKaku/ucxxrt/blob/main/src/unittest.cpp) for more Infomation.
 
 ```cpp
 void Test$ThrowUnknow()
@@ -94,7 +93,7 @@ void Test$HashMap()
 
 Right click on the project and select "Manage NuGet Packages", then search for `ucxxrt` and choose the version that suits you, and finally click "Install".
 
-![nuget](https://github.com/MiroKaku/ucxxrt/blob/master/readme/nuget.png?raw=true)
+![nuget](https://github.com/MiroKaku/ucxxrt/blob/main/readme/nuget.png?raw=true)
 
 ### 2.2 Option 2
 
@@ -102,7 +101,7 @@ Right click on the project and select "Manage NuGet Packages", then search for `
 
 2. Add the property sheet `ucxxrt.props` to yor project.
 
-![usage](https://github.com/MiroKaku/ucxxrt/blob/master/readme/use.gif?raw=true)
+![usage](https://github.com/MiroKaku/ucxxrt/blob/main/readme/use.gif?raw=true)
 
 ## 3. How to compile
 
