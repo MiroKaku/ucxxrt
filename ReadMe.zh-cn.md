@@ -35,7 +35,7 @@ ucxxrt 是一个基于微软的 MSVC 修改的开源运行时库，最大的亮�
 
 ### 1.3 例子
 
-> 项目 [unittest](https://github.com/MiroKaku/ucxxrt/blob/main/src/unittest.cpp) 查看更多信息。
+> 项目 [unittest](https://github.com/MiroKaku/ucxxrt/blob/main/test/unittest.cpp) 查看更多信息。
 
 ```cpp
 void Test$ThrowUnknow()
