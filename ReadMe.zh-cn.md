@@ -31,7 +31,7 @@ ucxxrt 是一个基于微软的 MSVC 修改的开源运行时库，最大的亮�
 - [x] 支持 STL (部分)
 - [x] 支持 静态对象
 
-[暂不支持的特性列表↓](#5-暂不支持的特性列表)
+[暂不支持的特性列表↓](#6-暂不支持的特性列表)
 
 ### 1.3 例子
 
@@ -107,7 +107,15 @@ IDE：Visual Studio 2019 或更高版本 (编译 ARM/ARM64 需要 Visual Studio 
 * `git clone --recurse-submodules https://github.com/MiroKaku/ucxxrt.git`
 * 打开 `ucxxrt.sln` 进行编译。
 
-## 4. 引用参考和感谢
+## 4. 鸣谢
+
+> [IntelliJ IDEA](https://zh.wikipedia.org/zh-hans/IntelliJ_IDEA) 是一个在各个方面都最大程度地提高开发人员的生产力的 IDE。
+
+特别感谢 [JetBrains](https://www.jetbrains.com/?from=meesong) 为开源项目提供免费的 [Resharper C++](https://www.jetbrains.com/resharper-cpp/?from=meesong) 等 IDE 的授权
+
+[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/ReSharperCPP_icon.png" alt="ReSharper C++ logo." width=200>](https://www.jetbrains.com/?from=meesong)
+
+## 5. 引用参考
 
 * [Microsoft's C++ Standard Library](https://github.com/microsoft/stl)
 * [Chuyu-Team/VC-LTL](https://github.com/Chuyu-Team/VC-LTL)
@@ -115,7 +123,7 @@ IDE：Visual Studio 2019 或更高版本 (编译 ARM/ARM64 需要 Visual Studio 
 
 > 非常感谢这些优秀的项目，没有它们的存在，就不会有 ucxxrt。
 
-## 5. 暂不支持的特性列表
+## 6. 暂不支持的特性列表
 
 - [ ] Thread Local Storage (TLS): thread_local、TlsAlloc ...
 - [ ] std::thread

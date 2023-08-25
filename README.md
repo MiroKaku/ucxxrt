@@ -33,7 +33,7 @@ But there are several problems，like it isn't support C++ exception and it cost
 - [x] support STL (not fully).  
 - [x] support static objects.  
 
-[List of features that are not supported at this time↓](#5-List-of-features-that-are-not-supported-at-this-time)
+[List of features that are not supported at this time↓](#6-List-of-features-that-are-not-supported-at-this-time)
 
 ### 1.3 Example
 
@@ -110,7 +110,13 @@ IDE：Visual Studio 2019 or higher (Compiling for ARM/ARM64 requires Visual Stud
 * `git clone --recurse-submodules https://github.com/MiroKaku/ucxxrt.git`
 * Open `ucxxrt.sln` and compile.
 
-## 4. Reference and Acknowledgement
+## 4. Acknowledgements
+
+Thanks to [JetBrains](https://www.jetbrains.com/?from=meesong) for allocating free open-source licences for IDEs such as [Resharper C++](https://www.jetbrains.com/resharper-cpp/?from=meesong).
+
+[<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/ReSharperCPP_icon.png" alt="ReSharper C++ logo." width=200>](https://www.jetbrains.com/?from=meesong)
+
+## 5. Reference
 
 * [Microsoft's C++ Standard Library](https://github.com/microsoft/stl)
 * [Chuyu-Team/VC-LTL](https://github.com/Chuyu-Team/VC-LTL)
@@ -118,7 +124,7 @@ IDE：Visual Studio 2019 or higher (Compiling for ARM/ARM64 requires Visual Stud
 
 > Thanks to these excellent projects for help me on developing ucxxrt.
 
-## 5. List of features that are not supported at this time
+## 6. List of features that are not supported at this time
 
 - [ ] Thread Local Storage (TLS): thread_local、TlsAlloc ...
 - [ ] std::thread
