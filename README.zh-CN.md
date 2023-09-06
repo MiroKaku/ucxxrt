@@ -91,14 +91,14 @@ void Test$HashMap()
 
 右键单击该项目并选择“管理 NuGet 包”，然后搜索`ucxxrt`并选择适合你的版本，最后单击“安装”。
 
-![nuget](https://github.com/MiroKaku/ucxxrt/blob/main/readme/nuget.png?raw=true)
+![nuget](https://raw.githubusercontent.com/MiroKaku/ucxxrt/main/readme/nuget.png)
 
 ### 2.2 方法二
 
  1. 从 [release](https://github.com/MiroKaku/ucxxrt/releases) 下载最新包并解压。
  2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
 
-![使用方法](https://github.com/MiroKaku/ucxxrt/blob/main/readme/use.zh-cn.gif?raw=true)
+![使用方法](https://raw.githubusercontent.com/MiroKaku/ucxxrt/main/readme/use.zh-cn.gif)
 
 ## 3. 怎样编译
 
@@ -126,15 +126,12 @@ IDE：Visual Studio 2019 或更高版本 (编译 ARM/ARM64 需要 Visual Studio 
 ## 6. 暂不支持的特性列表
 
 - [ ] Thread Local Storage (TLS): thread_local、TlsAlloc ...
-- [ ] std::thread
 - [ ] std::filesystem
 - [ ] std::chrono
 - [ ] std::stacktrace_entry
 - [ ] std::locale
 - [ ] std::stream (std::fstream、std::iostream、std::cin、std::cout、std::cerr)
-- [ ] std::mutex、std::shared_mutex
 - [ ] std::future
-- [ ] std::condition_variable
 - [ ] std::latch
 - [ ] std::semaphore (std::counting_semaphore、std::binary_semaphore)
 - [ ] ...
