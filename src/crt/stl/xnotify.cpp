@@ -32,7 +32,7 @@ _EXTERN_C
 void _Lock_at_thread_exit_mutex();
 void _Unlock_at_thread_exit_mutex();
 
-void __cdecl  _Cnd_register_at_thread_exit(
+void __cdecl _Cnd_register_at_thread_exit(
     _Cnd_t cnd, _Mtx_t mtx, int* p) { // register condition variable and mutex for cleanup at thread exit
     // find block with available space
     _At_thread_exit_block* block = &_Thread_exit_data;

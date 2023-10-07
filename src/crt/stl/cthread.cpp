@@ -76,17 +76,17 @@ int __cdecl _Thrd_detach(_Thrd_t thr) { // tell OS to release thread's resources
     return NT_SUCCESS(ZwClose(thr._Hnd)) ? _Thrd_success : _Thrd_error;
 }
 
-void __cdecl _Thrd_sleep(const xtime* xt) { // suspend thread until time xt
-    xtime now;
-    xtime_get(&now, TIME_UTC);
+void __cdecl _Thrd_sleep(const _timespec64* xt) { // suspend thread until time xt
+    _timespec64 now;
+    _Timespec64_get_sys(&now);
     do { // sleep and check time
 
         LARGE_INTEGER wait_time{};
         wait_time.QuadPart = Int32x32To64(_Xtime_diff_to_millis2(xt, &now), -10000);
         (void)KeDelayExecutionThread(KernelMode, FALSE, &wait_time);
 
-        xtime_get(&now, TIME_UTC);
-    } while (now.sec < xt->sec || now.sec == xt->sec && now.nsec < xt->nsec);
+        _Timespec64_get_sys(&now);
+    } while (now.tv_sec < xt->tv_sec || now.tv_sec == xt->tv_sec && now.tv_nsec < xt->tv_nsec);
 }
 
 void __cdecl _Thrd_yield() { // surrender remainder of timeslice

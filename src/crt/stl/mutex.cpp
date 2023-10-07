@@ -83,7 +83,7 @@ void __cdecl _Mtx_destroy(_Mtx_t mtx) { // destroy mutex
     }
 }
 
-static int mtx_do_lock(_Mtx_t mtx, const xtime* target) { // lock mutex
+static int mtx_do_lock(_Mtx_t mtx, const _timespec64* target) { // lock mutex
     if ((mtx->type & ~_Mtx_recursive) == _Mtx_plain) { // set the lock
         if (mtx->thread_id != static_cast<long>(reinterpret_cast<size_t>(PsGetCurrentThreadId()))) { // not current thread, do lock
             mtx->_get_cs()->lock();
@@ -101,7 +101,7 @@ static int mtx_do_lock(_Mtx_t mtx, const xtime* target) { // lock mutex
 
             res = STATUS_WAIT_0;
 
-        } else if (target->sec < 0 || target->sec == 0 && target->nsec <= 0) {
+        } else if (target->tv_sec < 0 || target->tv_sec == 0 && target->tv_nsec <= 0) {
             // target time <= 0 --> plain trylock or timed wait for time that has passed; try to lock with 0 timeout
             if (mtx->thread_id != static_cast<long>(reinterpret_cast<size_t>(PsGetCurrentThreadId()))) { // not this thread, lock it
                 if (mtx->_get_cs()->try_lock()) {
@@ -114,9 +114,9 @@ static int mtx_do_lock(_Mtx_t mtx, const xtime* target) { // lock mutex
             }
 
         } else { // check timeout
-            xtime now;
-            xtime_get(&now, TIME_UTC);
-            while (now.sec < target->sec || now.sec == target->sec && now.nsec < target->nsec) { // time has not expired
+            _timespec64 now;
+            _Timespec64_get_sys(&now);
+            while (now.tv_sec < target->tv_sec || now.tv_sec == target->tv_sec && now.tv_nsec < target->tv_nsec) {
                 if (mtx->thread_id == static_cast<long>(reinterpret_cast<size_t>(PsGetCurrentThreadId()))
                     || mtx->_get_cs()->try_lock_for(_Xtime_diff_to_millis2(target, &now))) { // stop waiting
                     res = STATUS_WAIT_0;
@@ -125,7 +125,7 @@ static int mtx_do_lock(_Mtx_t mtx, const xtime* target) { // lock mutex
                     res = STATUS_TIMEOUT;
                 }
 
-                xtime_get(&now, TIME_UTC);
+                _Timespec64_get_sys(&now);
             }
         }
 
@@ -146,7 +146,7 @@ static int mtx_do_lock(_Mtx_t mtx, const xtime* target) { // lock mutex
             return _Thrd_success;
 
         case STATUS_TIMEOUT:
-            if (target == nullptr || (target->sec == 0 && target->nsec == 0)) {
+            if (target == nullptr || (target->tv_sec == 0 && target->tv_nsec == 0)) {
                 return _Thrd_busy;
             } else {
                 return _Thrd_timedout;
@@ -174,14 +174,14 @@ int __cdecl _Mtx_lock(_Mtx_t mtx) { // lock mutex
 }
 
 int __cdecl _Mtx_trylock(_Mtx_t mtx) { // attempt to lock try_mutex
-    xtime xt;
+    _timespec64 xt;
     _THREAD_ASSERT((mtx->type & (_Mtx_try | _Mtx_timed)) != 0, "trylock not supported by mutex");
-    xt.sec  = 0;
-    xt.nsec = 0;
+    xt.tv_sec = 0;
+    xt.tv_nsec = 0;
     return mtx_do_lock(mtx, &xt);
 }
 
-int __cdecl _Mtx_timedlock(_Mtx_t mtx, const xtime* xt) { // attempt to lock timed mutex
+int __cdecl _Mtx_timedlock(_Mtx_t mtx, const _timespec64* xt) { // attempt to lock timed mutex
     int res;
 
     _THREAD_ASSERT((mtx->type & _Mtx_timed) != 0, "timedlock not supported by mutex");

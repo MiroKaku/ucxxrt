@@ -61,7 +61,8 @@ int __cdecl _Cnd_wait(const _Cnd_t cond, const _Mtx_t mtx) { // wait until signa
     return _Thrd_success; // TRANSITION, ABI: Always returns _Thrd_success
 }
 
-int __cdecl _Cnd_timedwait(const _Cnd_t cond, const _Mtx_t mtx, const xtime* const target) { // wait until signaled or timeout
+// wait until signaled or timeout
+int __cdecl _Cnd_timedwait(const _Cnd_t cond, const _Mtx_t mtx, const _timespec64* const target) {
     int res       = _Thrd_success;
     const auto cs = static_cast<Concurrency::details::stl_critical_section_interface*>(_Mtx_getconcrtcs(mtx));
     if (target == nullptr) { // no target time specified, wait on mutex
@@ -69,11 +70,11 @@ int __cdecl _Cnd_timedwait(const _Cnd_t cond, const _Mtx_t mtx, const xtime* con
         cond->_get_cv()->wait(cs);
         _Mtx_reset_owner(mtx);
     } else { // target time specified, wait for it
-        xtime now;
-        xtime_get(&now, TIME_UTC);
+        _timespec64 now;
+        _Timespec64_get_sys(&now);
         _Mtx_clear_owner(mtx);
         if (!cond->_get_cv()->wait_for(cs, _Xtime_diff_to_millis2(target, &now))) { // report timeout
-            xtime_get(&now, TIME_UTC);
+            _Timespec64_get_sys(&now);
             if (_Xtime_diff_to_millis2(target, &now) == 0) {
                 res = _Thrd_timedout;
             }
