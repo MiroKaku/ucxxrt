@@ -24,15 +24,16 @@ struct _Cnd_internal_imp_t { // condition variable implementation for ConcRT
 static_assert(sizeof(_Cnd_internal_imp_t) <= _Cnd_internal_imp_size, "incorrect _Cnd_internal_imp_size");
 static_assert(alignof(_Cnd_internal_imp_t) <= _Cnd_internal_imp_alignment, "incorrect _Cnd_internal_imp_alignment");
 
-void _Cnd_init_in_situ(const _Cnd_t cond) { // initialize condition variable in situ
+_EXTERN_C
+void __cdecl _Cnd_init_in_situ(const _Cnd_t cond) { // initialize condition variable in situ
     Concurrency::details::create_stl_condition_variable(cond->_get_cv());
 }
 
-void _Cnd_destroy_in_situ(const _Cnd_t cond) { // destroy condition variable in situ
+void __cdecl _Cnd_destroy_in_situ(const _Cnd_t cond) { // destroy condition variable in situ
     cond->_get_cv()->destroy();
 }
 
-int _Cnd_init(_Cnd_t* const pcond) { // initialize
+int __cdecl _Cnd_init(_Cnd_t* const pcond) { // initialize
     *pcond = nullptr;
 
     const auto cond = static_cast<_Cnd_t>(_calloc_crt(1, sizeof(_Cnd_internal_imp_t)));
@@ -45,14 +46,14 @@ int _Cnd_init(_Cnd_t* const pcond) { // initialize
     return _Thrd_success;
 }
 
-void _Cnd_destroy(const _Cnd_t cond) { // clean up
+void __cdecl _Cnd_destroy(const _Cnd_t cond) { // clean up
     if (cond) { // something to do, do it
         _Cnd_destroy_in_situ(cond);
         _free_crt(cond);
     }
 }
 
-int _Cnd_wait(const _Cnd_t cond, const _Mtx_t mtx) { // wait until signaled
+int __cdecl _Cnd_wait(const _Cnd_t cond, const _Mtx_t mtx) { // wait until signaled
     const auto cs = static_cast<Concurrency::details::stl_critical_section_interface*>(_Mtx_getconcrtcs(mtx));
     _Mtx_clear_owner(mtx);
     cond->_get_cv()->wait(cs);
@@ -60,7 +61,7 @@ int _Cnd_wait(const _Cnd_t cond, const _Mtx_t mtx) { // wait until signaled
     return _Thrd_success; // TRANSITION, ABI: Always returns _Thrd_success
 }
 
-int _Cnd_timedwait(const _Cnd_t cond, const _Mtx_t mtx, const xtime* const target) { // wait until signaled or timeout
+int __cdecl _Cnd_timedwait(const _Cnd_t cond, const _Mtx_t mtx, const xtime* const target) { // wait until signaled or timeout
     int res       = _Thrd_success;
     const auto cs = static_cast<Concurrency::details::stl_critical_section_interface*>(_Mtx_getconcrtcs(mtx));
     if (target == nullptr) { // no target time specified, wait on mutex
@@ -82,15 +83,16 @@ int _Cnd_timedwait(const _Cnd_t cond, const _Mtx_t mtx, const xtime* const targe
     return res;
 }
 
-int _Cnd_signal(const _Cnd_t cond) { // release one waiting thread
+int __cdecl _Cnd_signal(const _Cnd_t cond) { // release one waiting thread
     cond->_get_cv()->notify_one();
     return _Thrd_success; // TRANSITION, ABI: Always returns _Thrd_success
 }
 
-int _Cnd_broadcast(const _Cnd_t cond) { // release all waiting threads
+int __cdecl _Cnd_broadcast(const _Cnd_t cond) { // release all waiting threads
     cond->_get_cv()->notify_all();
     return _Thrd_success; // TRANSITION, ABI: Always returns _Thrd_success
 }
+_END_EXTERN_C
 
 /*
  * This file is derived from software bearing the following
