@@ -1,7 +1,7 @@
 /*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      math.cpp
- * DATA:      2021/05/14
+ * DATE:      2021/05/14
  *
  * PURPOSE:   Universal C++ RunTime
  *

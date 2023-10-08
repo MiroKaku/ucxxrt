@@ -1,7 +1,7 @@
-/*
+﻿/*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      kfree.cpp
- * DATA:      2022/06/17
+ * DATE:      2022/06/17
  *
  * PURPOSE:   Universal C++ RunTime
  *
