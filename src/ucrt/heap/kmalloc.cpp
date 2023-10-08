@@ -33,7 +33,7 @@ extern"C" __declspec(noinline) void* __cdecl ExReallocatePoolWithTag(
     if (NewBlock)
     {
         memset (NewBlock, 0, NewSize);
-        memmove(NewBlock, OldBlock, OldSize);
+        memmove(NewBlock, OldBlock, NewSize < OldSize ? NewSize : OldSize);
 
         ExFreePoolWithTag(OldBlock, Tag);
         return NewBlock;
