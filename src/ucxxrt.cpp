@@ -1,7 +1,7 @@
-/*
+﻿/*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      ucxxrt.cpp
- * DATA:      2022/06/27
+ * DATE:      2022/06/27
  *
  * PURPOSE:   Universal C++ RunTime
  *
