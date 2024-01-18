@@ -8,36 +8,37 @@
 
 * [简体中文](https://github.com/MiroKaku/ucxxrt/blob/main/README.zh-CN.md)
 
-> UserMode support will be removed starting 03/29/2022. The last version to support UserMode is [e2f159f8f](https://github.com/MiroKaku/ucxxrt/tree/e2f159f8f04a829359e3a057b70457121485b4dc), UserMode please use [VC-LTL5](https://github.com/Chuyu-Team/VC-LTL5)
+> UserMode support has been removed since March 29th, 2022. The final version known to support UserMode is [e2f159f8f](https://github.com/MiroKaku/ucxxrt/tree/e2f159f8f04a829359e3a057b70457121485b4dc). Please use [VC-LTL5](https://github.com/Chuyu-Team/VC-LTL5) instead in UserMode.
 
 ## 1. About
 
-ucxxrt is a open source rutime library which based on MSVC.The highlight of this project is that it can be used in kernel-mode drivers.  
-It gives you the same experience as user-mode application development in C++ when developing kernel-mode drivers.
+`ucxxrt` is an open source runtime library based on MSVC. The highlight of this project is its usability in *kernel-mode drivers*, and it provides you nearly the same experience as developing user-mode applications in C++.
 
-Before ucxxrt was born,in order to use C++ on kernel-mode drivers, I use  ([KTL](https://github.com/MeeSong/KTL)、ustd、...).  
+Before `ucxxrt` was born, in order to use C++ STL in kernel-mode drivers, users have to craft their own template libraries (eg. [KTL](https://github.com/MeeSong/KTL), ustd, ...).
+There are still several problems. Like it does not support C++ exceptions, and mainly, it costs very much time to implement new language features when C++ ISO standard updates.
 
-But there are several problems，like it isn't support C++ exception and it cost much time on implementing new features which provided by the latest ISO,then ucxxrt was born.  
+Then `ucxxrt` was born.
 
-### 1.1 Principle  
+### 1.1 How `ucxxrt` works
 
-* In kernel-mode driver mode,forced disable kernel-mode flag by using property sheet ,it makes the compiler support C++ exceptions.
-* Implement the exception functions such as `throw`、`catch`.  Simulated the exception dispatcher in `throw`.  
+* When developing kernel-mode drivers, kernel-mode flag is disabled by using property sheets, forcibly making the compiler support C++ exceptions. Exception flag(`/EHsc`) is also enabled.
+
+* Implements exception functions like `throw`, `catch`. Simulates the exception dispatcher in `throw` and handles the exception in callback functions.
 
 ### 1.2 Features
 
 - [x] support x86, x64, ARM(experimental), ARM64(experimental).
-- [x] support new/delete operators.  
-- [x] support C++ exception (/EHa, /EHsc).  
-- [x] support SAFESEH、GS (Buffer Security Check).  
-- [x] support STL (not fully).  
-- [x] support static objects.  
+- [x] support new/delete operators.
+- [x] support C++ exception (/EHa, /EHsc).
+- [x] support SAFESEH、GS (Buffer Security Check).
+- [x] support STL (not fully).
+- [x] support static objects.
 
-[List of features that are not supported at this time↓](#6-List-of-features-that-are-not-supported-at-this-time)
+[List of currently unsupported features ↓](#6-List-of-features-that-are-not-supported-at-this-time)
 
 ### 1.3 Example
 
-> See project [unittest](https://github.com/MiroKaku/ucxxrt/blob/main/test/unittest.cpp) for more Infomation.
+> See project [unittest](https://github.com/MiroKaku/ucxxrt/blob/main/test/unittest.cpp) for more information.
 
 ```cpp
 void Test$ThrowUnknow()
@@ -87,44 +88,45 @@ void Test$HashMap()
 
 ## 2. How to use
 
-**First, rename `DriverEntry` to `DriverMain`。**
+**First, rename `DriverEntry` to `DriverMain`.**
 
-### 2.1 Option 1 (recommend)
+### 2.1 Method 1 (recommended)
 
-Right click on the project and select "Manage NuGet Packages", then search for `ucxxrt` and choose the version that suits you, and finally click "Install".
+Right click on the project, select "Manage NuGet Packages".
+Search for `ucxxrt`, choose the version that suits you, and then click "Install".
 
 ![nuget](https://raw.githubusercontent.com/MiroKaku/ucxxrt/main/readme/nuget.png)
 
-### 2.2 Option 2
+### 2.2 Method 2
 
-1. Download the latest package from [release](https://github.com/MiroKaku/ucxxrt/releases) and unzip it.
+1. Download the latest package from [Releases](https://github.com/MiroKaku/ucxxrt/releases) and unzip it.
 
-2. Add the property sheet `ucxxrt.props` to yor project.
+2. Add the property sheet `ucxxrt.props` to your project.
 
 ![usage](https://raw.githubusercontent.com/MiroKaku/ucxxrt/main/readme/use.gif)
 
-## 3. How to compile
+## 3. How to build
 
 IDE：Visual Studio 2022 latest version
 
 * `git clone --recurse-submodules https://github.com/MiroKaku/ucxxrt.git`
-* Open `ucxxrt.sln` and compile.
+* Open `ucxxrt.sln` and build.
 
 ## 4. Acknowledgements
 
-Thanks to [JetBrains](https://www.jetbrains.com/?from=meesong) for allocating free open-source licences for IDEs such as [Resharper C++](https://www.jetbrains.com/resharper-cpp/?from=meesong).
+Thanks to [JetBrains](https://www.jetbrains.com/?from=meesong) for providing free licenses such as [Resharper C++](https://www.jetbrains.com/resharper-cpp/?from=meesong) for my open-source projects.
 
 [<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/ReSharperCPP_icon.png" alt="ReSharper C++ logo." width=200>](https://www.jetbrains.com/?from=meesong)
 
-## 5. Reference
+## 5. References
 
 * [Microsoft's C++ Standard Library](https://github.com/microsoft/stl)
 * [Chuyu-Team/VC-LTL](https://github.com/Chuyu-Team/VC-LTL)
 * [RetrievAL](https://github.com/SpoilerScriptsGroup/RetrievAL)
 
-> Thanks to these excellent projects for help me on developing ucxxrt.
+> Great thanks to these excellent projects. Without their existence, there would be no `ucxxrt` then.
 
-## 6. List of features that are not supported at this time
+## 6. List of currently unsupported features
 
 - [ ] Thread Local Storage (TLS): thread_local、TlsAlloc ...
 - [ ] std::filesystem

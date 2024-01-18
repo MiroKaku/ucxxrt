@@ -1,7 +1,7 @@
-/*
+﻿/*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      stdalloc.cpp
- * DATA:      2022/11/17
+ * DATE:      2022/11/17
  *
  * PURPOSE:   Universal C++ RunTime
  *

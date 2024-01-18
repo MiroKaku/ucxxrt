@@ -1,7 +1,7 @@
-/*
+﻿/*
  * PROJECT:   Universal C++ RunTime (UCXXRT)
  * FILE:      cpu_disp.cpp
- * DATA:      2021/04/25
+ * DATE:      2021/04/25
  *
  * PURPOSE:   Universal C++ RunTime
  *
