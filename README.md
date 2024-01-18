@@ -1,6 +1,6 @@
 # [Universal C++ RunTime (UCXXRT)](https://github.com/mirokaku/ucxxrt)
 
-[![Actions Status](https://github.com/MiroKaku/ucxxrt/workflows/build%20&%20publish/badge.svg)](https://github.com/MiroKaku/ucxxrt/actions)
+[![Actions Status](https://github.com/MiroKaku/ucxxrt/workflows/build/badge.svg)](https://github.com/MiroKaku/ucxxrt/actions)
 [![LICENSE](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/MiroKaku/ucxxrt/blob/main/LICENSE)
 ![Windows](https://img.shields.io/badge/Windows-7+-orange.svg)
 ![Visual Studio](https://img.shields.io/badge/Visual%20Studio-2022-purple.svg)
