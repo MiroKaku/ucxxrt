@@ -13,7 +13,7 @@ static constexpr double p[] = {0.0000000001632881, 0.0000000250483893, 0.0000027
 
 static constexpr size_t NP = sizeof(p) / sizeof(p[0]) - 1;
 
-_CRTIMP2_PURE double __CLRCALL_PURE_OR_CDECL _Sinh(double x, double y) { // compute y * sinh(x), |y| <= 1
+_CRTIMP2_PURE double __CLRCALL_PURE_OR_CDECL _Sinh(double x, double y) noexcept { // compute y * sinh(x), |y| <= 1
     short neg;
 
     switch (_Dtest(&x)) { // test for special codes

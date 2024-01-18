@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <internal_shared.h>
 #include <type_traits>
-#include <xthreads.h>
+#include "xthreads.h"
 #include <xtimec.h>
 
 #include "primitives.hpp"

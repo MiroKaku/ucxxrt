@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <process.h>
-#include <xthreads.h>
+#include "xthreads.h"
 
 #include "corecrt_internal.h"
 

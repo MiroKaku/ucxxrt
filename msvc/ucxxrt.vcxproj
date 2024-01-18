@@ -201,7 +201,9 @@
     <ClCompile Include="..\src\crt\stl\cond.cpp" />
     <ClCompile Include="..\src\crt\stl\cthread.cpp" />
     <ClCompile Include="..\src\crt\stl\memory_resource.cpp" />
-    <ClCompile Include="..\src\crt\stl\mexcptptr.cpp" />
+    <ClCompile Include="..\src\crt\stl\mexcptptr.cpp">
+      <ShowIncludes Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ShowIncludes>
+    </ClCompile>
     <ClCompile Include="..\src\crt\stl\multprec.cpp" />
     <ClCompile Include="..\src\crt\stl\mutex.cpp" />
     <ClCompile Include="..\src\crt\stl\nothrow.cpp" />
