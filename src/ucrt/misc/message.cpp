@@ -10,6 +10,13 @@
  * DEVELOPER: MiroKaku (miro.kaku AT Outlook.com)
  */
 
+namespace ucxxrt
+{
+    extern PVOID PsSystemDllBase;
+}
+
+using namespace ucxxrt;
+
 EXTERN_C NTSTATUS NTAPI RtlFindAndFormatMessage(
     _In_        UINT32   Flags,
     _In_opt_    LPCVOID  Source,
@@ -55,7 +62,7 @@ EXTERN_C NTSTATUS NTAPI RtlFindAndFormatMessage(
 
         __try
         {
-            PVOID BaseDllHandle = ucxxrt::PsSystemDllBase;
+            PVOID BaseDllHandle = PsSystemDllBase;
 
             MaximumWidth = Flags & FORMAT_MESSAGE_MAX_WIDTH_MASK;
             if (MaximumWidth == FORMAT_MESSAGE_MAX_WIDTH_MASK)

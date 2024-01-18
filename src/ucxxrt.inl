@@ -97,7 +97,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include "ucxxrt.h"
 
 #if _MSC_VER >= 1200
 #pragma warning(pop)

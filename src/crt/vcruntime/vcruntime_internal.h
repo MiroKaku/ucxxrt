@@ -25,6 +25,7 @@
 #include <malloc.h>
 #include <stdbool.h>
 #include <evntprov.h>
+#include <cfguard.h>
 
 
 
@@ -82,28 +83,6 @@ extern int __isa_available;
 #if defined _M_IX86 || defined _M_X64
     extern int __isa_enabled;
     extern int __favor;
-#endif
-
-
-
-//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-//
-// Guard
-//
-//-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-#if !defined _M_CEE
-    typedef void (__fastcall *GUARDCF_CHECK_ROUTINE)(uintptr_t);
-    extern void* __guard_check_icall_fptr;
-
-    #define _GUARD_CHECK_ICALL(FPTR) \
-        (((GUARDCF_CHECK_ROUTINE)(__guard_check_icall_fptr))((uintptr_t)(FPTR)))
-#else
-    #define _GUARD_CHECK_ICALL(FPTR)
-#endif
-
-// This is defined in the Windows 10 SDK but not in the Windows 8.1 SDK.
-#if !defined DECLSPEC_GUARD_SUPPRESS
-    #define DECLSPEC_GUARD_SUPPRESS __declspec(guard(suppress))
 #endif
 
 

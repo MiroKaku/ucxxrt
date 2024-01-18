@@ -32,9 +32,6 @@
     <Filter Include="ucxxrt\ucrt\inc\i386">
       <UniqueIdentifier>{8a13a5c8-6a3f-4f0b-a9f1-7202d66baeb0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ucxxrt\crt\arm">
-      <UniqueIdentifier>{94aa2a52-3958-4e4e-a4dd-fa8ea7f32081}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ucxxrt\crt\arm64">
       <UniqueIdentifier>{617b7471-9d4f-4df9-b7af-fee21c064cfe}</UniqueIdentifier>
     </Filter>
@@ -55,9 +52,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\ucxxrt.h">
-      <Filter>ucxxrt</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\crt\vcruntime\ehhelpers.h">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClInclude>
@@ -77,30 +71,6 @@
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClInclude>
     <ClInclude Include="..\src\crt\stl\xmath.hpp">
-      <Filter>ucxxrt\crt\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crt\stl\xxcctype.hpp">
-      <Filter>ucxxrt\crt\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crt\stl\xxdftype.hpp">
-      <Filter>ucxxrt\crt\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crt\stl\xxfftype.hpp">
-      <Filter>ucxxrt\crt\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crt\stl\xxlftype.hpp">
-      <Filter>ucxxrt\crt\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crt\stl\xxstod.hpp">
-      <Filter>ucxxrt\crt\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crt\stl\xxwctype.hpp">
-      <Filter>ucxxrt\crt\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crt\stl\xxxdtent.hpp">
-      <Filter>ucxxrt\crt\stl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\crt\stl\xxxprec.hpp">
       <Filter>ucxxrt\crt\stl</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ucrt\inc\corecrt_internal.h">
@@ -127,29 +97,12 @@
     <ClInclude Include="..\src\crt\stl\init_locks.hpp">
       <Filter>ucxxrt\crt\stl</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\src\ucxxrt.inl">
+    <ClInclude Include="..\src\ucxxrt.inl">
       <Filter>ucxxrt</Filter>
-    </None>
-    <None Include="..\src\ucrt\inc\i386\cruntime.inc">
-      <Filter>ucxxrt\ucrt\inc\i386</Filter>
-    </None>
-    <None Include="..\src\crt\i386\except.inc">
-      <Filter>ucxxrt\crt\i386</Filter>
-    </None>
-    <None Include="..\src\crt\i386\exsup.inc">
-      <Filter>ucxxrt\crt\i386</Filter>
-    </None>
-    <None Include="..\src\crt\i386\mm.inc">
-      <Filter>ucxxrt\crt\i386</Filter>
-    </None>
-    <None Include="..\src\crt\i386\vcruntime.inc">
-      <Filter>ucxxrt\crt\i386</Filter>
-    </None>
-    <None Include="..\src\crt\vcruntime\sys_common.inl">
+    </ClInclude>
+    <ClInclude Include="..\src\crt\vcruntime\sys_common.inl">
       <Filter>ucxxrt\crt\vcruntime</Filter>
-    </None>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\ucrt\heap\malloc.cpp">
@@ -211,12 +164,6 @@
     </ClCompile>
     <ClCompile Include="..\src\ucrt\startup\abort.cpp">
       <Filter>ucxxrt\ucrt\startup</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\crt\arm\gshandlereh.cpp">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\crt\arm\helpexcept.cpp">
-      <Filter>ucxxrt\crt\arm</Filter>
     </ClCompile>
     <ClCompile Include="..\src\crt\arm64\gshandlereh.cpp">
       <Filter>ucxxrt\crt\arm64</Filter>
@@ -324,9 +271,6 @@
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
     <ClCompile Include="..\src\crt\vcruntime\initializers.cpp">
-      <Filter>ucxxrt\crt\vcruntime</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\crt\vcruntime\jbcxrval.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
     <ClCompile Include="..\src\crt\vcruntime\locks.cpp">
@@ -635,9 +579,6 @@
     <ClCompile Include="..\src\crt\vcruntime\winapi_thunks.cpp">
       <Filter>ucxxrt\crt\vcruntime</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ucrt\startup\cpu_disp.cpp">
-      <Filter>ucxxrt\ucrt\startup</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\ucrt\internal\per_thread_data.cpp">
       <Filter>ucxxrt\ucrt\internal</Filter>
     </ClCompile>
@@ -713,32 +654,14 @@
     <ClCompile Include="..\src\ucrt\startup\thread.cpp">
       <Filter>ucxxrt\ucrt\startup</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\crt\vcruntime\jbcxrval.c">
+      <Filter>ucxxrt\crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\crt\vcruntime\cpu_disp.c">
+      <Filter>ucxxrt\crt\vcruntime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <MARMASM Include="..\src\crt\arm\chkstk.asm">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </MARMASM>
-    <MARMASM Include="..\src\crt\arm\divide.asm">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </MARMASM>
-    <MARMASM Include="..\src\crt\arm\fptoi64.asm">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </MARMASM>
-    <MARMASM Include="..\src\crt\arm\handlers.asm">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </MARMASM>
-    <MARMASM Include="..\src\crt\arm\i64tofp.asm">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </MARMASM>
-    <MARMASM Include="..\src\crt\arm\rshi64.asm">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </MARMASM>
-    <MARMASM Include="..\src\crt\arm\rshui64.asm">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </MARMASM>
-    <MARMASM Include="..\src\crt\arm\secpushpop.asm">
-      <Filter>ucxxrt\crt\arm</Filter>
-    </MARMASM>
     <MARMASM Include="..\src\crt\arm64\chkstk.asm">
       <Filter>ucxxrt\crt\arm64</Filter>
     </MARMASM>

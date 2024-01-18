@@ -12,8 +12,7 @@ _STD_BEGIN
 // TRANSITION, ABI: _Rng_abort() is preserved for binary compatibility
 [[noreturn]] _CRTIMP2_PURE void __CLRCALL_PURE_OR_CDECL _Rng_abort(_In_z_ const char* _Msg) {
     // abort on precondition failure
-    _CSTD fputs(_Msg, stderr);
-    _CSTD fputc('\n', stderr);
+    DbgPrintEx(DPFLTR_DEFAULT_ID, DPFLTR_ERROR_LEVEL, "%hs\n", _Msg);
     _CSTD abort();
 }
 _STD_END
