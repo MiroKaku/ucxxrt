@@ -41,10 +41,6 @@ xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\" /EXCLUDE:$(
     </PostBuildEvent>
   </ItemDefinitionGroup>
 
-  <PropertyGroup Label="Globals">
-    <RunCodeAnalysis>true</RunCodeAnalysis>
-  </PropertyGroup>
-
   <!-- ucxxrt Config -->
   <PropertyGroup>
     <UCXXRT_KernelMode>false</UCXXRT_KernelMode>
