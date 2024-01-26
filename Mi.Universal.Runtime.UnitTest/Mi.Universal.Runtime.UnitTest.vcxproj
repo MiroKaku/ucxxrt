@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{45B07071-5570-4570-821E-FB27B748785C}</ProjectGuid>
+    <RootNamespace>Mi.Universal.Runtime.UnitTest</RootNamespace>
+    <MileProjectType>WDMDriver</MileProjectType>
+    <MileProjectUseProjectProperties>true</MileProjectUseProjectProperties>
+    <MileProjectCompanyName>MeeSong (MiroKaku)</MileProjectCompanyName>
+    <MileProjectFileDescription>Mi.Universal.Runtime.UnitTest</MileProjectFileDescription>
+    <MileProjectInternalName>Mi.Universal.Runtime</MileProjectInternalName>
+    <MileProjectLegalCopyright>Copyright© MeeSong (MiroKaku). All rights reserved.</MileProjectLegalCopyright>
+    <MileProjectOriginalFilename>Mi.Universal.Runtime.UnitTest.sys</MileProjectOriginalFilename>
+    <MileProjectProductName>Mi.Universal.Runtime</MileProjectProductName>
+    <MileProjectVersion>1.0.0.0</MileProjectVersion>
+    <MileProjectVersionTag Condition="false">Alpha 1</MileProjectVersionTag>
+  </PropertyGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x86.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
+  <PropertyGroup Label="Globals">
+    <!--TODO: -->
+    <OutDir>$(MileProjectBinariesPath)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(MileProjectObjectsPath)$(Configuration)\$(MSBuildProjectName)\$(Platform)\</IntDir>
+    <GeneratedFilesDir>$(IntDir)Generated Files\</GeneratedFilesDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <Inf Include="ucxxrt.inf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="unittest.cpp" />
+  </ItemGroup>
+  <Import Project="..\Publish\config\config.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
+</Project>

@@ -1,0 +1,308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="crt">
+      <UniqueIdentifier>{8202eacc-d0e6-4911-b656-2a6b50a9820e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\arm64">
+      <UniqueIdentifier>{5065341c-4dec-4a7f-9c24-502a336706d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\i386">
+      <UniqueIdentifier>{9af844e8-17b0-4db3-8a49-a1390f2491e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\amd64">
+      <UniqueIdentifier>{a3f78811-d336-4e3d-91c6-8d3cd8d7726f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\vcstartup">
+      <UniqueIdentifier>{acacdb08-78be-4dc6-a6b2-50a4cfd1394e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kext">
+      <UniqueIdentifier>{af6bc613-b044-42b7-b44c-41fe8c207953}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="universal.h" />
+    <ClInclude Include="kext\knew.h">
+      <Filter>kext</Filter>
+    </ClInclude>
+    <ClInclude Include="kext\kallocator.h">
+      <Filter>kext</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="universal.cpp" />
+    <ClCompile Include="kext\new_km.cpp">
+      <Filter>kext</Filter>
+    </ClCompile>
+    <ClCompile Include="kext\delete_km.cpp">
+      <Filter>kext</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\checkcfg.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_align.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_align_nothrow.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_nothrow.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_size.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_size_align.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_debug.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_align.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_align_nothrow.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_nothrow.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_size.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_size_align.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehvccctr.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehvcccvb.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehvecctr.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehveccvb.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehvecdtr.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\fltused.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\gs_report.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\guard_support.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\huge.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\loadcfg.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_array.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_array_align.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_array_align_nothrow.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_array_nothrow.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_debug.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_mode.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_scalar.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_scalar_align.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_scalar_align_nothrow.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_scalar_nothrow.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\pesect.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_type_info_static.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\throw_bad_alloc.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tncleanup.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\x64\gshandlereh.cpp">
+      <Filter>crt\amd64</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\x64\gshandlereh4.cpp">
+      <Filter>crt\amd64</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\i386\ehprolg2.c">
+      <Filter>crt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\i386\ehprolg3.c">
+      <Filter>crt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\i386\ehprolg3a.c">
+      <Filter>crt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\x86_exception_filter.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\arm64\gshandlereh.cpp">
+      <Filter>crt\arm64</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tlsdtor.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tlsdyn.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tlssup.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\denormal_control.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ucrt_stubs.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ucrt_detection.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\dyn_tls_init.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\invalid_parameter_handler.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\cpu_disp.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\default_precision.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\dyn_tls_dtor.c">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\initializers.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_dllmain.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_main.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\utility.cpp">
+      <Filter>crt\vcstartup</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir)\crt\arm64\chkstk.asm">
+      <Filter>crt\arm64</Filter>
+    </MARMASM>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir)\crt\arm64\secpushpop.asm">
+      <Filter>crt\arm64</Filter>
+    </MARMASM>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\arm64\guard_dispatch.asm">
+      <Filter>crt\arm64</Filter>
+    </MARMASM>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\alloca16.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\chkstk.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ehprolog.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\lldiv.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\lldvrm.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\llmul.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\llrem.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\llshl.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\llshr.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ulldiv.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ulldvrm.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ullrem.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ullshr.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\lowhelpr.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\x64\guard_xfg_dispatch.asm">
+      <Filter>crt\amd64</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\x64\guard_dispatch.asm">
+      <Filter>crt\amd64</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol2.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol2fast.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol2sat.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol3.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol3fast.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol3sat.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_common.inl">
+      <Filter>crt\vcstartup</Filter>
+    </None>
+  </ItemGroup>
+</Project>

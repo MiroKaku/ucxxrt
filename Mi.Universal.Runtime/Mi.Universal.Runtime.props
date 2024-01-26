@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(IsKernelModeToolset)'==''">
+    <IsKernelModeToolset Condition="'$(PlatformToolset.TrimEnd(`0123456789.`))' == 'WindowsKernelModeDriver'">true</IsKernelModeToolset>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MI_VC_Version_Overlay>14.38.33130</MI_VC_Version_Overlay>
+    <MI_VC_ToolsInstallDir_Overlay>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\Mi.Universal.Runtime\MSVC\$(MI_VC_Version_Overlay)'))</MI_VC_ToolsInstallDir_Overlay>
+    <MI_VC_IncludePath_Overlay>$(MI_VC_ToolsInstallDir_Overlay)\include;$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime</MI_VC_IncludePath_Overlay>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MI_UCRT_Version_Overlay>10.0.22621.0</MI_UCRT_Version_Overlay>
+    <MI_UCRT_ToolsInstallDir_Overlay>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\Mi.Universal.Runtime\UCRT\$(MI_UCRT_Version_Overlay)'))</MI_UCRT_ToolsInstallDir_Overlay>
+    <MI_UCRT_IncludePath_Overlay>$(MI_UCRT_ToolsInstallDir_Overlay)\include;$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt;$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\inc</MI_UCRT_IncludePath_Overlay>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MI_VC_Version>14.38.33130</MI_VC_Version>
+    <MI_VC_ToolsInstallDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\Microsoft.VisualC.Runtime\MSVC\$(MI_VC_Version)'))</MI_VC_ToolsInstallDir>
+    <MI_VC_IncludePath>$(MI_VC_ToolsInstallDir)\include;$(MI_VC_ToolsInstallDir)\crt\vcruntime;$(MI_VC_ToolsInstallDir)\crt\stl</MI_VC_IncludePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <MI_UCRT_Version>10.0.22621.0</MI_UCRT_Version>
+    <MI_UCRT_ToolsInstallDir>$([System.IO.Path]::GetFullPath('$(MSBuildProjectDirectory)\..\Microsoft.VisualC.Runtime\UCRT\$(MI_UCRT_Version)'))</MI_UCRT_ToolsInstallDir>
+    <MI_UCRT_IncludePath>$(MI_UCRT_ToolsInstallDir)\include;$(MI_UCRT_ToolsInstallDir)\ucrt;$(MI_UCRT_ToolsInstallDir)\ucrt\inc</MI_UCRT_IncludePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Include STL -->
+    <IncludePath>$(MI_VC_IncludePath);$(MI_UCRT_IncludePath);$(IncludePath)</IncludePath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Platform)'=='Win32'">
+    <IncludePath>$(MI_VC_ToolsInstallDir)\crt\vcruntime\i386;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <!-- C++ Exception Mode, /EHa -->
+      <ExceptionHandling>Async</ExceptionHandling>
+      <CallingConvention>Cdecl</CallingConvention>
+      <ConformanceMode>false</ConformanceMode>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <!--
+      <ObjectFileName>$(IntDir)anyname\%(RelativeDir)%(FileName).obj</ObjectFileName>
+      -->
+      <AdditionalIncludeDirectories>$(MI_VC_IncludePath_Overlay);$(MI_UCRT_IncludePath_Overlay);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <MASM Condition="'$(Platform)'=='Win32'">
+      <IncludePaths>$(MI_VC_ToolsInstallDir)\crt\i386;$(MI_UCRT_ToolsInstallDir)\ucrt\inc\i386;%(IncludePaths)</IncludePaths>
+      <UseSafeExceptionHandlers>true</UseSafeExceptionHandlers>
+      <!--
+      <EnableMASM51Compatibility>true</EnableMASM51Compatibility>
+      -->
+    </MASM>
+    <MARMASM Condition="'$(Platform)'=='ARM64'">
+      <AdditionalIncludeDirectories>$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </MARMASM>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup Condition="'$(IsKernelModeToolset)'=='true'">
+    <!-- Enable Kernel C++ Support -->
+    <DisableKernelFlag>true</DisableKernelFlag>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup Condition="'$(IsKernelModeToolset)'=='true'">
+    <ClCompile>
+      <PreprocessorDefinitions>_HAS_EXCEPTIONS;NTOS_KERNEL_RUNTIME;_KERNEL_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <MASM Condition="'$(Platform)'=='Win32' Or '$(Platform)'=='x64'">
+      <PreprocessorDefinitions>_HAS_EXCEPTIONS;NTOS_KERNEL_RUNTIME;_KERNEL_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </MASM>
+    <MARMASM Condition="'$(Platform)'=='ARM64'">
+      <PreprocessorDefinitions>_HAS_EXCEPTIONS;NTOS_KERNEL_RUNTIME;_KERNEL_MODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </MARMASM>
+  </ItemDefinitionGroup>
+</Project>

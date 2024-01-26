@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ucrt">
+      <UniqueIdentifier>{32b0f9a2-6448-446c-8010-b358c69257ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucrt\heap">
+      <UniqueIdentifier>{84f0cee8-0ae4-43cb-aacb-2e9850f13f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucrt\internal">
+      <UniqueIdentifier>{982f2f71-0a9f-4512-bdc1-220c4335476b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucrt\misc">
+      <UniqueIdentifier>{c7586f23-8828-432d-9bbb-226c41009837}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucrt\startup">
+      <UniqueIdentifier>{021b1a79-a0c9-449b-9461-81b1e0fafc4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucrt\stdio">
+      <UniqueIdentifier>{3756947b-d957-415f-a68e-50e4d46dd9e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucrt\stdlib">
+      <UniqueIdentifier>{bf92cbd0-2d45-4075-8755-5829df7cc17e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ucrt\locale">
+      <UniqueIdentifier>{e1bad101-8289-4c37-9a49-eef61d9d49ff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="universal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="universal.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\align.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\calloc.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\calloc_base.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\debug_heap_hook.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\expand.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\free.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\free_base.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\heap_handle.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\malloc.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\malloc_base.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\msize.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\new_handler.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\new_mode.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\realloc.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\realloc_base.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\recalloc.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\internal\per_thread_data.cpp">
+      <Filter>ucrt\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\internal\report_runtime_error.cpp">
+      <Filter>ucrt\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\internal\shared_initialization.cpp">
+      <Filter>ucrt\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\dbgrpt.cpp">
+      <Filter>ucrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\debug_fill_threshold.cpp">
+      <Filter>ucrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\errno.cpp">
+      <Filter>ucrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\invalid_parameter.cpp">
+      <Filter>ucrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\terminate.cpp">
+      <Filter>ucrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\abs.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\bsearch.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\bsearch_s.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\byteswap.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\div.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\imaxabs.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\imaxdiv.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\initterm.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\labs.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\ldiv.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lfind.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lfind_s.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\llabs.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lldiv.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lsearch.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lsearch_s.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\qsort.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\qsort_s.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rand.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rand_s.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rotl.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rotr.cpp">
+      <Filter>ucrt\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\abort.cpp">
+      <Filter>ucrt\startup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\assert.cpp">
+      <Filter>ucrt\startup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\exit.cpp">
+      <Filter>ucrt\startup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\onexit.cpp">
+      <Filter>ucrt\startup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\heap\debug_heap.cpp">
+      <Filter>ucrt\heap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\initialization.cpp">
+      <Filter>ucrt\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\locks.cpp">
+      <Filter>ucrt\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\winapi_thunks.cpp">
+      <Filter>ucrt\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\OutputDebugStringA.cpp">
+      <Filter>ucrt\internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\locale_update.cpp">
+      <Filter>ucrt\locale</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\nlsdata.cpp">
+      <Filter>ucrt\locale</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\wsetlocale.cpp">
+      <Filter>ucrt\locale</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\misc\exception_filter.cpp">
+      <Filter>ucrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\misc\dbgrptt.cpp">
+      <Filter>ucrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\misc\signal.cpp">
+      <Filter>ucrt\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\startup\thread.cpp">
+      <Filter>ucrt\startup</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\stdio\output.cpp">
+      <Filter>ucrt\stdio</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

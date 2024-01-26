@@ -91,14 +91,14 @@ void Test$HashMap()
 
 右键单击该项目并选择“管理 NuGet 包”，然后搜索`ucxxrt`并选择适合你的版本，最后单击“安装”。
 
-![nuget](https://raw.githubusercontent.com/MiroKaku/ucxxrt/main/readme/nuget.png)
+![nuget](https://raw.githubusercontent.com/MiroKaku/MyBlog.PictureHost/main/ucxxrt/NuGet.png)
 
 ### 2.2 方法二
 
  1. 从 [release](https://github.com/MiroKaku/ucxxrt/releases) 下载最新包并解压。
  2. 在 Visual Studio 中，你可以打开属性管理器（视图 - 属性管理器），然后右键添加现有属性表，然后选择 `ucxxrt.props` 即可。
 
-![使用方法](https://raw.githubusercontent.com/MiroKaku/ucxxrt/main/readme/use.zh-cn.gif)
+![使用方法](https://raw.githubusercontent.com/MiroKaku/MyBlog.PictureHost/main/ucxxrt/Manual.gif)
 
 ## 3. 怎样编译
 

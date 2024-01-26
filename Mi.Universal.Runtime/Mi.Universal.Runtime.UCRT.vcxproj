@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5A753C92-8786-401A-9BFC-DA7C0333B1CA}</ProjectGuid>
+    <RootNamespace>Mi.Universal.Runtime.CRT</RootNamespace>
+    <MileProjectType>StaticLibrary</MileProjectType>
+    <MileProjectUseKernelMode>true</MileProjectUseKernelMode>
+    <MileProjectUseWindowsDriverKit>true</MileProjectUseWindowsDriverKit>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x86.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
+  <PropertyGroup Label="Globals">
+    <!--TODO: -->
+    <OutDir>$(MileProjectBinariesPath)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(MileProjectObjectsPath)$(Configuration)\$(MSBuildProjectName)\$(Platform)\</IntDir>
+    <GeneratedFilesDir>$(IntDir)Generated Files\</GeneratedFilesDir>
+  </PropertyGroup>
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\marmasm.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ConformanceMode>false</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>universal.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PreprocessorDefinitions>_CORECRT_BUILD;_UCRT_ENCLAVE_BUILD;_NO_CRT_STDIO_INLINE;_CRT_GLOBAL_STATE_ISOLATION;_CRT_DECLARE_GLOBAL_VARIABLES_DIRECTLY;_ONECORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\Boost.Math\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="universal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="universal.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\align.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\calloc.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\calloc_base.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\debug_heap_hook.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\expand.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\free.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\free_base.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\heap_handle.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\malloc.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\malloc_base.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\msize.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\new_handler.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\new_mode.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\realloc.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\realloc_base.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\recalloc.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\internal\per_thread_data.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\internal\report_runtime_error.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\internal\shared_initialization.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\dbgrpt.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\debug_fill_threshold.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\errno.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\invalid_parameter.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\misc\terminate.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\abort.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\assert.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\exit.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\initterm.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\startup\onexit.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\abs.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\bsearch.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\bsearch_s.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\byteswap.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\div.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\imaxabs.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\imaxdiv.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\labs.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\ldiv.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lfind.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lfind_s.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\llabs.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lldiv.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lsearch.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\lsearch_s.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\qsort.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\qsort_s.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rand.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rand_s.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rotl.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rotr.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\locale_update.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\heap\debug_heap.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\initialization.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\locks.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\OutputDebugStringA.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\winapi_thunks.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\nlsdata.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\wsetlocale.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\misc\dbgrptt.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\misc\exception_filter.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\misc\signal.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\startup\thread.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\stdio\output.cpp" />
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\marmasm.targets" />
+  </ImportGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
+</Project>

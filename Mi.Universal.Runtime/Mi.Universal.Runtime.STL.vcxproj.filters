@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="crt">
+      <UniqueIdentifier>{6855f934-edfc-4919-a1ce-2b49a17e6147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\stl">
+      <UniqueIdentifier>{a30fa9fb-21a2-4a18-99c9-775693bab620}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="universal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="universal.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\asan_noop.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\atomic.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\atomic_wait.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\cond.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\cthread.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\excptptr.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\memory_resource.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\multprec.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\nothrow.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\raisehan.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\sharedmutex.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\special_math.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\stdhndlr.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\stdthrow.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\syserror.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\syserror_import_lib.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\thread0.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\uncaught_exception.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\uncaught_exceptions.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\vector_algorithms.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xalloc.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xcosh.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdint.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdnorm.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdscale.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdtento.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdtest.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdunscal.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xexp.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfcosh.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdint.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdnorm.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdscale.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdtento.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdtest.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdunsca.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xferaise.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfexp.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfprec.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfsinh.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfvalues.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlcosh.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldint.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldscale.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldtento.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldtest.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldunsca.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlexp.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlgamma.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlock.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlpoly.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlprec.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlsinh.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlvalues.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xmtx.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xnotify.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xonce.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xonce2.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xpoly.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xprec.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xrngabort.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xrngdev.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xsinh.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xthrow.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xtime.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xvalues.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\stl\mutex.cpp">
+      <Filter>crt\stl</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

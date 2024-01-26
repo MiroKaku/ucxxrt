@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: build
+name: Build
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
@@ -16,7 +16,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: windows-2022
+    runs-on: Windows-2022
 
     # Any commit that contains [build] will now trigger these jobs, everything else will be skipped.
     # if: "contains(github.event.head_commit.message, '[build]')"
@@ -28,7 +28,7 @@ jobs:
         with:
           submodules: true
 
-      - name: enable X86 and ARM build support
+      - name: Enable X86 and ARM build support
         working-directory: ${{github.workspace}}
         shell: pwsh
         run: |
@@ -37,11 +37,11 @@ jobs:
       - name: compile
         working-directory: ${{github.workspace}}
         shell: cmd
-        run: call .\.github\workflows\build.bat
+        run: call .\BuildAllTargets.cmd
 
-      - name: upload an artifact
+      - name: Upload an artifact
         uses: actions/upload-artifact@v3
         with:
           name: ucxxrt
-          path: ucxxrt\
+          path: Publish\
           if-no-files-found: error

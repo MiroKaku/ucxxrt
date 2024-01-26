@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata minClientVersion="2.5">
+    <id>ucxxrt</id>
+    <version>$version$</version>
+    <title>Mi.Universal.Runtime for Visual Studio</title>
+    <authors>MeeSong (MiroKaku)</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>Mi.Universal.Runtime - MSVC 运行时库的内核模式的移植
+  * 支持 MSVC.STL
+  * 支持 C++ 异常处理
+  * 支持内核驱动中不支持的语言特性：如静态对象、New/Delete
+
+Mi.Universal.Runtime - Kernel driver mode port of the MSVC runtime library
+   * Support MSVC.STL
+   * Support C++ exception handling
+   * Support language features not supported in the kernel driver: such as static objects, New/Delete
+    </description>
+    <releaseNotes>$releaseNotes$</releaseNotes>
+    <copyright>Copyright© MeeSong (MiroKaku)</copyright>
+    <tags>ucxxrt Native WDK KMDF Kernel Driver STL SEH Exception</tags>
+    <projectUrl>https://github.com/MiroKaku/ucxxrt</projectUrl>
+    <repository type="git" url="https://github.com/MiroKaku/ucxxrt.git" branch="master" commit="$commit$" />
+    <dependencies>
+      <dependency id="YY.NuGet.Import.Helper" version="1.0.0.4" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="ucxxrt.props" target="build\native" />
+    <file src="..\Publish\**" target="build\native" exclude="**\*.lastcodeanalysissucceeded;"/>
+  </files>
+</package>

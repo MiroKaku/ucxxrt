@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{412F6026-516B-4BE6-B77A-46BD39685D8C}</ProjectGuid>
+    <RootNamespace>Mi.Universal.Runtime.STL</RootNamespace>
+    <MileProjectType>StaticLibrary</MileProjectType>
+    <MileProjectUseKernelMode>true</MileProjectUseKernelMode>
+    <MileProjectUseWindowsDriverKit>true</MileProjectUseWindowsDriverKit>
+  </PropertyGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x86.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
+  <PropertyGroup Label="Globals">
+    <!--TODO: -->
+    <OutDir>$(MileProjectBinariesPath)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(MileProjectObjectsPath)$(Configuration)\$(MSBuildProjectName)\$(Platform)\</IntDir>
+    <GeneratedFilesDir>$(IntDir)Generated Files\</GeneratedFilesDir>
+  </PropertyGroup>
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\marmasm.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ConformanceMode>false</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>universal.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PreprocessorDefinitions>_CRTBLD;_VCRT_BUILD;_STATIC_CPPLIB;_ONECORE;_ASSERT_OK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\Boost.Math\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="universal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="universal.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\asan_noop.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\atomic.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\atomic_wait.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\cond.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\cthread.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\excptptr.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\memory_resource.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\multprec.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\raisehan.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\sharedmutex.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\special_math.cpp">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\stdhndlr.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\stdthrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\syserror.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\syserror_import_lib.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\thread0.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\uncaught_exception.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\uncaught_exceptions.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\vector_algorithms.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xalloc.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xcosh.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdint.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdnorm.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdscale.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdtento.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdtest.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdunscal.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xexp.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfcosh.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdint.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdnorm.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdscale.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdtento.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdtest.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdunsca.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xferaise.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfexp.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfprec.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfsinh.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfvalues.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlcosh.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldint.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldscale.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldtento.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldtest.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldunsca.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlexp.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlgamma.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlock.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlpoly.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlprec.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlsinh.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlvalues.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xmtx.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xnotify.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xonce.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xonce2.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xpoly.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xprec.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xrngabort.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xrngdev.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xsinh.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xthrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xtime.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xvalues.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\stl\mutex.cpp" />
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\marmasm.targets" />
+  </ImportGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
+</Project>

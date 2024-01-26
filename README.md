@@ -95,7 +95,7 @@ void Test$HashMap()
 Right click on the project, select "Manage NuGet Packages".
 Search for `ucxxrt`, choose the version that suits you, and then click "Install".
 
-![nuget](https://raw.githubusercontent.com/MiroKaku/ucxxrt/main/readme/nuget.png)
+![nuget](https://raw.githubusercontent.com/MiroKaku/MyBlog.PictureHost/main/ucxxrt/NuGet.png)
 
 ### 2.2 Method 2
 
@@ -103,7 +103,7 @@ Search for `ucxxrt`, choose the version that suits you, and then click "Install"
 
 2. Add the property sheet `ucxxrt.props` to your project.
 
-![usage](https://raw.githubusercontent.com/MiroKaku/ucxxrt/main/readme/use.gif)
+![usage](https://raw.githubusercontent.com/MiroKaku/MyBlog.PictureHost/main/ucxxrt/Manual.gif)
 
 ## 3. How to build
 

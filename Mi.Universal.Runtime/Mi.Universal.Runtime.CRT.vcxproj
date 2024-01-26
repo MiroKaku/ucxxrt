@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1BAC8553-4F9A-4B9E-86BD-58B577966B84}</ProjectGuid>
+    <RootNamespace>Mi.Universal.Runtime.CRT</RootNamespace>
+    <MileProjectType>StaticLibrary</MileProjectType>
+    <MileProjectUseKernelMode>true</MileProjectUseKernelMode>
+    <MileProjectUseWindowsDriverKit>true</MileProjectUseWindowsDriverKit>
+  </PropertyGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x86.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
+  <PropertyGroup Label="Globals">
+    <!--TODO: -->
+    <OutDir>$(MileProjectBinariesPath)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(MileProjectObjectsPath)$(Configuration)\$(MSBuildProjectName)\$(Platform)\</IntDir>
+    <GeneratedFilesDir>$(IntDir)Generated Files\</GeneratedFilesDir>
+  </PropertyGroup>
+  <ImportGroup Label="ExtensionSettings">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\marmasm.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ConformanceMode>false</ConformanceMode>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>universal.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PreprocessorDefinitions>PROCESSOR_FAST_FAIL_AVAILABLE;_CRTBLD;_VCRT_BUILD;_VCRT_ENCLAVE_BUILD;_STATIC_CPPLIB;_ONECORE;_ASSERT_OK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="universal.h" />
+    <ClInclude Include="kext\kallocator.h" />
+    <ClInclude Include="kext\knew.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="universal.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="kext\delete_km.cpp" />
+    <ClCompile Include="kext\new_km.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\denormal_control.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\dyn_tls_init.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\invalid_parameter_handler.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tlsdtor.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tlsdyn.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tlssup.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ucrt_detection.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ucrt_stubs.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\default_precision.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\dyn_tls_dtor.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_dllmain.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_main.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\utility.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\arm64\gshandlereh.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\i386\ehprolg2.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\i386\ehprolg3.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\i386\ehprolg3a.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\checkcfg.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_align.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_align_nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_size.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_array_size_align.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_debug.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_align.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_align_nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_size.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\delete_scalar_size_align.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehvccctr.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehvcccvb.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehvecctr.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehveccvb.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehvecdtr.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\fltused.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\gs_report.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\guard_support.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\huge.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\loadcfg.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_array.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_array_align.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_array_align_nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_array_nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_debug.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_mode.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_scalar.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_scalar_align.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_scalar_align_nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\new_scalar_nothrow.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\pesect.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_type_info_static.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\throw_bad_alloc.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tncleanup.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\x86_exception_filter.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\x64\gshandlereh.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\x64\gshandlereh4.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\cpu_disp.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\initializers.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir)\crt\arm64\chkstk.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MARMASM>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir)\crt\arm64\secpushpop.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MARMASM>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\alloca16.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\chkstk.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ehprolog.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\lldiv.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\lldvrm.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\llmul.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\llrem.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\llshl.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\llshr.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\lowhelpr.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ulldiv.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ulldvrm.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ullrem.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\i386\ullshr.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\arm64\guard_dispatch.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MARMASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol2.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol2fast.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol2sat.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol3.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol3fast.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\ftol3sat.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\x64\guard_dispatch.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\x64\guard_xfg_dispatch.asm">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_common.inl" />
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="$(VCTargetsPath)\BuildCustomizations\marmasm.targets" />
+  </ImportGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
+</Project>

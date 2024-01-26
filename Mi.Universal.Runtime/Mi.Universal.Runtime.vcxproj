@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5DD90C4B-FD2F-47B3-A991-AAA7D279CDB8}</ProjectGuid>
+    <RootNamespace>Mi.Universal.Runtime</RootNamespace>
+    <MileProjectType>StaticLibrary</MileProjectType>
+    <MileProjectUseKernelMode>true</MileProjectUseKernelMode>
+    <MileProjectUseWindowsDriverKit>true</MileProjectUseWindowsDriverKit>
+  </PropertyGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x86.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.x64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Platform.ARM64.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.Default.props" />
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.props" />
+  <PropertyGroup Label="Globals">
+    <!--TODO: -->
+    <OutDir>$(MileProjectBinariesPath)$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(MileProjectObjectsPath)$(Configuration)\$(MSBuildProjectName)\$(Platform)\</IntDir>
+    <GeneratedFilesDir>$(IntDir)Generated Files\</GeneratedFilesDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>universal.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <PreprocessorDefinitions>_ONECORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(OutDirFullPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Mi.Universal.Runtime.CRT.lib;Mi.Universal.Runtime.STL.lib;Mi.Universal.Runtime.VCRT.lib;Mi.Universal.Runtime.UCRT.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+    <PostBuildEvent>
+      <Command>@echo off
+xcopy /v /f /y "$(SolutionDir)\LICENSE" "$(SolutionDir)\Publish\"
+xcopy /v /f /y "$(SolutionDir)\README.md" "$(SolutionDir)\Publish\"
+xcopy /v /f /y "$(SolutionDir)\README.zh-CN.md" "$(SolutionDir)\Publish\"
+xcopy /v /f /y "$(MSBuildThisFileDirectory)\config" "$(SolutionDir)\Publish\config\"
+xcopy /v /f /y "$(MSBuildThisFileDirectory)\kext\*.h" "$(SolutionDir)\Publish\include\kext\"
+xcopy /v /f /y "$(TargetDir)$(TargetName).lib" "$(SolutionDir)\Publish\lib\$(PlatformShortName)\$(Configuration)\"
+xcopy /v /f /y "$(TargetDir)$(TargetName).pdb" "$(SolutionDir)\Publish\lib\$(PlatformShortName)\$(Configuration)\"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="universal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="universal.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="..\Mile.Project.Windows\Mile.Project.Cpp.targets" />
+</Project>

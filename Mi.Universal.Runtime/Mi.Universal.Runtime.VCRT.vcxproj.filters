@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="crt">
+      <UniqueIdentifier>{9db74431-0aa5-4b3b-8843-dd56214560d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\amd64">
+      <UniqueIdentifier>{91248517-4373-4f5f-855d-4f0919e95f99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\arm64">
+      <UniqueIdentifier>{a4f3a4ce-9a0e-437b-8e50-742be38229ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\i386">
+      <UniqueIdentifier>{3d5e283e-3de7-4f30-9bdb-d20df04b262d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="crt\vcruntime">
+      <UniqueIdentifier>{d1584676-4931-48d1-9753-e903eca03186}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="universal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="universal.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\i386\chandler4.c">
+      <Filter>crt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\i386\trnsctrl.cpp">
+      <Filter>crt\i386</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehhelpers.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ehstate.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\frame.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\locks.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\per_thread_data.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\purevirt.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\purevirt_data.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\riscchandler.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\risctrnsctrl.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\rtti.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_exception.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_type_info.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\throw.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\uncaught_exception.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\uncaught_exceptions.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\unexpected.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\user.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\chandler_noexcept.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\initialization.cpp">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\jbcxrval.c">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <MASM Include="$(MI_VC_ToolsInstallDir)\crt\x64\handlers.asm">
+      <Filter>crt\amd64</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\x64\notify.asm">
+      <Filter>crt\amd64</Filter>
+    </MASM>
+    <MASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\i386\exsup4.asm">
+      <Filter>crt\i386</Filter>
+    </MASM>
+  </ItemGroup>
+  <ItemGroup>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir)\crt\arm64\handlers.asm">
+      <Filter>crt\arm64</Filter>
+    </MARMASM>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\arm64\handler.asm">
+      <Filter>crt\arm64</Filter>
+    </MARMASM>
+    <MARMASM Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\arm64\notify.asm">
+      <Filter>crt\arm64</Filter>
+    </MARMASM>
+  </ItemGroup>
+</Project>
