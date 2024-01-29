@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #pragma warning(disable: 4005 4189 4245 4457 4499 4838)
 
 // System Header

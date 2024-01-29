@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
+    <ProjectTypeGuids>{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}</ProjectTypeGuids>
     <ProjectGuid>{5A753C92-8786-401A-9BFC-DA7C0333B1CA}</ProjectGuid>
     <RootNamespace>Mi.Universal.Runtime.CRT</RootNamespace>
     <MileProjectType>StaticLibrary</MileProjectType>
@@ -28,7 +29,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>universal.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>%(PrecompiledHeaderFile);%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <PreprocessorDefinitions>_CORECRT_BUILD;_UCRT_ENCLAVE_BUILD;_NO_CRT_STDIO_INLINE;_CRT_GLOBAL_STATE_ISOLATION;_CRT_DECLARE_GLOBAL_VARIABLES_DIRECTLY;_ONECORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CORECRT_BUILD;_UCRT_ENCLAVE_BUILD;_NO_CRT_STDIO_INLINE;_CRT_SECURE_NO_WARNINGS;_CRT_GLOBAL_STATE_ISOLATION;_CRT_DECLARE_GLOBAL_VARIABLES_DIRECTLY;_ONECORE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(MSBuildProjectDirectory)\..\Boost.Math\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -95,7 +96,9 @@
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rand_s.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rotl.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\stdlib\rotr.cpp" />
-    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\locale_update.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\convert\mbstowcs.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\convert\wcstombs.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\convert\_ctype.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\heap\debug_heap.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)'=='Release'">true</ExcludedFromBuild>
     </ClCompile>
@@ -103,6 +106,7 @@
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\locks.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\OutputDebugStringA.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\internal\winapi_thunks.cpp" />
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\locale_update.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\nlsdata.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\locale\wsetlocale.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\misc\dbgrptt.cpp">

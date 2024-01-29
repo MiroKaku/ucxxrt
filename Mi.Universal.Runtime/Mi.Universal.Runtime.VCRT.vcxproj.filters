@@ -61,9 +61,6 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_exception.cpp">
       <Filter>crt\vcruntime</Filter>
     </ClCompile>
-    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_type_info.cpp">
-      <Filter>crt\vcruntime</Filter>
-    </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\throw.cpp">
       <Filter>crt\vcruntime</Filter>
     </ClCompile>
@@ -86,6 +83,9 @@
       <Filter>crt\vcruntime</Filter>
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\jbcxrval.c">
+      <Filter>crt\vcruntime</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\std_type_info.cpp">
       <Filter>crt\vcruntime</Filter>
     </ClCompile>
   </ItemGroup>

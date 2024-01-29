@@ -10,6 +10,8 @@
 // see the SOURCE.RTF on your install media or the root of your tools installation.
 // THE SOURCE CODE IS PROVIDED "AS IS", WITH NO WARRANTIES OR INDEMNITIES.
 //
+#pragma once
+
 #include "undname.h"
 
 #ifndef __UNDNAME_IMP

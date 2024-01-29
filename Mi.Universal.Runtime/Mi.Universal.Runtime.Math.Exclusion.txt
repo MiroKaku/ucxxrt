@@ -1,0 +1,17 @@
+crtw32\
+desktopcrt\
+convert\
+filesystem\
+heap\
+initializers\
+internal\
+locale\
+lowio\
+mbstring\
+misc\
+startup\
+stdio\
+stdlib\
+string\
+time\
+empty.obj

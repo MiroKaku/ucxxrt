@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
+    <ProjectTypeGuids>{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}</ProjectTypeGuids>
     <ProjectGuid>{45B07071-5570-4570-821E-FB27B748785C}</ProjectGuid>
     <RootNamespace>Mi.Universal.Runtime.UnitTest</RootNamespace>
     <MileProjectType>WDMDriver</MileProjectType>

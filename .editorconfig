@@ -32,6 +32,9 @@ trim_trailing_whitespace = true
 [*.rc]
 charset = utf-16le
 
+[*.{proj,props,targets,vcxproj}]
+charset = utf-8-bom
+
 [Mile.Project.Properties.Template.h]
 charset = utf-16le
 

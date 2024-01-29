@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
+    <ProjectTypeGuids>{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}</ProjectTypeGuids>
     <ProjectGuid>{1BAC8553-4F9A-4B9E-86BD-58B577966B84}</ProjectGuid>
     <RootNamespace>Mi.Universal.Runtime.CRT</RootNamespace>
     <MileProjectType>StaticLibrary</MileProjectType>
@@ -53,16 +54,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\ucrt_stubs.cpp" />
-    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\default_precision.cpp">
-      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\dyn_tls_dtor.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_dllmain.cpp" />
-    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_main.cpp" />
-    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\utility.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\arm64\gshandlereh.cpp">
       <ExcludedFromBuild Condition="'$(Platform)'=='Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
@@ -133,6 +124,9 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_type_info_static.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\throw_bad_alloc.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\tncleanup.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\undname.cxx">
+      <ExcludedFromBuild>true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\x86_exception_filter.cpp">
       <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
@@ -148,7 +142,17 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\cpu_disp.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\default_precision.cpp">
+      <ExcludedFromBuild Condition="'$(Platform)'=='ARM64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Platform)'=='x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\dyn_tls_dtor.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\initializers.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_dllmain.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\sys_main.cpp" />
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <MARMASM Include="$(MI_VC_ToolsInstallDir)\crt\arm64\chkstk.asm">

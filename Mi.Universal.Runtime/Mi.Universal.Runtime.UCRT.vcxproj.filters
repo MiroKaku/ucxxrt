@@ -25,6 +25,9 @@
     <Filter Include="ucrt\locale">
       <UniqueIdentifier>{e1bad101-8289-4c37-9a49-eef61d9d49ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ucrt\convert">
+      <UniqueIdentifier>{b86383d4-f904-47a3-a734-1bb3e6f40e1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="universal.h" />
@@ -219,6 +222,15 @@
     </ClCompile>
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\stdio\output.cpp">
       <Filter>ucrt\stdio</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\convert\_ctype.cpp">
+      <Filter>ucrt\convert</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\convert\mbstowcs.cpp">
+      <Filter>ucrt\convert</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MI_UCRT_ToolsInstallDir_Overlay)\ucrt\convert\wcstombs.cpp">
+      <Filter>ucrt\convert</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

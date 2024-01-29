@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
+    <ProjectTypeGuids>{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}</ProjectTypeGuids>
     <ProjectGuid>{007C1E48-5587-4120-8505-0AFF2C6BCA02}</ProjectGuid>
     <RootNamespace>Mi.Universal.Runtime.VCRT</RootNamespace>
     <MileProjectType>StaticLibrary</MileProjectType>
@@ -63,7 +64,6 @@
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\rtti.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_exception.cpp" />
-    <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\std_type_info.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\throw.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\uncaught_exception.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\vcruntime\uncaught_exceptions.cpp" />
@@ -74,6 +74,7 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\jbcxrval.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="$(MI_VC_ToolsInstallDir_Overlay)\crt\vcruntime\std_type_info.cpp" />
   </ItemGroup>
   <ItemGroup>
     <MARMASM Include="$(MI_VC_ToolsInstallDir)\crt\arm64\handlers.asm">
