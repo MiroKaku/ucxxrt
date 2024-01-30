@@ -18,7 +18,7 @@ _ACRTIMP int __cdecl _seh_filter_sys(
 
 _CRT_END_C_HEADER
 
-static DRIVER_UNLOAD* __scrt_drv_unload = nullptr;
+static PDRIVER_UNLOAD __scrt_drv_unload = nullptr;
 
 static VOID DriverUnload(_In_ PDRIVER_OBJECT DriverObject)
 {
@@ -65,8 +65,10 @@ extern"C" NTSTATUS DriverEntry(_In_ PDRIVER_OBJECT DriverObject, _In_ PUNICODE_S
 
         auto const main_result = DriverMain(DriverObject, RegistryPath);
         if (NT_SUCCESS(main_result)) {
-            __scrt_drv_unload = static_cast<PDRIVER_UNLOAD>(InterlockedExchangePointer(
-                reinterpret_cast<PVOID volatile*>(&DriverObject->DriverUnload), &DriverUnload));
+            if (DriverObject) {
+                __scrt_drv_unload = static_cast<PDRIVER_UNLOAD>(InterlockedExchangePointer(
+                    reinterpret_cast<PVOID volatile*>(&DriverObject->DriverUnload), &DriverUnload));
+            }
         }
         else {
             _cexit();

@@ -28,12 +28,24 @@
     <Filter Include="ucrt\convert">
       <UniqueIdentifier>{b86383d4-f904-47a3-a734-1bb3e6f40e1b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="kext">
+      <UniqueIdentifier>{21f83375-ca7c-41e6-b75e-5f940f68cbc7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="universal.h" />
+    <ClInclude Include="kext\kmalloc.h">
+      <Filter>kext</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="universal.cpp" />
+    <ClCompile Include="kext\kfree.cpp">
+      <Filter>kext</Filter>
+    </ClCompile>
+    <ClCompile Include="kext\kmalloc.cpp">
+      <Filter>kext</Filter>
+    </ClCompile>
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\align.cpp">
       <Filter>ucrt\heap</Filter>
     </ClCompile>

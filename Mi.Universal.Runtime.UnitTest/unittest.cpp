@@ -25,10 +25,9 @@
 
 namespace UnitTest
 {
-    //template<typename T>
-    //using  Vector = std::vector<T, std::kallocator<T, PagedPool, 'tset'>>;
-    static std::vector<std::function<void()>> TestVec;
-
+    template<typename T>
+    using  Vector = std::vector<T, std::kallocator<T, PagedPool, 'tset'>>;
+    static Vector<std::function<void()>> TestVec;
 
 #define TEST(name) TEST_ ## name
 #define TEST_PUSH(name) ::UnitTest::TestVec.emplace_back(TEST(name))

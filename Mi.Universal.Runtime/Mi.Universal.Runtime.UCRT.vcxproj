@@ -35,11 +35,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="universal.h" />
+    <ClInclude Include="kext\kmalloc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="universal.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="kext\kfree.cpp" />
+    <ClCompile Include="kext\kmalloc.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\align.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\calloc.cpp" />
     <ClCompile Include="$(MI_UCRT_ToolsInstallDir)\ucrt\heap\calloc_base.cpp" />

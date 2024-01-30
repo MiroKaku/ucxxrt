@@ -63,12 +63,7 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\vector_algorithms.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xalloc.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xcosh.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdint.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdnorm.cpp" />
@@ -78,12 +73,7 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xdunscal.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xexp.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfcosh.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdint.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfdnorm.cpp" />
@@ -95,21 +85,11 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfexp.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfprec.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfsinh.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xfvalues.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlcosh.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldint.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xldscale.cpp" />
@@ -122,12 +102,7 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlpoly.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlprec.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlsinh.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xlvalues.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xmtx.cpp" />
@@ -139,12 +114,7 @@
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xrngabort.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xrngdev.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xsinh.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild>true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xthrow.cpp" />
     <ClCompile Include="$(MI_VC_ToolsInstallDir)\crt\stl\xtime.cpp" />
