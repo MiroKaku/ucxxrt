@@ -10,6 +10,10 @@
 
 //#include <Windows.h>
 
+#ifndef _RELIABILITY_CONTRACT
+#define _RELIABILITY_CONTRACT
+#endif
+
 #pragma pack(push, _CRT_PACKING)
 #pragma warning(push, 3)
 #pragma push_macro("new")

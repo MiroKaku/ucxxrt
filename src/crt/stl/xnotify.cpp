@@ -8,6 +8,10 @@
 
 //#include <Windows.h>
 
+#if _MSC_VER < 1936 // 17.6
+#define noexcept
+#endif
+
 constexpr int _Nitems = 20;
 
 namespace {
@@ -33,7 +37,7 @@ void _Lock_at_thread_exit_mutex();
 void _Unlock_at_thread_exit_mutex();
 
 void __cdecl _Cnd_register_at_thread_exit(
-    _Cnd_t cnd, _Mtx_t mtx, int* p) { // register condition variable and mutex for cleanup at thread exit
+    _Cnd_t cnd, _Mtx_t mtx, int* p) noexcept { // register condition variable and mutex for cleanup at thread exit
     // find block with available space
     _At_thread_exit_block* block = &_Thread_exit_data;
 
@@ -62,7 +66,7 @@ void __cdecl _Cnd_register_at_thread_exit(
     _Unlock_at_thread_exit_mutex();
 }
 
-void __cdecl _Cnd_unregister_at_thread_exit(_Mtx_t mtx) { // unregister condition variable/mutex for cleanup at thread exit
+void __cdecl _Cnd_unregister_at_thread_exit(_Mtx_t mtx) noexcept { // unregister condition variable/mutex for cleanup at thread exit
     // find condition variables waiting for this thread to exit
     _At_thread_exit_block* block = &_Thread_exit_data;
 
@@ -80,7 +84,7 @@ void __cdecl _Cnd_unregister_at_thread_exit(_Mtx_t mtx) { // unregister conditio
     _Unlock_at_thread_exit_mutex();
 }
 
-void __cdecl _Cnd_do_broadcast_at_thread_exit() { // notify condition variables waiting for this thread to exit
+void __cdecl _Cnd_do_broadcast_at_thread_exit() noexcept { // notify condition variables waiting for this thread to exit
     // find condition variables waiting for this thread to exit
     _At_thread_exit_block* block       = &_Thread_exit_data;
     const unsigned int currentThreadId = _Thrd_id();

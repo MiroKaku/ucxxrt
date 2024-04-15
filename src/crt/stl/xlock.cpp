@@ -8,6 +8,8 @@
 #include <clocale>
 #include <cstdlib>
 
+//#pragma message(_CRT_STRINGIZE(_MSC_VER))
+
 #if _MSC_VER >= 1936 // 17.6
 #include "init_locks.hpp"
 #endif
