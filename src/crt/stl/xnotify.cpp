@@ -8,7 +8,7 @@
 
 //#include <Windows.h>
 
-#if _MSC_VER < 1936 // 17.6
+#if _MSC_VER < 1939 // 17.9
 #define noexcept
 #endif
 
