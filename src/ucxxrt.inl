@@ -94,6 +94,14 @@
 #    endif
 #endif
 
+#ifndef _EXTERN_C
+#define _EXTERN_C EXTERN_C_START
+#endif
+
+#ifndef _END_EXTERN_C
+#define _END_EXTERN_C EXTERN_C_END
+#endif
+
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdint.h>

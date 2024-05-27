@@ -5,6 +5,10 @@
 
 #include <new>
 
+#ifndef _LOCK_MALLOC
+#define _LOCK_MALLOC 1
+#endif
+
 using new_hand = int(__cdecl*)(size_t);
 
 extern "C" new_hand __cdecl _set_new_handler(new_hand);

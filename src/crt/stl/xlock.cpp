@@ -15,6 +15,10 @@
 #endif
 #include "xmtx.hpp"
 
+#ifndef _LOCK_AT_THREAD_EXIT
+#define _LOCK_AT_THREAD_EXIT 4
+#endif
+
 _STD_BEGIN
 
 constexpr int _Max_lock = 8; // must be power of two
