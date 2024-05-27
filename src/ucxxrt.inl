@@ -94,13 +94,8 @@
 #    endif
 #endif
 
-#ifndef _EXTERN_C
-#define _EXTERN_C EXTERN_C_START
-#endif
-
-#ifndef _END_EXTERN_C
-#define _END_EXTERN_C EXTERN_C_END
-#endif
+#define _EXTERN_C     extern "C" {
+#define _END_EXTERN_C }
 
 #include <stddef.h>
 #include <stdlib.h>
