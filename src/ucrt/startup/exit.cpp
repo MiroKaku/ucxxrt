@@ -31,7 +31,8 @@ static int __cdecl atexit_exception_filter(unsigned long const _exception_code) 
     return EXCEPTION_CONTINUE_SEARCH;
 }
 
-extern PDRIVER_OBJECT __drvobj;
+//extern PDRIVER_OBJECT __drvobj;
+
 static void __cdecl common_exit(
     int                    const /*return_code*/,
     _crt_exit_cleanup_mode const cleanup_mode,
