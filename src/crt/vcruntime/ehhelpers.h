@@ -25,10 +25,12 @@
 // V4 and later managed exception code
 #define MANAGED_EXCEPTION_CODE_V4  0XE0434352
 
-extern "C" void
+extern "C"
+void 
+__cdecl
 __except_validate_context_record(
     _In_ PCONTEXT ContextRecord
-    );
+);
 
 extern "C" _VCRTIMP void * __cdecl __AdjustPointer(
     void *,

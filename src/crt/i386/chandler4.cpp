@@ -190,10 +190,12 @@ _EH4_LocalUnwind(
 
 #endif
 
-extern void
+extern "C" 
+void 
+__cdecl
 __except_validate_context_record(
     _In_ PCONTEXT ContextRecord
-    );
+);
 
 /***
 *ValidateLocalCookies - perform local cookie validation during SEH processing

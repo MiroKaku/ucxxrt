@@ -328,10 +328,12 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
         }
 }
 
-extern "C" void
+extern "C" 
+void 
+__cdecl 
 __except_validate_jump_buffer (
     _In_ _JUMP_BUFFER *JumpBuffer
-    );
+);
 
 /////////////////////////////////////////////////////////////////////////////
 //
