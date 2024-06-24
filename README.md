@@ -109,8 +109,14 @@ Search for `ucxxrt`, choose the version that suits you, and then click "Install"
 
 IDE：Visual Studio 2022 latest version
 
+and Windows SDK
+
+and Windows Driver Kits
+
 * `git clone --recurse-submodules https://github.com/MiroKaku/ucxxrt.git`
 * Open `ucxxrt.sln` and build.
+
+* For clang-cl or llvm-msvc, you will have to add `-march=native` in the compiler flags.
 
 ## 4. Acknowledgements
 
