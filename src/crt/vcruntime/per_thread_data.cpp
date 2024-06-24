@@ -66,7 +66,7 @@ static __vcrt_ptd* __cdecl store_and_initialize_ptd(__vcrt_ptd* const ptd)
     BOOLEAN inserted = false;
 
     __vcrt_ptd* const new_ptd = static_cast<__vcrt_ptd*>(RtlInsertElementGenericTableAvl(
-        &__vcrt_startup_ptd_table, ptd, sizeof __vcrt_ptd_km, &inserted));
+        &__vcrt_startup_ptd_table, ptd, sizeof(__vcrt_ptd_km), &inserted));
 
     if (!new_ptd)
     {
@@ -77,7 +77,7 @@ static __vcrt_ptd* __cdecl store_and_initialize_ptd(__vcrt_ptd* const ptd)
     if (__get_thread_uid(PsGetCurrentThread()) != static_cast<__vcrt_ptd_km*>(new_ptd)->uid)
     {
         inserted = true;
-        RtlSecureZeroMemory(new_ptd, sizeof __vcrt_ptd); // not reset pid/uid
+        RtlSecureZeroMemory(new_ptd, sizeof(__vcrt_ptd) ); // not reset pid/uid
     }
 
     if (inserted)
@@ -92,7 +92,7 @@ static __vcrt_ptd* __cdecl store_and_initialize_ptd(__vcrt_ptd* const ptd)
 
 extern "C" bool __cdecl __vcrt_initialize_ptd()
 {
-    constexpr auto size = ROUND_TO_SIZE(sizeof __vcrt_ptd_km + sizeof RTL_BALANCED_LINKS, sizeof(void*));
+    constexpr auto size = ROUND_TO_SIZE(sizeof(__vcrt_ptd_km) + sizeof(RTL_BALANCED_LINKS), sizeof(void*));
 
     ExInitializeNPagedLookasideList(&__vcrt_startup_ptd_pools, nullptr, nullptr,
         POOL_NX_ALLOCATION, size, __ucxxrt_tag, 0);

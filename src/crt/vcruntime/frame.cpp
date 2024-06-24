@@ -361,11 +361,22 @@ EXCEPTION_DISPOSITION __InternalCxxFrameHandler(
         EHTRACE_HANDLER_EXIT(ExceptionContinueSearch);
         return ExceptionContinueSearch;     // I don't think this value matters
     }
+#if defined(__clang__)
+
+#if _EH_RELATIVE_FUNCINFO
+    auto tryBlockMap = typename T::TryBlockMap(pFuncInfo, pDC->ImageBase);
+#else
+    auto tryBlockMap = typename T::TryBlockMap(pFuncInfo, 0);
+#endif
+
+#else
 
 #if _EH_RELATIVE_FUNCINFO
         auto tryBlockMap = T::TryBlockMap(pFuncInfo, pDC->ImageBase);
 #else
         auto tryBlockMap = T::TryBlockMap(pFuncInfo, 0);
+#endif
+
 #endif
     if (tryBlockMap.getNumTryBlocks() != 0
         //
@@ -614,12 +625,23 @@ static void FindHandler(
         }
     }
 
+#if defined(__clang__)
+
+#if _EH_RELATIVE_FUNCINFO
+    auto tryBlockMap = typename T::TryBlockMap(pFuncInfo, pDC->ImageBase);
+#else
+    auto tryBlockMap = typename T::TryBlockMap(pFuncInfo, 0);
+#endif
+
+#else
+
 #if _EH_RELATIVE_FUNCINFO
     auto tryBlockMap = T::TryBlockMap(pFuncInfo, pDC->ImageBase);
 #else
     auto tryBlockMap = T::TryBlockMap(pFuncInfo, 0);
 #endif
 
+#endif
     if (PER_IS_MSVC_EH(pExcept)) {
         // Looks like it's ours.  Let's see if we have a match:
         //
@@ -646,11 +668,24 @@ static void FindHandler(
 
                 // Try block was in scope for current state.  Scan catches for this
                 // try:
+#if defined(__clang__)
+
+#if _EH_RELATIVE_FUNCINFO
+                auto handlerMap = typename T::HandlerMap(&tryBlock, pDC->ImageBase, pDC->FunctionEntry->BeginAddress);
+#else
+                auto handlerMap = typename T::HandlerMap(&tryBlock, 0, 0);
+#endif
+
+#else
+
 #if _EH_RELATIVE_FUNCINFO
                 auto handlerMap = T::HandlerMap(&tryBlock, pDC->ImageBase, pDC->FunctionEntry->BeginAddress);
 #else
                 auto handlerMap = T::HandlerMap(&tryBlock, 0, 0);
 #endif
+
+#endif
+
                 for (auto handler : handlerMap)
                 {
                     // Scan all types that thrown object can be converted to:
@@ -909,6 +944,15 @@ static void FindHandlerForForeignException(
             return;
         }
     }
+#if defined(__clang__)
+
+#if _EH_RELATIVE_FUNCINFO
+    auto tryBlockMap = typename T::TryBlockMap(pFuncInfo, pDC->ImageBase);
+#else
+    auto tryBlockMap = typename T::TryBlockMap(pFuncInfo, 0);
+#endif
+
+#else
 
 #if _EH_RELATIVE_FUNCINFO
     auto tryBlockMap = T::TryBlockMap(pFuncInfo, pDC->ImageBase);
@@ -916,6 +960,7 @@ static void FindHandlerForForeignException(
     auto tryBlockMap = T::TryBlockMap(pFuncInfo, 0);
 #endif
 
+#endif
     _VCRT_VERIFY(tryBlockMap.getNumTryBlocks() > 0);
 
     if (tryBlockMap.getNumTryBlocks() > 0)
@@ -935,11 +980,24 @@ static void FindHandlerForForeignException(
             }
 
             // *and* the last catch in that try is an ellipsis (no other can be)
+#if defined(__clang__)
+
+#if _EH_RELATIVE_FUNCINFO
+            auto handlerMap = typename T::HandlerMap(&tryBlock, pDC->ImageBase, pDC->FunctionEntry->BeginAddress);
+#else
+            auto handlerMap = typename T::HandlerMap(&tryBlock, 0, 0);
+#endif
+
+#else
+
 #if _EH_RELATIVE_FUNCINFO
             auto handlerMap = T::HandlerMap(&tryBlock, pDC->ImageBase, pDC->FunctionEntry->BeginAddress);
 #else
             auto handlerMap = T::HandlerMap(&tryBlock, 0, 0);
 #endif
+
+#endif
+
             auto handler = handlerMap.getLastEntry();
             if (!(HT_IS_TYPE_ELLIPSIS(*handler) && !HT_IS_STD_DOTDOT(*handler))) {
                 continue;

@@ -22,6 +22,7 @@
 #endif
 
 
+#if !defined(__clang__)
 
 extern "C" unsigned long __cdecl _lrotl(unsigned long value, int shift)
 {
@@ -43,3 +44,5 @@ extern "C" unsigned __int64 __cdecl _rotl64(unsigned __int64 value, int shift)
     value = (value >> (0x40 - shift)) | (value << shift);
     return value;
 }
+
+#endif
