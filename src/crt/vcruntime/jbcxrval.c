@@ -167,12 +167,15 @@ __except_validate_jump_buffer(
 
 #else // defined(NTOS_KERNEL_RUNTIME)
 
-
-#if !defined(_X86_) // In X86, this function conflicts with the function in libcntpr.lib
 void
 __cdecl
+#if defined(_X86_)
+_UCXXRT___except_validate_context_record(
+    _In_ PCONTEXT ContextRecord
+#else
 __except_validate_context_record(
     _In_ PCONTEXT ContextRecord
+#endif
 )
 
 /*++
@@ -214,7 +217,6 @@ Return Value:
         }
     }
 }
-#endif // !defined(_X86_)
 
 
 __forceinline
@@ -279,17 +281,19 @@ static PVOID __except_get_jumpbuf_sp(_In_reads_(_JBLEN) jmp_buf JumpBuffer)
     return (PVOID)JUMP_BUFFER_TO_STACK_POINTER((_JUMP_BUFFER*)JumpBuffer);
 }
 
-
-#if !defined(_X86_) // In X86, this function conflicts with the function in libcntpr.lib
 void
 __cdecl
+#if defined(_X86_)
+_UCXXRT___except_validate_jump_buffer(
+    _In_reads_(_JBLEN) jmp_buf JumpBuffer
+#else
 __except_validate_jump_buffer(
     _In_reads_(_JBLEN) jmp_buf JumpBuffer
+#endif
 )
 {
     __except_validate_jump_buffer_common(JumpBuffer, __except_get_jumpbuf_sp);
 }
-#endif // !defined(_X86_)
 
 
 #endif // !defined(NTOS_KERNEL_RUNTIME)

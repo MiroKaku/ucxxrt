@@ -26,7 +26,7 @@
 #define MANAGED_EXCEPTION_CODE_V4  0XE0434352
 
 extern "C"
-void 
+void
 __cdecl
 __except_validate_context_record(
     _In_ PCONTEXT ContextRecord
@@ -61,7 +61,7 @@ extern "C" _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch4)(
     FH4::HandlerType4 *,
     CatchableType *,
     ThrowInfo *
-    );
+);
 
 extern "C" _VCRTIMP int __cdecl RENAME_EH_EXTERN(__TypeMatch)(
     HandlerType *,

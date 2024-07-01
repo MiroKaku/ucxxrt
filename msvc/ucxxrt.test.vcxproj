@@ -45,6 +45,8 @@
     <DriverType>WDM</DriverType>
     <DriverTargetPlatform>Desktop</DriverTargetPlatform>
     <Driver_SpectreMitigation>Spectre</Driver_SpectreMitigation>
+    <TargetVersion Condition="'$(Platform)' == 'ARM64'">Windows10</TargetVersion>
+    <DriverTargetPlatform Condition="'$(Platform)' == 'ARM64'"></DriverTargetPlatform>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
