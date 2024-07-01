@@ -32,7 +32,7 @@ extern "C" void __cdecl __acrt_initialize_invalid_parameter_handler(void* const 
 //
 //-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
-extern "C" static void __cdecl _invalid_parameter_internal(
+extern "C" void __cdecl _invalid_parameter_internal(
     wchar_t const*     const expression,
     wchar_t const*     const function_name,
     wchar_t const*     const file_name,

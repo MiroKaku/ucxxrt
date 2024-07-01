@@ -67,8 +67,9 @@ _CRTALLOC(".CRT$XIAA") static _PIFV pre_c_initializer    = pre_c_initialization;
 _CRTALLOC(".CRT$XCAA") static _PVFV pre_cpp_initializer  = pre_cpp_initialization;
 
 
-extern PDRIVER_OBJECT __drvobj     = nullptr;
+//extern PDRIVER_OBJECT __drvobj     = nullptr;
 static PDRIVER_UNLOAD __drv_unload = nullptr;
+
 static __declspec(noinline) void __scrt_common_exit(PDRIVER_OBJECT drvobj)
 {
     if (__drv_unload && __drv_unload != &__scrt_common_exit)
@@ -83,7 +84,7 @@ static __declspec(noinline) void __scrt_common_exit(PDRIVER_OBJECT drvobj)
 
 static __declspec(noinline) long __cdecl __scrt_common_main_seh(PDRIVER_OBJECT drvobj, PUNICODE_STRING regpath)
 {
-    __drvobj = drvobj;
+//    __drvobj = drvobj;
 
     if (!__scrt_initialize_crt())
         __scrt_fastfail(FAST_FAIL_FATAL_APP_EXIT);
@@ -102,7 +103,7 @@ static __declspec(noinline) long __cdecl __scrt_common_main_seh(PDRIVER_OBJECT d
         long const main_result = invoke_main(drvobj, regpath);
         if (NT_SUCCESS(main_result))
         {
-            if (drvobj->DriverUnload)
+            if (drvobj && drvobj->DriverUnload)
             {
                 __drv_unload = drvobj->DriverUnload;
                 drvobj->DriverUnload = &__scrt_common_exit;
