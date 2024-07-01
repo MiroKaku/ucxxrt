@@ -28,6 +28,10 @@
 #include "winapi_thunks.h"
 
 
+#if defined(_X86_)
+_VEIL_DECLARE_ALTERNATE_NAME(__except_validate_context_record, _UCXXRT___except_validate_context_record);
+#endif
+
 // Make non-namespace prefixed names available for FH4
 using namespace FH4;
 

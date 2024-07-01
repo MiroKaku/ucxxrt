@@ -169,8 +169,13 @@ __except_validate_jump_buffer(
 
 void
 __cdecl
+#if defined(_X86_)
+_UCXXRT___except_validate_context_record(
+    _In_ PCONTEXT ContextRecord
+#else
 __except_validate_context_record(
     _In_ PCONTEXT ContextRecord
+#endif
 )
 
 /*++
@@ -212,6 +217,7 @@ Return Value:
         }
     }
 }
+
 
 __forceinline
 void
@@ -277,10 +283,17 @@ static PVOID __except_get_jumpbuf_sp(_In_reads_(_JBLEN) jmp_buf JumpBuffer)
 
 void
 __cdecl
+#if defined(_X86_)
+_UCXXRT___except_validate_jump_buffer(
+    _In_reads_(_JBLEN) jmp_buf JumpBuffer
+#else
 __except_validate_jump_buffer(
     _In_reads_(_JBLEN) jmp_buf JumpBuffer
+#endif
 )
 {
     __except_validate_jump_buffer_common(JumpBuffer, __except_get_jumpbuf_sp);
 }
+
+
 #endif // !defined(NTOS_KERNEL_RUNTIME)

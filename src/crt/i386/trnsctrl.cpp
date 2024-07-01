@@ -328,10 +328,16 @@ extern "C" _VCRTIMP __declspec(naked) DECLSPEC_GUARD_SUPPRESS EXCEPTION_DISPOSIT
         }
 }
 
-extern "C" void
+extern "C"
+void
+__cdecl
 __except_validate_jump_buffer (
     _In_ _JUMP_BUFFER *JumpBuffer
-    );
+);
+
+#if defined(_X86_)
+_VEIL_DECLARE_ALTERNATE_NAME(__except_validate_jump_buffer, _UCXXRT___except_validate_jump_buffer);
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 //
