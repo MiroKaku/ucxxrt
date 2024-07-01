@@ -25,16 +25,16 @@
 
   <PropertyGroup>
     <!-- 当前项目根目录存在 ucxxrt？-->
-    <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And (Exists('$(ProjectDir)ucxxrt\ucxxrt.h')) ">$(ProjectDir)ucxxrt\</UCXXRT_Root>
+    <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And (Exists('$(ProjectDir)ucxxrt\ucxxrt.h')) ">$(ProjectDir)ucxxrt</UCXXRT_Root>
 
     <!-- 当前解决方案根目录存在 ucxxrt？-->
-    <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And ('$(SolutionDir)'!='') And (Exists('$(SolutionDir)ucxxrt\ucxxrt.h')) ">$(SolutionDir)ucxxrt\</UCXXRT_Root>
+    <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And ('$(SolutionDir)'!='') And (Exists('$(SolutionDir)ucxxrt\ucxxrt.h')) ">$(SolutionDir)ucxxrt</UCXXRT_Root>
 
     <!-- 当前项目父目录存在 ucxxrt？-->
-    <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And (Exists('$(ProjectDir)..\ucxxrt\ucxxrt.h')) ">$(ProjectDir)..\ucxxrt\</UCXXRT_Root>
+    <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And (Exists('$(ProjectDir)..\ucxxrt\ucxxrt.h')) ">$(ProjectDir)..\ucxxrt</UCXXRT_Root>
 
     <!-- 当前解决方案父目录存在 ucxxrt？-->
-    <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And ('$(SolutionDir)'!='') And (Exists('$(SolutionDir)..\ucxxrt\ucxxrt.h')) ">$(SolutionDir)..\ucxxrt\</UCXXRT_Root>
+    <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And ('$(SolutionDir)'!='') And (Exists('$(SolutionDir)..\ucxxrt\ucxxrt.h')) ">$(SolutionDir)..\ucxxrt</UCXXRT_Root>
 
     <!-- props 文件根目录存在 ucxxrt？-->
     <UCXXRT_Root Condition=" ('$(UCXXRT_Root)'=='') And (Exists('$(MSBuildThisFileDirectory)ucxxrt.h')) ">$(MSBuildThisFileDirectory)</UCXXRT_Root>
@@ -50,7 +50,7 @@
 
   <PropertyGroup>
     <UCXXRT_Include>$(UCXXRT_Root)</UCXXRT_Include>
-    <UCXXRT_Library>$(UCXXRT_Root)lib\$(PlatformShortName)\$(Configuration)</UCXXRT_Library>
+    <UCXXRT_Library>$(UCXXRT_Root)\lib\$(PlatformShortName)\$(Configuration)</UCXXRT_Library>
   </PropertyGroup>
 
   <PropertyGroup>
