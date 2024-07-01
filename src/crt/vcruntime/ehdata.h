@@ -8,6 +8,10 @@
 #define _INC_EHDATA
 #pragma once
 
+#if defined(__clang__)
+typedef const struct _s__ThrowInfo _ThrowInfo;
+#endif
+
 #include "ehdata_values.h"
 
 #include <excpt.h>

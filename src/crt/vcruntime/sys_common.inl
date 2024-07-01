@@ -67,8 +67,8 @@ _CRTALLOC(".CRT$XIAA") static _PIFV pre_c_initializer    = pre_c_initialization;
 _CRTALLOC(".CRT$XCAA") static _PVFV pre_cpp_initializer  = pre_cpp_initialization;
 
 
-
 static PDRIVER_UNLOAD __drv_unload = nullptr;
+
 static __declspec(noinline) void __scrt_common_exit(PDRIVER_OBJECT drvobj)
 {
     if (__drv_unload && __drv_unload != &__scrt_common_exit)

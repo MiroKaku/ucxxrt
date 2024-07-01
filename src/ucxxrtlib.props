@@ -44,7 +44,10 @@ xcopy /D /S /Y /V /F "$(SolutionDir)lib" "$(SolutionDir)ucxxrt\lib\" /EXCLUDE:$(
   <!-- ucxxrt Config -->
   <PropertyGroup>
     <UCXXRT_KernelMode>false</UCXXRT_KernelMode>
-    <UCXXRT_KernelMode Condition=" ('$(PlatformToolset.TrimEnd(`0123456789.`))' == 'WindowsKernelModeDriver') ">true</UCXXRT_KernelMode>
+    <UCXXRT_KernelMode Condition="('$(PlatformToolset.TrimEnd(`0123456789.`))' == 'WindowsKernelModeDriver') Or 
+    ('$(PlatformToolset)' == 'LLVM-MSVC_v143_KernelMode') Or 
+    ('$(PlatformToolset)' == 'LLVM-MSVC_v142_KernelMode') Or 
+    ('$(PlatformToolset)' == 'LLVM-MSVC_v141_KernelMode') ">true</UCXXRT_KernelMode>
   </PropertyGroup>
 
   <PropertyGroup Condition=" ('$(UCXXRT_KernelMode)'=='true') ">
