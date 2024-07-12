@@ -222,7 +222,7 @@ namespace UnitTest
         if (Buffer1) {
             *Buffer1 = 123;
 
-            const auto Buffer2 = static_cast<size_t*>(realloc(Buffer1, sizeof(size_t)));
+            const auto Buffer2 = static_cast<int*>(realloc(Buffer1, sizeof(size_t)));
             if (Buffer2) {
                 ASSERT(*Buffer2 == 123);
                 free(Buffer2);

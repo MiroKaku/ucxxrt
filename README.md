@@ -8,6 +8,18 @@
 
 * [简体中文](https://github.com/MiroKaku/ucxxrt/blob/main/README.zh-CN.md)
 
+<br />
+----
+
+# [Musa.Runtime](https://github.com/MiroKaku/Musa.Runtime) is available, ucxxrt is no longer provides support!!!
+
+### Musa.Runtime is the implementation of the new architecture of ucxxrt.
+
+### Fewer changes, more features and standard libraries support.
+
+----
+<br />
+
 > UserMode support has been removed since March 29th, 2022. The final version known to support UserMode is [e2f159f8f](https://github.com/MiroKaku/ucxxrt/tree/e2f159f8f04a829359e3a057b70457121485b4dc). Please use [VC-LTL5](https://github.com/Chuyu-Team/VC-LTL5) instead in UserMode.
 
 ## 1. About
