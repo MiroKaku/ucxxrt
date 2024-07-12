@@ -11,7 +11,7 @@
 <br />
 ----
 
-# [Musa.Runtime](https://github.com/MiroKaku/Musa.Runtime) is available, ucxxrt is no longer provides support!!!
+# [Musa.Runtime](https://github.com/MiroKaku/Musa.Runtime) is available, ucxxrt is no longer providing support!!!
 
 ### Musa.Runtime is the implementation of the new architecture of ucxxrt.
 
